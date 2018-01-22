@@ -1,8 +1,10 @@
 // JS 
-const gulp = require('gulp')
-const browserSync = require('browser-sync')
+var gulp = require('gulp')
+var browserSync = require('browser-sync')
+var useref = require('gulp-useref')
+var uglify = require('gulp-uglify')
 
-gulp.task('browserSync', () =>
+gulp.task('browserSync', function ()
 {
   browserSync({
     server : {
@@ -11,10 +13,18 @@ gulp.task('browserSync', () =>
   })
 })
 
-// Stylus
-const stylus = require('gulp-stylus')
+gulp.task('useref', function ()
+{ 
+  return gulp.src('app/*.html')
+//    .pipe(uglify())
+    .pipe(useref())
+    .pipe(gulp.dest('dist'))
+})
 
-gulp.task('stylus', () =>
+// Stylus
+var stylus = require('gulp-stylus')
+
+gulp.task('stylus', function ()
 {
   return gulp.src('app/styles/stylus/**/*.styl')
   .pipe(stylus())
@@ -24,7 +34,7 @@ gulp.task('stylus', () =>
   }))
 })
 
-gulp.task('watch', ['browserSync', 'stylus'], () =>
+gulp.task('watch', ['browserSync', 'stylus'], function ()
 {
   gulp.watch('app/styles/stylus/**/*.styl', ['stylus'])
   gulp.watch('app/scripts/**/*.js', browserSync.reload)

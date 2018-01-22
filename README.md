@@ -25,7 +25,3 @@
   > You can play on a virtual drum with your drumsticks and your phone ! 
   >
   > Play the drum over a large variety of melody using the random generator.
-
-  ​
-
-  ​

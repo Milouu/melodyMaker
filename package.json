@@ -1,0 +1,23 @@
+{
+  "name": "melodymaker",
+  "version": "1.0.0",
+  "description": "[TOC]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milouu/melodyMaker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Milouu/melodyMaker/issues"
+  },
+  "homepage": "https://github.com/Milouu/melodyMaker#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-stylus": "^2.7.0"
+  }
+}

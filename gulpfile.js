@@ -3,6 +3,8 @@ const gulp = require('gulp')
 const browserSync = require('browser-sync')
 const useref = require('gulp-useref')
 const minifier = require('gulp-minifier')
+const gulpIf = require('gulp-if')
+const minifyCSS = require('gulp-minify-css')
 
 gulp.task('browserSync', () =>
 {
@@ -17,7 +19,8 @@ gulp.task('browserSync', () =>
 gulp.task('minify', () => {
 	return gulp.src('app/*.html')
 		.pipe(useref())
-		.pipe(minifier({
+		.pipe(gulpIf('*.css', minifyCSS()))
+		.pipe(gulpIf('*.js', minifier({
 			minify: true,
 			minifyHTML: {
 				collapseWhitespace: true,
@@ -31,7 +34,8 @@ gulp.task('minify', () => {
 				const m = content.match(/\/\*![\s\S]*?\*\//img)
 				return m && m.join('\n') + '\n' || ''
 			}
-		})).pipe(gulp.dest('dist'))
+		})))
+		.pipe(gulp.dest('dist'))
 })
 
 // Stylus
@@ -47,12 +51,10 @@ gulp.task('stylus', () =>
 		}))
 })
 
-gulp.task('watch', ['browserSync', 'stylus', 'useref', 'minifier'], () =>
+gulp.task('watch', ['browserSync', 'stylus'], () =>
 {
 	gulp.watch('app/styles/stylus/**/*.styl', ['stylus'])
 	gulp.watch('app/scripts/**/*.js', browserSync.reload)
 	gulp.watch('app/*.html', browserSync.reload)
-	gulp.watch('app/*html', ['useref'])
-	gulp.watch('dist/**/*', ['minifier'])
 })
 

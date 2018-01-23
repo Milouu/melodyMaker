@@ -1,24 +1,24 @@
 const notes = document.querySelectorAll('.note')
 
 class Melody {
-    constructor(notes){
+	constructor(notes){
 
-        this.notes = notes
-    }
+		this.notes = notes
+	}
 
-    randomNote() {
+	randomNote() {
 
-        this.randomAccess = Math.floor(Math.random() * this.notes.length)
-        return this.notes[this.randomAccess]
-    }
-    play() {
+		this.randomAccess = Math.floor(Math.random() * this.notes.length)
+		return this.notes[this.randomAccess]
+	}
+	play() {
 
-        setInterval(() => {
+		setInterval(() => {
 
-            this.randomNote().play()
+			this.randomNote().play()
 
-        }, 2000)
-    }
+		}, 2000)
+	}
 }
 
 const test = new Melody(notes)

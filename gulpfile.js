@@ -5,6 +5,8 @@ const useref = require('gulp-useref')
 const minifier = require('gulp-minifier')
 const gulpIf = require('gulp-if')
 const minifyCSS = require('gulp-minify-css')
+const imagemin = require('gulp-imagemin')
+var cache = require('gulp-cache')
 
 gulp.task('browserSync', () =>
 {
@@ -36,6 +38,15 @@ gulp.task('minify', () => {
 			}
 		})))
 		.pipe(gulp.dest('dist'))
+})
+
+gulp.task('images', () =>
+{
+	return gulp.src('app/assets/images/**/*.+(png|jpg|gif|svg)')
+		.pipe(cache(imagemin({
+			interlaced: true
+		})))
+		.pipe(gulp.dest('dist/assets/images'))
 })
 
 // Stylus

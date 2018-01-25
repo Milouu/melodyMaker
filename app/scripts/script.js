@@ -21,6 +21,8 @@ class Melody {
 	}
 }
 
-const test = new Melody(notes)
-test.play()
-console.log('over')
+// const test = new Melody(notes)
+// test.play()
+
+const testVideo = new VideoCanvas(800, 400)
+testVideo.draw()

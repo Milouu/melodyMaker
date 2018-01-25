@@ -6,7 +6,7 @@ class VideoCanvas {
 		this.$video.controls = true
 		this.$video.muted = true
 		this.$video.autoplay = true
-		this.$video.currentTime = 15
+		this.$video.currentTime = 17
 
 		this.$body = document.querySelector('body')
 		this.canvas = document.createElement('canvas')
@@ -28,6 +28,7 @@ class VideoCanvas {
   
 	draw()
 	{
+		this.clearCanvas()
 		if(this.$video.paused || this.$video.ended) { return false }
 		this.context.drawImage(this.$video, 0, 0, this.canvas.width, this.canvas.height)
 		this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height)
@@ -37,24 +38,30 @@ class VideoCanvas {
 
 	findColor()
 	{
-		let data = this.imageData.data
-		let counter = 0
+		const data = this.imageData.data
+		// let counter = 0
 		for(let i = 0; i < data.length ; i+=4)
 		{
-			let r = data[i]
-			let g = data[i+1]
-			let b = data[i+2]
-			counter++
-
-			if((r==241)&&(g==202)&&(b==69))
+			const r = data[i]
+			const g = data[i+1]
+			const b = data[i+2]
+			// counter++
+			if((r>=160)&&(g>=160)&&(b<=130))
 			{
 				let x = Math.floor((i%3200)/4)
 				let y = Math.floor(i/3200) 
-				console.log(`Call n°${counter} : x = ${x} y = ${y}`)
+				// console.log(`Call n°${counter} : x = ${x} y = ${y}`)
+				this.context.beginPath() // C'EST CETTE PUTAIN DE LIGNE DE MERDE QUI FAISAIT TOUT BUGUER BORDEL DE CUL
 				this.context.fillStyle = 'red'
-				this.context.arc(x, y, 50, 0, Math.PI*2)
+				this.context.arc(x, y, 1, 0, Math.PI*2)
 				this.context.fill()
+				this.context.closePath()
 			}
 		}
+	}
+
+	clearCanvas()
+	{
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
 	}
 }

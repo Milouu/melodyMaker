@@ -26,3 +26,4 @@ class Melody {
 
 const testVideo = new VideoCanvas(800, 400)
 testVideo.draw()
+testVideo.findColor()

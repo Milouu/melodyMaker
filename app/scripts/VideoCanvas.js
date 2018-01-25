@@ -17,6 +17,8 @@ class VideoCanvas {
 		this.$body.appendChild(this.$video)
 		this.$body.appendChild(this.canvas)
 
+		this.$video.style.display = 'none'
+
 		this.$video.addEventListener('play', () =>
 		{
 			this.draw()

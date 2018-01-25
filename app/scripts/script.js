@@ -23,6 +23,5 @@ class Melody {
 
 // const test = new Melody(notes)
 // test.play()
-console.log('over')
 
 const testVideo = new ColorTracker(800, 400)

@@ -14,8 +14,7 @@ class TrackingColor
  
 	findColor() 
 	{
-		this.imageData = this.canvasVideo.getImageData()
-		const data = this.imageData.data   
+		const data = this.canvasVideo.getImageData() 
 
 		for (let i = 0; i < data.length; i += 4) {
 			const r = data[i]

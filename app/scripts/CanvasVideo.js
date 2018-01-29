@@ -49,6 +49,6 @@ class CanvasVideo
 
 	getImageData()
 	{
-		return this.context.getImageData(0, 0, this.$canvas.width, this.$canvas.height)
+		return this.context.getImageData(0, 0, this.$canvas.width, this.$canvas.height).data
 	}
 }

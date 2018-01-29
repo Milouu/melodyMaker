@@ -4,4 +4,4 @@ canvasVideo.draw()
 const trackingColor = new TrackingColor(160, 160, 130, canvasVideo)
 trackingColor.findColor()
 
-const eyeDropper = new eyeDropper(canvasVideo)
+const eyeDropper = new EyeDropper(canvasVideo)

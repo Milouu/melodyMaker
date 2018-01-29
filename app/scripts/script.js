@@ -1,29 +1,35 @@
-const notes = document.querySelectorAll('.note')
+// const notes = document.querySelectorAll('.note')
 
-class Melody {
-	constructor(notes){
+// class Melody {
+// 	constructor(notes){
 
-		this.notes = notes
-	}
+// 		this.notes = notes
+// 	}
 
-	randomNote() {
+// 	randomNote() {
 
-		this.randomAccess = Math.floor(Math.random() * this.notes.length)
-		return this.notes[this.randomAccess]
-	}
-	play() {
+// 		this.randomAccess = Math.floor(Math.random() * this.notes.length)
+// 		return this.notes[this.randomAccess]
+// 	}
+// 	play() {
 
-		setInterval(() => {
+// 		setInterval(() => {
 
-			this.randomNote().play()
+// 			this.randomNote().play()
 
-		}, 2000)
-	}
-}
+// 		}, 2000)
+// 	}
+// }
 
 // const test = new Melody(notes)
 // test.play()
 
-const testVideo = new VideoCanvas(800, 400)
-testVideo.draw()
-testVideo.findColor()
+const canvasVideo = new CanvasVideo(window.innerWidth, window.innerHeight)
+canvasVideo.draw()
+
+const trackingColor = new TrackingColor(160, 160, 130, canvasVideo)
+trackingColor.findColor()
+
+// const trackingColorTwo = new TrackingColor(103, 55, 161, testVideo)
+// // trackingColorTwo.draw()
+// trackingColorTwo.findColor()

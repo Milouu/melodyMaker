@@ -1,6 +1,4 @@
 body {
-  background: #808080;
-}
-div {
-  background: #00f;
+  background: #fefefe;
+  overflow: hidden;
 }

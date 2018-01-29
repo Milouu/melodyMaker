@@ -14,7 +14,7 @@ class TrackingColor
  
 	findColor() 
 	{
-		this.imageData = this.canvasVideo.context.getImageData(0, 0, this.canvasVideo.canvas.width, this.canvasVideo.canvas.height)
+		this.imageData = this.canvasVideo.context.getImageData(0, 0, this.canvasVideo.$canvas.width, this.canvasVideo.$canvas.height)
 		const data = this.imageData.data   
 		// let counter = 0
 		for (let i = 0; i < data.length; i += 4) {
@@ -23,8 +23,8 @@ class TrackingColor
 			const b = data[i + 2]
 			// counter++
 			if ((r >= this.trackedColor.red) && (g >= this.trackedColor.green) && (b <= this.trackedColor.blue)) {
-				let x = Math.floor((i % (this.canvasVideo.canvas.width * 4)) / 4)
-				let y = Math.floor(i / (this.canvasVideo.canvas.width * 4))
+				let x = Math.floor((i % (this.canvasVideo.$canvas.width * 4)) / 4)
+				let y = Math.floor(i / (this.canvasVideo.$canvas.width * 4))
 				// console.log(`Call n°${counter} : x = ${x} y = ${y}`)
 				this.canvasVideo.context.beginPath()
 				this.canvasVideo.context.fillStyle = 'red'

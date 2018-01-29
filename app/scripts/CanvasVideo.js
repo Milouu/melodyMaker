@@ -10,14 +10,14 @@ class CanvasVideo
 		this.$video.currentTime = 17
 
 		this.$body = document.querySelector('body')
-		this.canvas = document.createElement('canvas')
-		this.context = this.canvas.getContext('2d')
+		this.$canvas = document.createElement('canvas')
+		this.context = this.$canvas.getContext('2d')
 
-		this.canvas.width = width
-		this.canvas.height = height
+		this.$canvas.width = width
+		this.$canvas.height = height
 
 		this.$body.appendChild(this.$video)
-		this.$body.appendChild(this.canvas)
+		this.$body.appendChild(this.$canvas)
 
 		this.$video.style.display = 'none'
 
@@ -28,14 +28,14 @@ class CanvasVideo
 
 		window.addEventListener('resize', () => 
 		{
-			this.canvas.width = window.innerWidth
-			this.canvas.height = window.innerHeight
+			this.$canvas.width = window.innerWidth
+			this.$canvas.height = window.innerHeight
 		})
 	}
 
 	draw() 
 	{
-		this.context.drawImage(this.$video, 0, 0, this.canvas.width, this.canvas.height)
+		this.context.drawImage(this.$video, 0, 0, this.$canvas.width, this.$canvas.height)
 		setTimeout(() => { 
 			this.clearCanvas()
 			this.draw() 
@@ -44,6 +44,6 @@ class CanvasVideo
 
 	clearCanvas() 
 	{
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+		this.context.clearRect(0, 0, this.$canvas.width, this.$canvas.height)
 	}
 }

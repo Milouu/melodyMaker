@@ -12,12 +12,14 @@ class EyeDropper
 	pickColor(x, y)
 	{
 		const data = this.canvasVideo.getImageData()
-    const pixel = ((this.canvasVideo.$canvas.width * 4) * (y - 1)) + (x * 4)
-    console.log(pixel)
+		const clickedPixelIndex = ((this.canvasVideo.$canvas.width * 4) * y) + (x * 4)
+		console.log(clickedPixelIndex)
+		console.log(x)
+		console.log(y)
     
-		const r = data[pixel]
-		const g = data[pixel + 1]
-		const b = data[pixel + 2]
+		const r = data[clickedPixelIndex]
+		const g = data[clickedPixelIndex + 1]
+		const b = data[clickedPixelIndex + 2]
 		console.log(`r: ${r} g: ${g} b: ${b}`)
 	}
 }

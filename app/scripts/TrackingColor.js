@@ -40,11 +40,12 @@ class TrackingColor
 			if (this.colorInterval(r, g, b)) {
 				let x = Math.floor((i % (this.canvasVideo.$canvas.width * 4)) / 4)
 				let y = Math.floor(i / (this.canvasVideo.$canvas.width * 4))
-				this.canvasVideo.context.beginPath()
-				this.canvasVideo.context.fillStyle = 'red'
-				this.canvasVideo.context.arc(x, y, 1, 0, Math.PI * 2)
-				this.canvasVideo.context.fill()
-				this.canvasVideo.context.closePath()
+				// this.canvasVideo.context.beginPath()
+				// this.canvasVideo.context.fillStyle = 'rgba(255, 0, 0, 0)'
+				// this.canvasVideo.context.arc(x, y, 1, 0, Math.PI * 2)
+				// this.canvasVideo.context.fill()
+				// this.canvasVideo.context.closePath()
+				this.canvasVideo.context.clearRect(x, y, 1, 1)
 			}
 		}
 		requestAnimationFrame(this.findColor.bind(this))

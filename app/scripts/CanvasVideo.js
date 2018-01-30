@@ -31,7 +31,7 @@ class CanvasVideo
 		setTimeout(() => { 
 			this.clearCanvas()
 			this.draw() 
-		}, 20)
+		}, 32)
 	}
 
 	clearCanvas() 

@@ -3,9 +3,11 @@ class EyeDropper
 	constructor(canvasVideo)
 	{
 		this.canvasVideo = canvasVideo
+		this.pickedColor = null
+
 		this.canvasVideo.$canvas.addEventListener('click', (event) => 
 		{
-			this.pickColor(event.clientX, event.clientY)
+			this.pickedColor = this.pickColor(event.clientX, event.clientY)
 		})
 	}
   
@@ -14,12 +16,14 @@ class EyeDropper
 		const data = this.canvasVideo.getImageData()
 		const clickedPixelIndex = ((this.canvasVideo.$canvas.width * 4) * y) + (x * 4)
 		console.log(clickedPixelIndex)
-		console.log(x)
-		console.log(y)
-    
-		const r = data[clickedPixelIndex]
-		const g = data[clickedPixelIndex + 1]
-		const b = data[clickedPixelIndex + 2]
-		console.log(`r: ${r} g: ${g} b: ${b}`)
+		
+		const pickedColor = {
+			red: data[clickedPixelIndex],
+			green: data[clickedPixelIndex + 1],
+			blue: data[clickedPixelIndex + 2]
+		}
+		console.log(`r: ${pickedColor.red} g: ${pickedColor.green} b: ${pickedColor.blue}`)
+
+		return pickedColor
 	}
 }

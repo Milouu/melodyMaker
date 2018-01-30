@@ -8,16 +8,17 @@ class Webcam
     
 		// Place the video tag at the end of body
 		$body.appendChild(this.$video)
-    
+	
 		// Navigator supports getUserMedia ?
-		if(navigator.getUserMedia)
+		if(navigator.mediaDevices.getUserMedia)
 		{
+			console.log(navigator)
 			// Recover only video of webcam
 			navigator.mediaDevices.getUserMedia({ video: true, audio: false })
 				.then(localMediaStream => 
 				{
 					// Video tag takes source of webcam and play video
-					this.$video.src = window.URL.createObjectURL(localMediaStream)
+					this.$video.srcObject = localMediaStream
 					this.$video.play()
 				})
 				.catch(error => 

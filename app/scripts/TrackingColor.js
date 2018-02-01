@@ -3,6 +3,8 @@ class TrackingColor
   
 	constructor(canvasVideo, eyeDropper) 
 	{
+		this._snare = document.querySelector('.snare')
+		this._hiHat = document.querySelector('.hi-hat')
 		this.canvasVideo = canvasVideo 
 		this.trackedColor = eyeDropper.pickedColor
 
@@ -46,6 +48,25 @@ class TrackingColor
 				// this.canvasVideo.context.fill()
 				// this.canvasVideo.context.closePath()
 				this.canvasVideo.context.clearRect(x, y, 1, 1)
+				if(y > window.innerHeight / 2 && x > 0 && x < (window.innerWidth / 2)) 
+				{
+					this._snare.play()
+				
+					// if(y < 600)
+					// {
+					// 	this._snare.currentTime = 0
+					// }
+
+				}
+				else if(y > window.innerHeight / 2 && x > (window.innerWidth / 2) && x < window.innerWidth)
+				{
+					this._hiHat.play()
+
+					// if(y < 600)
+					// {
+					// 	this._hiHat.currentTime = 0
+					// }
+				}
 			}
 		}
 		requestAnimationFrame(this.findColor.bind(this))
@@ -53,7 +74,7 @@ class TrackingColor
 
 	colorInterval(r, g, b)
 	{
-		const interval = 10
+		const interval = 30
 		return 	(r > this.trackedColor.red - interval && r < this.trackedColor.red + interval) &&
 						(g > this.trackedColor.green - interval && g < this.trackedColor.green + interval) &&
 						(b > this.trackedColor.blue - interval && b < this.trackedColor.blue + interval)

@@ -14,7 +14,7 @@ class DrumKit
     
 	run()
 	{
-		if(this.trackingColor.oldY + 80 <= this.trackingColor.y) 
+		if(this.trackingColor.oldY + 40 <= this.trackingColor.y) 
 		{
 			if(this.trackingColor.x < window.innerWidth / 2 && this.up == true) 
 			{

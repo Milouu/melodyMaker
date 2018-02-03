@@ -55,7 +55,7 @@ class TrackingColor
 
 	colorInterval(r, g, b)
 	{
-		const interval = 15
+		const interval = 10
 		return 	(r > this.trackedColor.red - interval && r < this.trackedColor.red + interval) &&
 						(g > this.trackedColor.green - interval && g < this.trackedColor.green + interval) &&
 						(b > this.trackedColor.blue - interval && b < this.trackedColor.blue + interval)

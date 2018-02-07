@@ -47,7 +47,7 @@ class TrackingColor
 				// this.canvasVideo.context.fill()
 				// this.canvasVideo.context.closePath()
 
-				this.canvasVideo.context.clearRect(this.x, this.y, 1, 1)
+				// this.canvasVideo.context.clearRect(this.x, this.y, 1, 1)
 			}
 		}
 		requestAnimationFrame(this.findColor.bind(this))
@@ -55,7 +55,7 @@ class TrackingColor
 
 	colorInterval(r, g, b)
 	{
-		const interval = 10
+		const interval = 30
 		return 	(r > this.trackedColor.red - interval && r < this.trackedColor.red + interval) &&
 						(g > this.trackedColor.green - interval && g < this.trackedColor.green + interval) &&
 						(b > this.trackedColor.blue - interval && b < this.trackedColor.blue + interval)

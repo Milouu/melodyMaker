@@ -46,13 +46,13 @@ class TrackingColor
 			if (this.colorInterval(h, l)) {
 				this.x = Math.floor((i % (this.canvasVideo.$canvas.width * 4)) / 4)
 				this.y = Math.floor(i / (this.canvasVideo.$canvas.width * 4))
-				// this.canvasVideo.context.beginPath()
-				// this.canvasVideo.context.fillStyle = 'rgba(255, 0, 0, 0)'
-				// this.canvasVideo.context.arc(this.x, this.y, 1, 0, Math.PI * 2)
-				// this.canvasVideo.context.fill()
-				// this.canvasVideo.context.closePath()
+				this.canvasVideo.context.beginPath()
+				this.canvasVideo.context.fillStyle = '#5798e0'
+				this.canvasVideo.context.arc(this.x, this.y, 1, 0, Math.PI * 2)
+				this.canvasVideo.context.fill()
+				this.canvasVideo.context.closePath()
 
-				this.canvasVideo.context.clearRect(this.x, this.y, 1, 1)
+				// this.canvasVideo.context.clearRect(this.x, this.y, 1, 1)
 			}
 		}
 		requestAnimationFrame(this.findColor.bind(this))
@@ -60,9 +60,8 @@ class TrackingColor
 
 	colorInterval(h, l)
 	{
-		const hInterval = 0.01
-		return 	(h > this.trackedColor.h - hInterval && h < this.trackedColor.h + hInterval) &&
-				(l > 0.30 && l < 0.9)
+		const hInterval = 0.03
+		return 	(h > this.trackedColor.h - hInterval && h < this.trackedColor.h + hInterval) && (l > 0.3 && l < 0.8)
 	}
 
 	latency()

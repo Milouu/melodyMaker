@@ -1,10 +1,4 @@
 body {
-  background: #f00;
+  background: #fff;
   overflow: hidden;
-}
-canvas {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%) scaleX(-3) scaleY(3);
 }

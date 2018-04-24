@@ -6,8 +6,8 @@ class CanvasVideo
 		this.$canvas = document.createElement('canvas')
 		this.context = this.$canvas.getContext('2d')
 
-		this.$canvas.width = 604
-		this.$canvas.height = 340
+		this.$canvas.width = 480
+		this.$canvas.height = 270
 
 		this.$body.appendChild(this.$canvas)
 		

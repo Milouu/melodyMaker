@@ -13,16 +13,13 @@ class CanvasVideo
 		
 		webcam.$video.style.display = 'none'
 
-		webcam.$video.addEventListener('play', () => 
-		{
-			this.draw()
-		}, false)
+		webcam.$video.addEventListener('play', this.draw(), false)
 
-		window.addEventListener('resize', () => 
-		{
-			this.$canvas.width = window.innerWidth
-			this.$canvas.height = window.innerHeight
-		})
+		// window.addEventListener('resize', () => 
+		// {
+		// 	this.$canvas.width = window.innerWidth
+		// 	this.$canvas.height = window.innerHeight
+		// })
 	}
 
 	draw() 

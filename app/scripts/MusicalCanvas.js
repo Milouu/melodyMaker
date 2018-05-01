@@ -160,7 +160,7 @@ class MusicalCanvas
 		}
 				
 		// console.log(this.trackedPixels)
-		console.log(this.hitboxesCalculator())
+		// console.log(this.hitboxesCalculator())
 		requestAnimationFrame(this.findColor.bind(this))
 	}
 
@@ -199,17 +199,162 @@ class MusicalCanvas
 
 	hitboxesCalculator()
 	{
+		this.hitboxes = []
+		let current = 0
+	
+		for(let i = 0; i < this.tab.length; i++)
+		{
+			let currentHitbox = []
+	
+			if(this.tab[i] != -1)
+			{
+				currentHitbox.push([this.tab[i]])
+				this.tab[i] = -1
+			}
+			else
+			{
+				continue
+			}
+
+			
+			while(currentHitbox.length > 0)
+			{
+				console.log('testagain')
+				let adjacentPoints = []
+				let currentPoint
+	
+				// console.log(currentHitbox[currentHitbox.length - 1].length)
+				// console.log(currentHitbox)
+	
+				if(currentHitbox[currentHitbox.length - 1].length > 0)
+				{
+					currentPoint = currentHitbox[currentHitbox.length - 1].pop()
+				}
+				else
+				{
+					currentHitbox.pop()
+					continue
+				}
+	
+				// for(let j = 0; j < this.tab.length; j++)
+				// {
+				// 	if(this.tab[j] == currentPoint - this.canvas.offsetWidth - 1 ||
+				// 	this.tab[j] == currentPoint - this.canvas.offsetWidth ||
+				// 	this.tab[j] == currentPoint - this.canvas.offsetWidth + 1 ||
+				// 	this.tab[j] == currentPoint - 1 ||
+				// 	this.tab[j] == currentPoint + 1 ||
+				// 	this.tab[j] == currentPoint + this.canvas.offsetWidth - 1 ||
+				// 	this.tab[j] == currentPoint + this.canvas.offsetWidth ||
+				// 	this.tab[j] == currentPoint + this.canvas.offsetWidth + 1
+				// 	)
+				// 	{
+				// 		if(this.tab[j] != -1)
+				// 		{
+				// 			adjacentPoints.push(this.tab[j])
+				// 			this.tab[j] = -1
+				// 		}
+				// 	}
+
+				if(this.tab.indexOf(currentPoint - this.canvas.offsetWidth - 1))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth - 1)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth - 1)])
+						this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth - 1)] = -1
+					}
+				}
+				else if(this.tab.indexOf(currentPoint - this.canvas.offsetWidth))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth)])
+						this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth)] = -1
+					}
+				}
+				else if(this.tab.indexOf(currentPoint - this.canvas.offsetWidth + 1))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth + 1)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth + 1)])
+						this.tab[this.tab.indexOf(currentPoint - this.canvas.offsetWidth + 1)] = -1
+					}
+				}
+				else if(this.tab.indexOf(currentPoint - 1))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint - 1)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint - 1)])
+						this.tab[this.tab.indexOf(currentPoint - 1)] = -1
+					}
+				}	
+				else if(this.tab.indexOf(currentPoint + 1))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint + 1)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint + 1)])
+						this.tab[this.tab.indexOf(currentPoint + 1)] = -1
+					}
+				}			
+				else if(this.tab.indexOf(currentPoint + this.canvas.offsetWidth - 1))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth - 1)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth - 1)])
+						this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth - 1)] = -1
+					}
+				}			
+				else if(this.tab.indexOf(currentPoint + this.canvas.offsetWidth))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth)])
+						this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth)] = -1
+					}
+				}			
+				else if(this.tab.indexOf(currentPoint + this.canvas.offsetWidth + 1))
+				{
+					if(this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth + 1)] != -1)
+					{
+						adjacentPoints.push(this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth + 1)])
+						this.tab[this.tab.indexOf(currentPoint + this.canvas.offsetWidth + 1)] = -1
+					}
+				}
+				
+				// }
+	
+				if(adjacentPoints.length > 0)
+				{
+					currentHitbox.push(adjacentPoints)
+				}
+			
+				if(this.hitboxes[current] === undefined)
+				{
+					this.hitboxes.push([])
+					this.hitboxes[current].push(currentPoint)
+				}
+				else
+				{
+					this.hitboxes[current].push(currentPoint)
+				}
+			}	
+	
+			current++
+		}
+	
+		return this.hitboxes
+	}
+
 	// 	this.hitboxes = []
 	// 	let current = 0
 	
-	// 	for(let i = 0; i < this.tab.length; i++)
+	// 	for(let i = 0; i < this.trackedPixels.length; i++)
 	// 	{
 	// 		let currentHitbox = []
 	
-	// 		if(this.tab[i] != -1)
+	// 		if(this.trackedPixels[i] != -1)
 	// 		{
-	// 			currentHitbox.push([this.tab[i]])
-	// 			this.tab[i] = -1
+	// 			currentHitbox.push([this.trackedPixels[i]])
+	// 			this.trackedPixels[i] = -1
 	// 		}
 	// 		else
 	// 		{
@@ -234,21 +379,21 @@ class MusicalCanvas
 	// 				continue
 	// 			}
 	
-	// 			for(let j = 0; j < this.tab.length; j++)
+	// 			for(let j = 0; j < this.trackedPixels.length; j++)
 	// 			{
-	// 				if(this.tab[j] == currentPoint - this.canvas.offsetWidth - 1 ||
-	// 				this.tab[j] == currentPoint - this.canvas.offsetWidth ||
-	// 				this.tab[j] == currentPoint - this.canvas.offsetWidth + 1 ||
-	// 				this.tab[j] == currentPoint - 1 ||
-	// 				this.tab[j] == currentPoint + 1 ||
-	// 				this.tab[j] == currentPoint + this.canvas.offsetWidth - 1 ||
-	// 				this.tab[j] == currentPoint + this.canvas.offsetWidth ||
-	// 				this.tab[j] == currentPoint + this.canvas.offsetWidth + 1
+	// 				if(this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth - 1 ||
+	// 				this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth ||
+	// 				this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth + 1 ||
+	// 				this.trackedPixels[j] == currentPoint - 1 ||
+	// 				this.trackedPixels[j] == currentPoint + 1 ||
+	// 				this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth - 1 ||
+	// 				this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth ||
+	// 				this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth + 1
 	// 				)
 	// 				{
-	// 					if(this.tab[j] != -1)
+	// 					if(this.trackedPixels[j] != -1)
 	// 					{
-	// 						adjacentPoints.push(this.tab[j])
+	// 						adjacentPoints.push(this.trackedPixels[j])
 	// 						this.tab[j] = -1
 	// 					}
 	// 				}
@@ -275,83 +420,6 @@ class MusicalCanvas
 	
 	// 	return this.hitboxes
 	// }
-
-		this.hitboxes = []
-		let current = 0
-	
-		for(let i = 0; i < this.trackedPixels.length; i++)
-		{
-			let currentHitbox = []
-	
-			if(this.trackedPixels[i] != -1)
-			{
-				currentHitbox.push([this.trackedPixels[i]])
-				this.trackedPixels[i] = -1
-			}
-			else
-			{
-				continue
-			}
-	
-			while(currentHitbox.length > 0)
-			{
-				let adjacentPoints = []
-				let currentPoint
-	
-				// console.log(currentHitbox[currentHitbox.length - 1].length)
-				// console.log(currentHitbox)
-	
-				if(currentHitbox[currentHitbox.length - 1].length > 0)
-				{
-					currentPoint = currentHitbox[currentHitbox.length - 1].pop()
-				}
-				else
-				{
-					currentHitbox.pop()
-					continue
-				}
-	
-				for(let j = 0; j < this.trackedPixels.length; j++)
-				{
-					if(this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth - 1 ||
-					this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth ||
-					this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth + 1 ||
-					this.trackedPixels[j] == currentPoint - 1 ||
-					this.trackedPixels[j] == currentPoint + 1 ||
-					this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth - 1 ||
-					this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth ||
-					this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth + 1
-					)
-					{
-						if(this.trackedPixels[j] != -1)
-						{
-							adjacentPoints.push(this.trackedPixels[j])
-							this.tab[j] = -1
-						}
-					}
-				}
-	
-				if(adjacentPoints.length > 0)
-				{
-					currentHitbox.push(adjacentPoints)
-				}
-			
-				if(this.hitboxes[current] === undefined)
-				{
-					this.hitboxes.push([])
-					this.hitboxes[current].push(currentPoint)
-				}
-				else
-				{
-					this.hitboxes[current].push(currentPoint)
-				}
-			}	
-	
-			current++
-		}
-	
-		return this.hitboxes
-	}
 
 	
 }

@@ -10,6 +10,7 @@ class MusicalCanvas
 		this.position = { x: 0, y: 0 }
 		this.pickedColor
 		this.trackedPixels = []
+		this.tab = [1, 2, 3, 324, 325, 326, 480, 481, 482, 500, 940, 941, 1000, 1001]
 
 		this.video.addEventListener('play', this.draw())
 		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX, event.clientY))
@@ -71,11 +72,12 @@ class MusicalCanvas
 
 	draw()
 	{
+		this.clearCanvas()
 		this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
-		setTimeout(() => { 
-			this.clearCanvas()
-			this.draw() 
-		}, 32)
+		// setTimeout(() => { 
+		// 	this.draw() 
+		// }, 32)
+		requestAnimationFrame(this.draw.bind(this))
 	}
 
 	clearCanvas() 
@@ -133,6 +135,7 @@ class MusicalCanvas
 	findColor() 
 	{
 		const data = this.getImageData() 
+		this.trackedPixels = []
 
 		for (let i = 0; i < data.length; i += 4) {
 			const hslPickedColor = this.rgbToHsl(data[i], data[i + 1], data[i + 2])
@@ -155,7 +158,9 @@ class MusicalCanvas
 				this.context.clearRect(this.position.x, this.position.y, 1, 1)
 			}
 		}
-        
+				
+		// console.log(this.trackedPixels)
+		console.log(this.hitboxesCalculator())
 		requestAnimationFrame(this.findColor.bind(this))
 	}
 
@@ -175,7 +180,6 @@ class MusicalCanvas
 	{
 		if(event.keyCode == 32)
 		{
-			console.log(this.pickedColor)
 			if(this.pickedColor)
 			{
 				this.findColor()
@@ -195,51 +199,143 @@ class MusicalCanvas
 
 	hitboxesCalculator()
 	{
-		this.hitboxes = []
-		let currentHitbox = []
-		let current = 0
+	// 	this.hitboxes = []
+	// 	let current = 0
+	
+	// 	for(let i = 0; i < this.tab.length; i++)
+	// 	{
+	// 		let currentHitbox = []
+	
+	// 		if(this.tab[i] != -1)
+	// 		{
+	// 			currentHitbox.push([this.tab[i]])
+	// 			this.tab[i] = -1
+	// 		}
+	// 		else
+	// 		{
+	// 			continue
+	// 		}
+	
+	// 		while(currentHitbox.length > 0)
+	// 		{
+	// 			let adjacentPoints = []
+	// 			let currentPoint
+	
+	// 			// console.log(currentHitbox[currentHitbox.length - 1].length)
+	// 			// console.log(currentHitbox)
+	
+	// 			if(currentHitbox[currentHitbox.length - 1].length > 0)
+	// 			{
+	// 				currentPoint = currentHitbox[currentHitbox.length - 1].pop()
+	// 			}
+	// 			else
+	// 			{
+	// 				currentHitbox.pop()
+	// 				continue
+	// 			}
+	
+	// 			for(let j = 0; j < this.tab.length; j++)
+	// 			{
+	// 				if(this.tab[j] == currentPoint - this.canvas.offsetWidth - 1 ||
+	// 				this.tab[j] == currentPoint - this.canvas.offsetWidth ||
+	// 				this.tab[j] == currentPoint - this.canvas.offsetWidth + 1 ||
+	// 				this.tab[j] == currentPoint - 1 ||
+	// 				this.tab[j] == currentPoint + 1 ||
+	// 				this.tab[j] == currentPoint + this.canvas.offsetWidth - 1 ||
+	// 				this.tab[j] == currentPoint + this.canvas.offsetWidth ||
+	// 				this.tab[j] == currentPoint + this.canvas.offsetWidth + 1
+	// 				)
+	// 				{
+	// 					if(this.tab[j] != -1)
+	// 					{
+	// 						adjacentPoints.push(this.tab[j])
+	// 						this.tab[j] = -1
+	// 					}
+	// 				}
+	// 			}
+	
+	// 			if(adjacentPoints.length > 0)
+	// 			{
+	// 				currentHitbox.push(adjacentPoints)
+	// 			}
+			
+	// 			if(this.hitboxes[current] === undefined)
+	// 			{
+	// 				this.hitboxes.push([])
+	// 				this.hitboxes[current].push(currentPoint)
+	// 			}
+	// 			else
+	// 			{
+	// 				this.hitboxes[current].push(currentPoint)
+	// 			}
+	// 		}	
+	
+	// 		current++
+	// 	}
+	
+	// 	return this.hitboxes
+	// }
 
+		this.hitboxes = []
+		let current = 0
+	
 		for(let i = 0; i < this.trackedPixels.length; i++)
 		{
-			currentHitbox.push([i])
-
+			let currentHitbox = []
+	
+			if(this.trackedPixels[i] != -1)
+			{
+				currentHitbox.push([this.trackedPixels[i]])
+				this.trackedPixels[i] = -1
+			}
+			else
+			{
+				continue
+			}
+	
 			while(currentHitbox.length > 0)
 			{
 				let adjacentPoints = []
 				let currentPoint
-
+	
+				// console.log(currentHitbox[currentHitbox.length - 1].length)
+				// console.log(currentHitbox)
+	
 				if(currentHitbox[currentHitbox.length - 1].length > 0)
 				{
 					currentPoint = currentHitbox[currentHitbox.length - 1].pop()
 				}
 				else
 				{
-					currentHitbox[currentHitbox.length - 1].pop()
+					currentHitbox.pop()
 					continue
 				}
-
+	
 				for(let j = 0; j < this.trackedPixels.length; j++)
 				{
-					switch(j)
+					if(this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth - 1 ||
+					this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth ||
+					this.trackedPixels[j] == currentPoint - this.canvas.offsetWidth + 1 ||
+					this.trackedPixels[j] == currentPoint - 1 ||
+					this.trackedPixels[j] == currentPoint + 1 ||
+					this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth - 1 ||
+					this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth ||
+					this.trackedPixels[j] == currentPoint + this.canvas.offsetWidth + 1
+					)
 					{
-						case (currentPoint - this.canvas.offsetWidth - 1) :
-						case (currentPoint - this.canvas.offsetWidth) :
-						case (currentPoint - this.canvas.offsetWidth + 1) :
-						case (currentPoint - 1) :
-						case (currentPoint + 1) :
-						case (currentPoint + this.canvas.offsetWidth - 1) :
-						case (currentPoint + this.canvas.offsetWidth) :
-						case (currentPoint + this.canvas.offsetWidth + 1) : 
-							adjacentPoints.push(j)
-							break
+						if(this.trackedPixels[j] != -1)
+						{
+							adjacentPoints.push(this.trackedPixels[j])
+							this.tab[j] = -1
+						}
 					}
 				}
-
+	
 				if(adjacentPoints.length > 0)
 				{
 					currentHitbox.push(adjacentPoints)
 				}
-				
+			
 				if(this.hitboxes[current] === undefined)
 				{
 					this.hitboxes.push([])
@@ -250,12 +346,14 @@ class MusicalCanvas
 					this.hitboxes[current].push(currentPoint)
 				}
 			}	
-
+	
 			current++
 		}
-
+	
 		return this.hitboxes
 	}
+
+	
 }
 
 

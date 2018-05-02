@@ -1,4 +1,9 @@
 body {
   background: #fff;
   overflow: hidden;
+  height: 400px;
+}
+.waves {
+  width: 800px;
+  height: 500px;
 }

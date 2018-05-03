@@ -11,5 +11,7 @@
 
 // const oscillator = new Oscillator(trackingColor)
 
-// const music = new MusicalCanvas()
 const canvas = new WavesCanvas('waves', 'img')
+
+const musicalCanvas = new MusicalCanvas()
+

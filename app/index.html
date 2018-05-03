@@ -12,7 +12,14 @@
     <!--endbuild-->
   </head>
   <body>
+    <!-- <svg width="460px" height="300px" version="1.1" xmlns="http://www.w3.org/2000/svg" style="display: none">
+        <path id="jelly" d="M184,0 C276.876285,-9.09494702e-13 276.017806,29.4269422 322,60 C367.982194,90.5730578 460,89.7724228 460,180 C460,270.227577 323.297983,270 276,270 C228.702017,270 184.424154,299.704847 138,300 C45.1047512,300 5.58748087e-15,269.147021 0,210 C0,150.852979 46,149.699903 46,90 C46,30.3000967 91.123715,9.09494702e-13 184,0 Z"></path>
+    </svg> -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="560" height="400" style="display: none">
+      <path id="jelly" class="jelly-path" d="M234 50C326.88 50 326 79.43 372 110S510 139.76999999999998 510 230S373.3 320 326 320 234.42000000000002 349.7 188 350C95.1 350 50 319.15 50 260S96 199.7 96 140 141.12 50 234 50z"/>
+    </svg>
     <video class="img" src="assets/videos/minions.mp4" alt="" autoplay></video>
+    <!-- <img class="img" src="assets/test.png" alt=""> -->
     <div class="waves"></div>
     <audio class="note" src="assets/sounds/do-majeur.m4a"></audio>
     <audio class="note" src="assets/sounds/la-mineur.m4a"></audio>
@@ -25,6 +32,7 @@
     <audio src="assets/sounds/drum.m4a"></audio>
   
     <!--build:js scripts/main.min.js -->
+    <script src="scripts/jelly.js"></script>
     <script src="scripts/WavesCanvas.js"></script>
     <script src="scripts/DrumKit.js"></script>
     <script src="scripts/Oscillator.js"></script>

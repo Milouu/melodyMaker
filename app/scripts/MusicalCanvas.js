@@ -79,26 +79,26 @@ class MusicalCanvas
 
 	draw()
 	{
-		this.clearCanvas()
-		this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
+		// this.clearCanvas()
+		// this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
 		
 		requestAnimationFrame(this.draw.bind(this))
 		
-		// this.now = Date.now()
-		// this.delta = this.now - this.then
+		this.now = Date.now()
+		this.delta = this.now - this.then
 		
-		// if (this.delta > this.interval) 
-		// {				
-		// 	this.then = this.now - (this.delta % this.interval)		
+		if (this.delta > this.interval) 
+		{				
+			this.then = this.now - (this.delta % this.interval)		
 			
-		// 	this.clearCanvas()
-		// 	this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
+			this.clearCanvas()
+			this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
 			
-		// 	if(this.pickedColor)
-		// 	{
-		// 		this.findColor()
-		// 	}
-		// }
+			if(this.pickedColor)
+			{
+				this.findColor()
+			}
+		}
 	}
 
 	clearCanvas() 
@@ -157,6 +157,7 @@ class MusicalCanvas
 	{
 		const data = this.getImageData() 
 		this.trackedPixels = []
+		let halfcounter = 0
 
 		for (let i = 0; i < data.length; i += 4) {
 			const hslPickedColor = this.rgbToHsl(data[i], data[i + 1], data[i + 2])
@@ -167,15 +168,19 @@ class MusicalCanvas
 				this.position.x = Math.floor((i % (this.canvas.offsetWidth * 4)) / 4)
 				this.position.y = Math.floor(i / (this.canvas.offsetWidth * 4))
 
-				const index = i / 4
-				this.trackedPixels.push(index)
+				if (!halfcounter % 2)
+				{
+					const index = i / 4
+					this.trackedPixels.push(index)
+				}
 
 				this.context.clearRect(this.position.x, this.position.y, 1, 1)
 				this.hitboxesCalculator()
+				halfcounter++
 			}
 		}
 
-		requestAnimationFrame(this.findColor.bind(this))
+		// requestAnimationFrame(this.findColor.bind(this))
 	}
 
 	colorInterval(h, l)
@@ -246,10 +251,6 @@ class MusicalCanvas
 					currentHitbox.pop()
 					continue
 				}
-
-				// console.log(currentPoint)
-				// console.log(currentPoint - this.canvas.offsetWidth - 1)
-				// console.log(this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth - 1))
 
 				for(let adj = 0; adj < adjacentChecks.length; adj++)
 				{

@@ -158,9 +158,9 @@ class MusicalCanvas
 	{
 		const data = this.getImageData() 
 		this.trackedPixels = []
-		let halfcounter = 0
+		// let halfcounter = 0
 
-		for (let i = 0; i < data.length; i += 4) 
+		for (let i = 0; i < data.length; i += 8) 
 		{
 			const hslPickedColor = this.rgbToHsl(data[i], data[i + 1], data[i + 2])
 			const h = hslPickedColor[0]
@@ -170,17 +170,17 @@ class MusicalCanvas
 				this.position.x = Math.floor((i % (this.canvas.offsetWidth * 4)) / 4)
 				this.position.y = Math.floor(i / (this.canvas.offsetWidth * 4))
 
-				// if (!halfcounter % 2)
+				// if (halfcounter % 2 == 0)
 				// {
-					const index = i / 4
-					this.trackedPixels.push(index)
+				this.trackedPixels.push(i/4)
 				// }
 
 				// this.context.clearRect(this.position.x, this.position.y, 1, 1)
-				halfcounter++
+				// halfcounter++
 			}
 		}
-		this.drawHitboxes(this.hitboxesCalculator())
+		this.hitboxesCalculator()
+		// this.drawHitboxes(this.hitboxesCalculator())
 
 		// requestAnimationFrame(this.findColor.bind(this))
 	}
@@ -188,17 +188,16 @@ class MusicalCanvas
 	colorInterval(h, l)
 	{
 		const hInterval = 0.03
-		return 	(h > this.pickedColor.h - hInterval && h < this.pickedColor.h + hInterval) && (l > 0.3 && l < 0.8)
+		return 	(h > this.pickedColor.h - hInterval && h < this.pickedColor.h + hInterval) && (l > 0.3 && l < 0.6)
 	}
 
 	drawHitboxes(hitboxes)
 	{
-		// console.log(hitboxes)
 		for(let i = 0; i < hitboxes.length; i++)
 		{
-			if(hitboxes[i].length > 100)
+			if(hitboxes[i].length > 800)
 			{
-				this.context.clearRect(hitboxes[i][hitboxes[i].length] % this.canvas.offsetWidth, hitboxes[i][hitboxes[i].length] / this.canvas.offsetWidth, 20, 20)
+				this.context.clearRect(hitboxes[i][hitboxes[i].length/2] % this.canvas.offsetWidth, hitboxes[i][hitboxes[i].length/2] / this.canvas.offsetWidth, 50, 50)
 			}
 		}
 	}
@@ -254,12 +253,12 @@ class MusicalCanvas
 			{
 				let currentPoint
 				let adjacentPoints = []
-				let adjacentChecks = []
+				// let adjacentChecks = []
 
 				if(currentHitbox[currentHitbox.length - 1].length > 0)
 				{
 					currentPoint = currentHitbox[currentHitbox.length - 1].pop()
-					adjacentChecks = [currentPoint - this.canvas.offsetWidth - 1, currentPoint - this.canvas.offsetWidth, currentPoint - this.canvas.offsetWidth + 1, currentPoint - 1, currentPoint + 1, currentPoint + this.canvas.offsetWidth - 1, currentPoint + this.canvas.offsetWidth, currentPoint + this.canvas.offsetWidth + 1]
+					// adjacentChecks = [currentPoint - this.canvas.offsetWidth - 1, currentPoint - this.canvas.offsetWidth, currentPoint - this.canvas.offsetWidth + 1, currentPoint - 1, currentPoint + 1, currentPoint + this.canvas.offsetWidth - 1, currentPoint + this.canvas.offsetWidth, currentPoint + this.canvas.offsetWidth + 1]
 				}
 				else
 				{
@@ -267,15 +266,80 @@ class MusicalCanvas
 					continue
 				}
 
-				for(let adj = 0; adj < adjacentChecks.length; adj++)
+				// for(let adj = 0; adj < adjacentChecks.length; adj++)
+				// {
+				// 	if(this.trackedPixels.indexOf(adjacentChecks[i]) != -1)
+				// 	{
+				// 		if(this.trackedPixels[this.trackedPixels.indexOf(adjacentChecks[i])] != -1)
+				// 		{
+				// 			adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(adjacentChecks[i])])
+				// 			this.trackedPixels[this.trackedPixels.indexOf(adjacentChecks[i])] = -1
+				// 		}
+				// 	}
+				// }
+
+				if(this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth - 2) != -1)
 				{
-					if(this.trackedPixels.indexOf(adjacentChecks[i]) != -1)
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth - 2)] != -1)
 					{
-						if(this.trackedPixels[this.trackedPixels.indexOf(adjacentChecks[i])] != -1)
-						{
-							adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(adjacentChecks[i])])
-							this.trackedPixels[this.trackedPixels.indexOf(adjacentChecks[i])] = -1
-						}
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth - 2)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth - 2)] = -1
+					}
+				}
+				if(this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth)] = -1
+					}
+				}
+				if(this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth + 2) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth + 2)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth + 2)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint - this.canvas.offsetWidth + 2)] = -1
+					}
+				}
+				if(this.trackedPixels.indexOf(currentPoint - 2) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - 2)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint - 2)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint - 2)] = -1
+					}
+				}	
+				if(this.trackedPixels.indexOf(currentPoint + 2) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + 2)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + 2)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint + 2)] = -1
+					}
+				}			
+				if(this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth - 2) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth - 2)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth - 2)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth - 2)] = -1
+					}
+				}			
+				if(this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth)] = -1
+					}
+				}			
+				if(this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth + 2) != -1)
+				{
+					if(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth + 2)] != -1)
+					{
+						adjacentPoints.push(this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth + 2)])
+						this.trackedPixels[this.trackedPixels.indexOf(currentPoint + this.canvas.offsetWidth + 2)] = -1
 					}
 				}
 				

@@ -179,8 +179,9 @@ class MusicalCanvas
 				// halfcounter++
 			}
 		}
-		this.hitboxesCalculator()
+		// this.hitboxesCalculator()
 		// this.drawHitboxes(this.hitboxesCalculator())
+		this.drawMainHitbox(this.hitboxesCalculator())
 
 		// requestAnimationFrame(this.findColor.bind(this))
 	}
@@ -200,6 +201,59 @@ class MusicalCanvas
 				this.context.clearRect(hitboxes[i][hitboxes[i].length/2] % this.canvas.offsetWidth, hitboxes[i][hitboxes[i].length/2] / this.canvas.offsetWidth, 50, 50)
 			}
 		}
+	}
+
+	drawMainHitbox(hitboxes)
+	{
+		let biggest = 0
+
+		for(let i = 1; i < hitboxes.length; i++)
+		{
+			if(hitboxes[i].length > hitboxes[biggest].length)
+			{
+				biggest = i
+			}
+		}
+
+		let min = {
+			x: hitboxes[biggest][0] % this.canvas.offsetWidth,
+			y: hitboxes[biggest][0] / this.canvas.offsetWidth
+		}
+
+		let max = {
+			x: hitboxes[biggest][0] % this.canvas.offsetWidth,
+			y: hitboxes[biggest][0] / this.canvas.offsetWidth
+		}
+
+		for(let j = 1; j < hitboxes[biggest].length; j++)
+		{
+			let current = {
+				x: hitboxes[biggest][j] % this.canvas.offsetWidth,
+				y: hitboxes[biggest][j] / this.canvas.offsetWidth
+			}
+
+			if(current.x < min.x)
+			{
+				min.x = current.x
+			}
+			if(current.x > max.x)
+			{
+				max.x = current.x
+			}
+			if(current.y < min.y)
+			{
+				min.y = current.y
+			}
+			if(current.y > max.y)
+			{
+				max.y = current.y
+			}
+		}
+
+		this.context.clearRect(min.x, min.y, 10, 10)
+		this.context.clearRect(min.x, max.y, 10, 10)
+		this.context.clearRect(max.x, min.y, 10, 10)
+		this.context.clearRect(max.x, max.y, 10, 10)
 	}
 
 	latency()
@@ -364,76 +418,7 @@ class MusicalCanvas
 		}
 
 		return this.hitboxes
-	}		
-
-	// 	this.hitboxes = []
-	// 	let current = 0
-
-	// 	for(let i = 0; i < this.tab.length; i++)
-	// 	{
-	// 		let currentHitbox = []
-
-	// 		if(this.tab[i] != -1)
-	// 		{
-	// 			currentHitbox.push([this.tab[i]])
-	// 			this.tab[i] = -1
-	// 		}
-	// 		else
-	// 		{
-	// 			continue
-	// 		}
-
-		
-	// 		while(currentHitbox.length > 0)
-	// 		{
-	// 			let currentPoint
-	// 			let adjacentPoints = []
-	// 			const adjacentChecks = [currentPoint - this.canvas.offsetWidth - 1, currentPoint - this.canvas.offsetWidth, currentPoint - this.canvas.offsetWidth + 1, currentPoint - 1, currentPoint + 1, currentPoint + this.canvas.offsetWidth - 1, currentPoint + this.canvas.offsetWidth, currentPoint + this.canvas.offsetWidth + 1]
-
-	// 			if(currentHitbox[currentHitbox.length - 1].length > 0)
-	// 			{
-	// 				currentPoint = currentHitbox[currentHitbox.length - 1].pop()
-	// 			}
-	// 			else
-	// 			{
-	// 				currentHitbox.pop()
-	// 				continue
-	// 			}
-
-	// 			for(let adj = 0; adj < adjacentChecks.length; adj++)
-	// 			{
-	// 				if(this.tab.indexOf(adjacentChecks[i]) != -1)
-	// 				{
-	// 					if(this.tab[this.tab.indexOf(adjacentChecks[i])] != -1)
-	// 					{
-	// 						adjacentPoints.push(this.tab[this.tab.indexOf(adjacentChecks[i])])
-	// 						this.tab[this.tab.indexOf(adjacentChecks[i])] = -1
-	// 					}
-	// 				}
-	// 			}
-				
-	// 			if(adjacentPoints.length > 0)
-	// 			{ 
-	// 				currentHitbox.push(adjacentPoints)
-	// 			}
-		
-	// 			if(this.hitboxes[current] === undefined)
-	// 			{
-	// 				this.hitboxes.push([])
-	// 				this.hitboxes[current].push(currentPoint)
-	// 			}
-	// 			else
-	// 			{
-	// 				this.hitboxes[current].push(currentPoint)
-	// 			}
-	// 		}	
-
-	// 		current++
-			
-	// 	}
-
-	// 	return this.hitboxes
-	// }	
+	}			
 }
 
 

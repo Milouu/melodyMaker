@@ -205,55 +205,65 @@ class MusicalCanvas
 
 	drawMainHitbox(hitboxes)
 	{
-		let biggest = 0
-
-		for(let i = 1; i < hitboxes.length; i++)
+		if(hitboxes.length > 0)
 		{
-			if(hitboxes[i].length > hitboxes[biggest].length)
+			let biggest = 0
+	
+			for(let i = 1; i < hitboxes.length; i++)
 			{
-				biggest = i
+				if(hitboxes[i].length > hitboxes[biggest].length)
+				{
+					biggest = i
+				}
 			}
+	
+			let min = {
+				x: hitboxes[biggest][0] % this.canvas.offsetWidth,
+				y: hitboxes[biggest][0] / this.canvas.offsetWidth
+			}
+	
+			let max = {
+				x: hitboxes[biggest][0] % this.canvas.offsetWidth,
+				y: hitboxes[biggest][0] / this.canvas.offsetWidth
+			}
+	
+			for(let j = 1; j < hitboxes[biggest].length; j++)
+			{
+				let current = {
+					x: hitboxes[biggest][j] % this.canvas.offsetWidth,
+					y: hitboxes[biggest][j] / this.canvas.offsetWidth
+				}
+	
+				if(current.x < min.x)
+				{
+					min.x = current.x
+				}
+				if(current.x > max.x)
+				{
+					max.x = current.x
+				}
+				if(current.y < min.y)
+				{
+					min.y = current.y
+				}
+				if(current.y > max.y)
+				{
+					max.y = current.y
+				}
+			}
+	
+			this.context.clearRect(min.x, min.y, 1, 10)
+			this.context.clearRect(min.x, min.y, 10, 1)
+
+			this.context.clearRect(min.x, max.y, 1, -10)
+			this.context.clearRect(min.x, max.y, 10, 1)
+
+			this.context.clearRect(max.x, min.y, 1, 10)
+			this.context.clearRect(max.x, min.y, -10, 1)
+			
+			this.context.clearRect(max.x, max.y, 1, -10)
+			this.context.clearRect(max.x, max.y, -10, 1)
 		}
-
-		let min = {
-			x: hitboxes[biggest][0] % this.canvas.offsetWidth,
-			y: hitboxes[biggest][0] / this.canvas.offsetWidth
-		}
-
-		let max = {
-			x: hitboxes[biggest][0] % this.canvas.offsetWidth,
-			y: hitboxes[biggest][0] / this.canvas.offsetWidth
-		}
-
-		for(let j = 1; j < hitboxes[biggest].length; j++)
-		{
-			let current = {
-				x: hitboxes[biggest][j] % this.canvas.offsetWidth,
-				y: hitboxes[biggest][j] / this.canvas.offsetWidth
-			}
-
-			if(current.x < min.x)
-			{
-				min.x = current.x
-			}
-			if(current.x > max.x)
-			{
-				max.x = current.x
-			}
-			if(current.y < min.y)
-			{
-				min.y = current.y
-			}
-			if(current.y > max.y)
-			{
-				max.y = current.y
-			}
-		}
-
-		this.context.clearRect(min.x, min.y, 10, 10)
-		this.context.clearRect(min.x, max.y, 10, 10)
-		this.context.clearRect(max.x, min.y, 10, 10)
-		this.context.clearRect(max.x, max.y, 10, 10)
 	}
 
 	latency()

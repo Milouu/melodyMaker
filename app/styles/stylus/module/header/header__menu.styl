@@ -1,7 +1,4 @@
 .header__menu
-    display flex
-    width 220px
-    height 100%
     font-family 'aileronBold'
     font-size 24px
     border-radius 0px 0px 7px 7px
@@ -10,18 +7,25 @@
 
     box-shadow 0px 2px 80px 0px rgba(74, 144, 226, 0.20), 0px 10px 10px 0px rgba(0, 0, 0, 0.10)
 
+    grid-column-start 11
+
+    display grid
+    grid-template-columns 1fr 1fr
+    grid-gap 20px
+
+    
+
 .header__signUp 
 .header__signIn
-    width 100px
-    height 100%
-    display flex
-    align-items center
-    justify-content flex-start
+    align-self center
+    justify-self center
 
     color #ffffff
 
     cursor pointer
     
 .header__signUp
-    margin-right 20px
-    justify-content flex-end
+    justify-self right 
+
+.header__signIn
+    justify-self left

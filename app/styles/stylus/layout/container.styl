@@ -15,32 +15,11 @@
     pointer-events none
     display none
 
-.test
-    height 66px
-    background-color orange
-
 .container
     height 100vh
     display grid
 
-    background-color $white
-
     grid-template-columns repeat(2, 1fr) repeat(4, minmax(64px, 1fr)) repeat(4, minmax(100px, 1fr)) repeat(2, 1fr)
-    grid-template-rows 64px 180px 1fr minmax(160px, 1fr) 80px minmax(80px, 120px)
+    grid-template-rows 64px 1fr minmax(240px, auto) 1fr 80px 1fr
     grid-column-gap 20px
-
-// .block
-//     background-color orange
-//     height 100vh
-
-// .block-1
-//     grid-column-start 1
-//     grid-column-end 6
-
-// .block-2
-//     grid-column-start 6
-//     grid-column-end 9
-
-// .block-3
-//     grid-column-start 9
-//     grid-column-end 12
+    grid-row-gap 40px

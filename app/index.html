@@ -19,6 +19,22 @@
     </svg>
 
     <video class="img" src="assets/videos/minions.mp4" alt="" autoplay loop style="display: none"></video>
+    
+    <div class="track">
+        <svg class="track__waves">
+            <use xlink:href="assets/images/homepage/waves.svg#waves"></use>
+        </svg>
+    </div>
+
+    <div class="loop">
+        <svg class="loop__arrows">
+            <use class="loop__use" xlink:href="assets/images/homepage/loop.svg#loop"></use>
+        </svg>
+    </div>
+
+    <div class="drum">
+      <img src="assets/images/homepage/drum.png" alt="" class="drum__icon">
+    </div>
 
     <div class="container">
       <header class="header column--12">
@@ -65,6 +81,7 @@
   
     <!--build:js scripts/main.min.js -->
     <script src="scripts/jelly.js"></script>
+    <script src="scripts/DOMLoader.js"></script>
     <script src="scripts/WavesCanvas.js"></script>
     <script src="scripts/DrumKit.js"></script>
     <script src="scripts/Oscillator.js"></script>

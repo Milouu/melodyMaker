@@ -1,0 +1,27 @@
+.drum
+    position absolute
+    width 200px
+    height 200px
+    left 0px
+    bottom 50px
+    display flex
+    justify-content center
+    align-items center
+
+    transform rotate(0deg) translateX(-120%) translateY(50%)
+
+    background linear-gradient(#F38A9D, #E35264)    
+
+    box-shadow 0px 2px 80px 0px rgba(227, 82, 100, 0.20), 0px 10px 10px 0px rgba(0, 0, 0, 0.06)
+
+.drum__icon
+    width 70%
+    
+@keyframes drumEnter {
+    from {
+        transform rotate(0deg) translateX(-120%) translateY(50%)
+    }
+    to {
+        transform rotate(30deg) translateX(0%) translateY(0%)
+    }
+}

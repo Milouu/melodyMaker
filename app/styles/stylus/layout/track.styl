@@ -1,0 +1,28 @@
+.track
+    position absolute
+    width 100px
+    height 324px
+    left 60px
+    top -140px
+
+    background linear-gradient(#48F4BA, #23E584)
+    transform rotate(0deg) translateX(50%) translateY(-100%)
+    
+    z-index -1
+    box-shadow 0px 2px 80px 0px rgba(35, 229, 132, 0.20), 0px 10px 10px 0px rgba(0, 0, 0, 0.06)
+    will-change transform
+
+.track__waves
+    width 100%
+    height 100%
+    transform scale(0.8) translateY(8%)
+
+
+@keyframes trackEnter {
+    from {
+        transform rotate(0deg) translateX(50%) translateY(-100%)
+    }
+    to {
+        transform rotate(-45deg) translateX(0%) translateY(0%)
+    }
+}

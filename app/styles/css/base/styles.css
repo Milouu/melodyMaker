@@ -2,7 +2,7 @@ body {
   overflow: hidden;
   padding-left: 10px;
   padding-right: 10px;
-  background: #fff;
+  background-color: $white;
 }
 p {
   line-height: 20px;

@@ -12,6 +12,7 @@
 // const oscillator = new Oscillator(trackingColor)
 
 const canvas = new WavesCanvas('content__jelly', 'img')
+const trackAnimate = new DOMLoader(['track', 'loop', 'drum'], ['track--animate', 'loop--animate', 'drum--animate'])
 
 // const musicalCanvas = new MusicalCanvas()
 

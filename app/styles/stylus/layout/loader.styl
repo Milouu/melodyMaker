@@ -1,0 +1,37 @@
+.loader
+    position absolute
+    left 50%
+    top 50%
+    transform  translateX(-50%) translateY(-50%) rotate(0deg)
+
+    width 100px
+    height 100px
+
+    background-color $blue
+
+    animation-name loader
+    animation-duration 4s
+    animation-timing-function ease
+    animation-fill-mode both
+    animation-iteration-count infinite
+
+    transition 500ms opacity ease, 500ms visibility ease
+
+    @keyframes loader {
+    0% {
+        transform translateX(-50%) translateY(-50%) rotate(0deg)
+        background-color $blue
+    }
+    33.33% {
+        transform translateX(-50%) translateY(-50%) rotate(-180deg)
+        background-color $red
+    }
+    66.66% {
+        transform translateX(-50%) translateY(-50%) rotate(-360deg)
+        background-color $green
+    }
+    100% {
+        transform translateX(-50%) translateY(-50%) rotate(-540deg)
+        background-color $yellow
+    }
+}

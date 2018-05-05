@@ -4,7 +4,6 @@ body {
   padding-right: 10px;
   background: #fff;
 }
-.waves {
-  width: 860px;
-  height: 600px;
+p {
+  line-height: 20px;
 }

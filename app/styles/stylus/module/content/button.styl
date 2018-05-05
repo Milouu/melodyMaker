@@ -1,0 +1,49 @@
+.button
+    display flex
+    position relative
+
+    border 2px solid $blue
+
+    font-family 'aileronBold'
+    font-size 20px
+    color $blue
+    
+    align-items center
+    justify-content center 
+
+    grid-column-start 5
+    grid-row-start 5
+
+    cursor pointer
+
+    transition 150ms color ease, 300ms opacity ease
+    &:hover
+        color $white
+        opacity 0.99
+    
+.button::after
+    content ""
+    display flex
+    position absolute
+    width 100%
+    height 100%
+
+    align-items center
+    justify-content center
+
+    background-color $blue
+
+    transform-origin left
+    transform scaleX(0)
+
+    box-shadow 0px 2px 80px 0px rgba(84, 104, 254, 0.20), 0px 10px 10px 0px rgba(0, 0, 0, 0.06)
+
+    transition 300ms transform ease
+    z-index -10
+    
+.button:hover::after
+    transform scaleX(1)
+
+// .button:hover::after + .button
+//     color $white
+    // background-color $blue

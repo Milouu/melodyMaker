@@ -5,6 +5,7 @@
     pointer-events none
     left 50%
     transform translateX(-50%)
+    display none
 
 .baseline
     width 100%
@@ -12,15 +13,21 @@
     position absolute
     bottom 0
     pointer-events none
+    display none
 
 .test
     height 66px
     background-color orange
 
 .container
+    height 100vh
     display grid
-    grid-template-columns repeat(12, 1fr)
-    grid-gap 20px
+
+    background-color $white
+
+    grid-template-columns repeat(2, 1fr) repeat(4, minmax(64px, 1fr)) repeat(4, minmax(100px, 1fr)) repeat(2, 1fr)
+    grid-template-rows 64px 180px 1fr minmax(160px, 1fr) 80px minmax(80px, 120px)
+    grid-column-gap 20px
 
 // .block
 //     background-color orange

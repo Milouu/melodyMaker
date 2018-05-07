@@ -11,8 +11,8 @@
     <!--endbuild-->
   </head>
   <body>
-    <img class="grid" src="assets/images/grid.png" alt="">
-    <img class="baseline" src="assets/images/baseline.png" alt="">
+    <img class="grid lazyload" src="assets/images/grid.png" alt="">
+    <img class="baseline lazyload" src="assets/images/baseline.png" alt="">
 
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="560" height="400" style="display: none">
       <path id="jelly" class="jelly-path" d="M234 50C326.88 50 326 79.43 372 110S510 139.76999999999998 510 230S373.3 320 326 320 234.42000000000002 349.7 188 350C95.1 350 50 319.15 50 260S96 199.7 96 140 141.12 50 234 50z"/>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="drum">
-      <img src="assets/images/homepage/drum.png" alt="" class="drum__icon">
+      <img class="drum__icon lazyload" src="assets/images/homepage/drum.png" alt="">
     </div>
 
     <div class="container">
@@ -69,7 +69,9 @@
 
     </div>
 
-    <div class="loader"></div>
+    <div class="loader">
+      <div class="loader__block"></div>
+    </div>
 
     <audio class="note" src="assets/sounds/do-majeur.m4a"></audio>
     <audio class="note" src="assets/sounds/la-mineur.m4a"></audio>

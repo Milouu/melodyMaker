@@ -18,17 +18,18 @@
 .container
     height 100vh
     display grid
+    // display none
 
     grid-template-columns repeat(12, minmax(40px,1fr))
     // grid-template-columns repeat(2, 1fr) repeat(4, minmax(64px, 1fr)) repeat(4, minmax(100px, 1fr)) repeat(2, 1fr)
-    grid-template-rows 64px minmax(auto, 64px) minmax(240px, auto) minmax(200px, 400px)
+    grid-template-rows 64px minmax(auto, 64px) minmax(240px, auto) minmax(200px, 240px)
     grid-column-gap 20px
     grid-row-gap 40px
 
     animation-duration 1s
 
     opacity 0
-    transition opacity 1s
+    transition opacity 1s ease, transform 1s ease
 
 @keyframes containerEnter {
     from {

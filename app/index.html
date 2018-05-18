@@ -4,24 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale = 1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Page</title>
+    <title>Melody Maker</title>
     <!--build:css styles/styles.min.css-->
     <link rel="stylesheet" href="styles/css/main.css" />
   
     <!--endbuild-->
   </head>
   <body>
-    <img class="grid lazyload" src="assets/images/grid.png" alt="">
-    <img class="baseline lazyload" src="assets/images/baseline.png" alt="">
 
+    <!-- <img class="grid" src="assets/images/grid.png" alt=""> -->
+    <!-- <img class="baseline" src="assets/images/baseline.png" alt=""> -->
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="560" height="400" style="display: none">
       <path id="jelly" class="jelly-path" d="M234 50C326.88 50 326 79.43 372 110S510 139.76999999999998 510 230S373.3 320 326 320 234.42000000000002 349.7 188 350C95.1 350 50 319.15 50 260S96 199.7 96 140 141.12 50 234 50z"/>
     </svg>
-
-    <video class="img" src="assets/videos/minions.mp4" alt="" autoplay loop style="display: none"></video>
+    <!-- <video class="img" src="assets/videos/minions.mp4" alt="" autoplay></video> -->
     
-    
-    <div class="container">
+    <div class="container homeView">
+        <video class="img" src="assets/videos/minions.mp4" alt="" autoplay loop style="display: none"></video>
       <div class="track">
           <!-- <svg class="track__waves">
               <use xlink:href="assets/images/homepage/waves.svg#waves"></use>
@@ -81,6 +80,8 @@
         </div>
       </div>
     </div>
+
+    <div class="newView">HelloWorld</div>
     
     <div class="loader">
       <div class="loader__block loader__block--1"></div>
@@ -89,6 +90,9 @@
       <div class="loader__block loader__block--4"></div>
       <div class="loader__box"></div>
     </div>
+
+    <!-- <img class="img" src="assets/test.png" alt=""> -->
+    <!-- <div class="waves"></div> -->
 
     <audio class="note" src="assets/sounds/do-majeur.m4a"></audio>
     <audio class="note" src="assets/sounds/la-mineur.m4a"></audio>
@@ -103,6 +107,7 @@
     <!--build:js scripts/main.min.js -->
     <script src="scripts/jelly.js"></script>
     <script src="scripts/DOMLoader.js"></script>
+    <script src="scripts/ViewsTransition.js"></script>
     <script src="scripts/OrganicButton.js"></script>
     <script src="scripts/WavesCanvas.js"></script>
     <script src="scripts/DrumKit.js"></script>

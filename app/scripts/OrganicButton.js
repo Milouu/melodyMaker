@@ -61,7 +61,7 @@ class organicButton
 
         setTimeout(() => 
         {
-            !mouseUp ? console.log('launch') : console.log('dontLaunch')
+            !mouseUp ? new ViewsTransition('container', 'newView', 'transitionOut', 'transitionIn', new MusicalCanvas()) : console.log('dontLaunch')
         }, 1000)
     }
 }

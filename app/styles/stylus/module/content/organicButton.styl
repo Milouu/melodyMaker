@@ -1,0 +1,113 @@
+.startSentence
+    position absolute
+    top 90px
+    height 50px
+    width 220px
+    font-family 'Helvetica'
+    font-size: 24px
+    color #5469FE
+    font-weight bold
+    mix-blend-mode difference
+    user-select none
+
+.hoverButton
+    display flex
+    flex-direction column
+    position relative
+    width: 400px
+    height: 400px
+    align-self center
+    justify-self center
+    align-items center
+    justify-content center 
+    // grid-column-start 4
+    grid-row-start 4
+    border-radius 50%
+
+.hoverButton__base
+    // position: absolute;
+    display flex
+    align-items center
+    justify-content center
+    background-color #ffffff
+    width 104px
+    height 104px
+    box-shadow 0px 2px 80px 0px rgba(84, 105, 256, 0.06), 0px 10px 20px 0px rgba(0, 0, 0, 0.06)
+    border-radius 50%
+    cursor pointer
+    transition transform 150ms ease, background-color 2s ease
+    overflow hidden
+    z-index 10
+
+.hoverButton__base:hover
+    transform scale(1.1)
+
+
+.hoverButton__container
+    display flex
+    align-items center
+    justify-content center
+
+
+.hoverButton__expendContainer
+    width 120px
+    height 120px
+    position absolute
+    display flex
+    justify-content center
+    align-items center
+
+
+.hoverButton__background
+
+    width 400px
+    height 400px
+    position absolute
+    pointer-events none
+    background-color #5469FE
+    box-sizing border-box
+    border-radius 50%
+    // opacity: 0.1;
+    opacity 0.25
+    transform scale(0)
+    transition transform 300ms ease, opacity 300ms ease
+    z-index 0
+
+.hoverButton__background--climb
+    animation climb 0.3s cubic-bezier(0.8, 0.41, 0.31, 0.84) forwards
+    // transform: scale(1);
+    // opacity: 0;
+
+.hoverButton__base:hover 
+    transform scale(1.1)
+
+@keyframes climb
+{
+    0%
+    {
+        transform: scale(0.25);
+        opacity: 0.1
+    }
+    100%
+    {
+        transform: scale(1);
+        opacity: 0
+    }
+}
+
+.svg
+    width 54px
+    height 54px
+    stroke #5469FE
+    stroke-width: 5px
+    fill none
+    stroke-dasharray 192px
+    stroke-dashoffset 384px
+    transform rotate(-90deg)
+    transition transform 150ms ease, stroke-dashoffset 1s ease
+
+.hoverButton__base:active .svg
+    stroke-dashoffset 230px
+
+.hoverButton__base:hover .svg
+    transform rotate(-90deg) scale(2)

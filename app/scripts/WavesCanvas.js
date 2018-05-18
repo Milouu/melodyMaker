@@ -17,14 +17,16 @@ class WavesCanvas
         // Set canvas dimensions
         this.$canvas.width = this.$parent.offsetWidth
         this.$canvas.height = this.$parent.offsetHeight
+        this.$canvas.style.transform = `scale(${window.innerWidth * 0.0007})`
 
         // Add canvas at parent
         this.$parent.appendChild(this.$canvas)
 
         // Resize
         window.addEventListener('resize', () => {
-            this.$canvas.width = this.$parent.offsetWidth
-            this.$canvas.height = this.$parent.offsetHeight
+            window.innerWidth >= 760 ? this.$canvas.style.transform = `scale(${window.innerWidth * 0.0007})` : false
+            console.log(window.innerWidth * 0.0007)
+            // this.$canvas.height = this.$parent.offsetHeight
         })
 
         this.draw()

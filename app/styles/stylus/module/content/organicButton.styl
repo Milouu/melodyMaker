@@ -7,7 +7,6 @@
     font-size: 24px
     color #5469FE
     font-weight bold
-    mix-blend-mode difference
     user-select none
 
 .hoverButton
@@ -20,7 +19,7 @@
     justify-self center
     align-items center
     justify-content center 
-    // grid-column-start 4
+    grid-column-start 5
     grid-row-start 4
     border-radius 50%
 
@@ -29,7 +28,7 @@
     display flex
     align-items center
     justify-content center
-    background-color #ffffff
+    background-color $white
     width 104px
     height 104px
     box-shadow 0px 2px 80px 0px rgba(84, 105, 256, 0.06), 0px 10px 20px 0px rgba(0, 0, 0, 0.06)
@@ -50,12 +49,18 @@
 
 
 .hoverButton__expendContainer
-    width 120px
-    height 120px
+    width 400px
+    height 400px
     position absolute
+    pointer-events none
     display flex
     justify-content center
     align-items center
+    border-radius 50%
+    opacity 1
+
+.hoverButton:hover .hoverButton__expendContainer
+    animation none
 
 
 .hoverButton__background
@@ -103,7 +108,7 @@
     fill none
     stroke-dasharray 192px
     stroke-dashoffset 384px
-    transform rotate(-90deg)
+    transform rotate(-90deg) scale(1)
     transition transform 150ms ease, stroke-dashoffset 1s ease
 
 .hoverButton__base:active .svg
@@ -111,3 +116,17 @@
 
 .hoverButton__base:hover .svg
     transform rotate(-90deg) scale(2)
+
+.hoverButton__base:hover .hoverButton__begin
+    opacity 1
+    transform scale(1)
+
+.hoverButton__begin
+    position absolute
+    font-family 'Roboto'
+    font-weight bold
+    color $blue
+    opacity 0
+    transform scale(0.8)
+    transition opacity 150ms ease, transform 150ms ease
+    user-select none

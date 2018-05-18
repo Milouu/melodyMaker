@@ -10,20 +10,17 @@ class organicButton
         this.active = activeClass
 
         this.mouse = { x: 0, y: 0 }
-        // console.log(this.$hitbox.offsetTop)
 
         this.$hitbox.addEventListener('mousemove', this.setMouse.bind(this))
         this.$hitbox.addEventListener('mouseenter', this.buttonLeech.bind(this))
         this.$hitbox.addEventListener('mouseleave', this.buttonReset.bind(this))
         this.$button.addEventListener('mousedown', this.toggleClass.bind(this))
+        this.$button.addEventListener('mousedown', this.buttonAction.bind(this))
     }
     setMouse(event)
     {
-        // this.mouse.x = event.clientX / window.innerWidth - 0.5
         this.mouse.x = (event.clientX - this.$hitbox.offsetLeft) / this.$hitbox.offsetWidth - 0.5
         this.mouse.y = (event.clientY - this.$hitbox.offsetTop) / this.$hitbox.offsetHeight - 0.5
-        // console.log(this.mouse.y)
-
     }
     buttonLeech()
     {
@@ -36,34 +33,36 @@ class organicButton
         cancelAnimationFrame(this.loop)
         this.$button.style.transition = 'transform 500ms ease'
         this.$button.style.transform = `translateX(0px) translateY(0px)`
+        
     }
     toggleClass()
     {
+        console.log('toggle')
         this.$expenders = []
 
         this.$expender = document.createElement('div')
         this.$expender.classList.add(this.$expend)
         this.$expender.classList.add(this.active)
-        // setTimeout(() => 
-        // {
-        //     this.$expender.classList.add(this.active)
-        // }, 10)
-        // this.$expender.animate(
-        // {
-        //     opacity: [ 0.2, 0 ], // [ from, to ]
-        //     transform:   [ `translateX(${ this.mouse.x * 100 }px) translateY(${ this.mouse.y * 100 }px) scale(0)`, `translateX(${ this.mouse.x * 100 }px) translateY(${ this.mouse.y * 100 }px) scale(1)` ] // [ from, to ]
-        // }, 
-        // { duration: 400, fill:'forwards'})
-        
-        // this.$expender.style.transform = `translateX(${ this.mouse.x * 100 }px) translateY(${ this.mouse.y * 100 }px) scale(1)`
-        // this.$expender.style.transition = 'transform 300ms ease, opacity 300ms ease'
-        // this.$expender.style.opacity = '0.2'
 
         this.$expendContainer.appendChild(this.$expender)
 
         this.$expenders.push(this.$expender)
         
         for(const $expender of this.$expenders){ setTimeout(() => { $expender.remove() }, 80000) }
+    }
+    buttonAction()
+    {
+        let mouseUp = false
+
+        window.addEventListener('mouseup', () => 
+        {
+            mouseUp = true
+        })
+
+        setTimeout(() => 
+        {
+            !mouseUp ? console.log('launch') : console.log('dontLaunch')
+        }, 1000)
     }
 }
 

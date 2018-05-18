@@ -20,40 +20,40 @@
 
     <video class="img" src="assets/videos/minions.mp4" alt="" autoplay loop style="display: none"></video>
     
-    <div class="track">
-        <svg class="track__waves">
-            <use xlink:href="assets/images/homepage/waves.svg#waves"></use>
-        </svg>
-    </div>
-
-    <div class="loop">
-        <svg class="loop__arrows">
-            <use class="loop__use" xlink:href="assets/images/homepage/loop.svg#loop"></use>
-        </svg>
-    </div>
-
-    <div class="drum">
-      <img class="drum__icon lazyload" src="assets/images/homepage/drum.png" alt="">
-    </div>
-
+    
     <div class="container">
+      <div class="track">
+          <svg class="track__waves">
+              <use xlink:href="assets/images/homepage/waves.svg#waves"></use>
+          </svg>
+      </div>
+  
+      <div class="loop">
+          <svg class="loop__arrows">
+              <use class="loop__use" xlink:href="assets/images/homepage/loop.svg#loop"></use>
+          </svg>
+      </div>
+      <div class="drum">
+        <img class="drum__icon lazyload" src="assets/images/homepage/drum.png" alt="">
+      </div>
       <header class="header column--12">
         <div class="header__title column--2">
-          <h1>Melody Maker</h1>
+          <h1 class="header__text">Melody Maker</h1>
         </div>
-        <div class="header__menu column--2">
+        <!-- <div class="header__menu column--2">
           <div class="header__signUp">
             <p>SignUp</p>
           </div>
           <div class="header__signIn">
             <p>SignIn</p>
           </div>
-        </div>
+        </div> -->
       </header>
+  
       
       <div class="content column--12">
         <div class="content__text column--4">
-          <div class="content__title column--4 column__large--3">
+          <div class="content__title column--4">
             <h2>Move it</h2>
           </div>
           <div class="content__description column--4">
@@ -65,23 +65,21 @@
         </div>
       </div>
 
-      <div class="hoverButton column--12">
-        <div class="startSentence">Begin your melody</div>
+      <div class="hoverButton column--4">
+        <!-- <div class="startSentence">Begin your melody</div> -->
         <div class="hoverButton__container">
           <div class="hoverButton__expendContainer"></div>
+          <div class="hoverButton__background hoverButton__expend--loop"></div>
           <div class="hoverButton__base">
               <svg class="svg">
                   <use xlink:href="assets/images/homepage/organicButtonRing.svg#buttonRing"></use>
               </svg>
+              <div class="hoverButton__begin">Begin</div>
           </div> 
         </div>
       </div>
-      <!-- <button class="button column--4">Begin your melody</button> -->
     </div>
-
-    <!-- <div class="loader">
-      <div class="loader__block"></div>
-    </div> -->
+    
     <div class="loader">
       <div class="loader__block loader__block--1"></div>
       <div class="loader__block loader__block--2"></div>

@@ -6,10 +6,10 @@ class MusicalCanvas
 
 		this.canvas = this.setCanvasVideo(this.video, 120, 67.5)
 		this.context = this.canvas.getContext('2d')
-		this.canvas.style = 'display: none;'
+		// this.canvas.style.display = 'none'
 
-		this.expositionCanvas = this.setCanvasVideo(this.video, 960, 540)
-		this.expositionContext = this.expositionCanvas.getContext('2d')
+		// this.expositionCanvas = this.setCanvasVideo(this.video, 960, 540)
+		// this.expositionContext = this.expositionCanvas.getContext('2d')
 
 		this.position = { x: 0, y: 0 }
 		this.pickedColor
@@ -29,7 +29,8 @@ class MusicalCanvas
 		this.secondHitboxPosition = {}
 
 		this.video.addEventListener('play', this.draw())
-		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX, event.clientY))
+		this.video.addEventListener('click', (event) => this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop))
+		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop))
 		window.addEventListener('keydown', (event) => this.runColorTracker(event))
 
 		// window.addEventListener('resize', this.canvasResize())
@@ -86,7 +87,7 @@ class MusicalCanvas
 
 		$body.appendChild($canvas)
 		
-		video.style.display = 'none'
+		// video.style.display = 'none'
         
 		return $canvas
 	}
@@ -107,6 +108,8 @@ class MusicalCanvas
 			
 			this.clearCanvas()
 			this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
+			// this.drawExpoCanvas()
+			
 			
 			if(this.pickedColor)
 			{
@@ -115,9 +118,15 @@ class MusicalCanvas
 		}
 	}
 
+	drawExpoCanvas()
+	{
+		this.expositionContext.drawImage(this.canvas, 0, 0, this.expositionCanvas.offsetWidth, this.expositionCanvas.offsetHeight)
+	}
+
 	clearCanvas() 
 	{
 		this.context.clearRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
+		// this.expositionContext.clearRect(0, 0, this.expositionCanvas.offsetWidth, this.expositionCanvas.offsetHeight)
 	}
 
 	getImageData()
@@ -135,7 +144,48 @@ class MusicalCanvas
 			h : hslPickedColor[0],
 			l : hslPickedColor[2]
 		}
-        
+		
+		// Create div showing what color has been picked 
+		const $body = document.querySelector('body')
+		const $colorDiv = document.createElement('div')
+		$colorDiv.style.display = 'inline-block'
+		$colorDiv.style.width = '20px'
+		$colorDiv.style.height = '20px'
+		$colorDiv.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
+		// $colorDiv.style.background = 'red'
+
+		$body.appendChild($colorDiv)
+
+		console.log(this.pickedColor)
+	}
+
+	pickColorFromDisplay(x, y)
+	{
+		const data = this.getImageData()
+		const newX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
+		const newY = Math.floor(y/(this.video.offsetHeight / this.canvas.offsetHeight))
+		const clickedPixelIndex = ((this.canvas.offsetWidth * 4) * newY) + (newX * 4)
+		console.log('x: ' + newX)
+		console.log('y: ' + newY)
+
+		
+		const hslPickedColor = this.rgbToHsl(data[clickedPixelIndex], data[clickedPixelIndex + 1], data[clickedPixelIndex + 2])
+		this.pickedColor = {
+			h : hslPickedColor[0],
+			l : hslPickedColor[2]
+		}
+		
+		// Create div showing what color has been picked 
+		const $body = document.querySelector('body')
+		const $colorDiv = document.createElement('div')
+		$colorDiv.style.display = 'inline-block'
+		$colorDiv.style.width = '20px'
+		$colorDiv.style.height = '20px'
+		$colorDiv.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
+		// $colorDiv.style.background = 'red'
+
+		$body.appendChild($colorDiv)
+
 		console.log(this.pickedColor)
 	}
 

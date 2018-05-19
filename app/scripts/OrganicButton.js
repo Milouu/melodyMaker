@@ -61,7 +61,7 @@ class organicButton
 
         setTimeout(() => 
         {
-            !mouseUp ? new ViewsTransition('container', 'newView', 'transitionOut', 'transitionIn', new MusicalCanvas()) : console.log('dontLaunch')
+        !mouseUp ? new ViewsTransition('homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate'], 'transitionIn', /*new MusicalCanvas()*/) : console.log('dontLaunch')
         }, 1000)
     }
 }

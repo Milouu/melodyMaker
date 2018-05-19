@@ -30,6 +30,8 @@ class MusicalCanvas
 
 		this.video.addEventListener('play', this.draw())
 		this.video.addEventListener('click', (event) => this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop))
+		// this.video.addEventListener('load', this.drawCalibration())
+		
 		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop))
 		window.addEventListener('keydown', (event) => this.runColorTracker(event))
 
@@ -66,7 +68,7 @@ class MusicalCanvas
 		else 
 		{
 			window.alert('getUserMedia not supported')
-		}
+		}	
 
 		return $video
 	}
@@ -88,7 +90,7 @@ class MusicalCanvas
 		$body.appendChild($canvas)
 		
 		// video.style.display = 'none'
-        
+		
 		return $canvas
 	}
 
@@ -187,6 +189,59 @@ class MusicalCanvas
 		$body.appendChild($colorDiv)
 
 		console.log(this.pickedColor)
+	}
+
+	drawCalibration()
+	{
+		const $body = document.querySelector('body')
+		const calibrationCanvas = document.createElement('canvas')
+		const calibrationContext = calibrationCanvas.getContext('2d')
+
+		this.video.style.position = 'relative'
+		calibrationCanvas.style.position = 'absolute'
+		calibrationCanvas.style.pointerEvents = 'none'
+		calibrationCanvas.style.top = '0'
+		calibrationCanvas.style.left = '0'
+		calibrationCanvas.width = this.video.offsetWidth
+		calibrationCanvas.height = this.video.offsetHeight
+
+		const calibrationStartHeight = calibrationCanvas.height / 4
+		const calibrationEndHeight = (calibrationCanvas.height / 4) * 3
+		const calibrationStartWidth = calibrationCanvas.width / 4
+		const calibrationEndWidth = (calibrationCanvas.width / 4) * 3
+
+		const circleSize = 25
+
+
+		calibrationContext.beginPath()
+		calibrationContext.arc(calibrationStartWidth, calibrationStartHeight, circleSize, 0, 2 * Math.PI, false)
+		calibrationContext.lineWidth = 5
+		calibrationContext.strokeStyle = 'blue'
+		calibrationContext.stroke()
+		calibrationContext.closePath()
+		
+		calibrationContext.beginPath()
+		calibrationContext.arc( calibrationEndWidth, calibrationStartHeight, circleSize, 0, 2 * Math.PI, false)
+		calibrationContext.lineWidth = 5
+		calibrationContext.strokeStyle = 'blue'
+		calibrationContext.stroke()
+		calibrationContext.closePath()
+
+		calibrationContext.beginPath()
+		calibrationContext.arc(calibrationStartWidth, calibrationEndHeight, circleSize, 0, 2 * Math.PI, false)
+		calibrationContext.lineWidth = 5
+		calibrationContext.strokeStyle = 'blue'
+		calibrationContext.stroke()
+		calibrationContext.closePath()
+
+		calibrationContext.beginPath()
+		calibrationContext.arc(calibrationEndWidth, calibrationEndHeight, circleSize, 0, 2 * Math.PI, false)
+		calibrationContext.lineWidth = 5
+		calibrationContext.strokeStyle = 'blue'
+		calibrationContext.stroke()
+		calibrationContext.closePath()
+
+		$body.appendChild(calibrationCanvas)
 	}
 
 	rgbToHsl(r, g, b)

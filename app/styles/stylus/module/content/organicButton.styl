@@ -86,6 +86,26 @@
 .hoverButton__base:hover 
     transform scale(1.1)
 
+.hoverButton__climb
+    width 300px
+    height 300px
+    pointer-events none
+    border-radius 50%
+    background-color $blue
+
+    animation climb 3s cubic-bezier(0.8, 0.41, 0.31, 0.84) forwards infinite
+    transition opacity 1s ease
+
+.hoverButton__climbContainer
+    position absolute
+    opacity 1
+    transition opacity 1s ease
+    pointer-events none
+
+.hoverButton__container:hover .hoverButton__climbContainer
+    opacity 0
+    
+
 @keyframes climb
 {
     0%

@@ -4,8 +4,12 @@ class MusicalCanvas
 	{
 		this.video = this.setWebcam()
 
-		this.canvas = this.setCanvasVideo(this.video)
+		this.canvas = this.setCanvasVideo(this.video, 120, 67.5)
 		this.context = this.canvas.getContext('2d')
+		this.canvas.style = 'display: none;'
+
+		this.expositionCanvas = this.setCanvasVideo(this.video, 960, 540)
+		this.expositionContext = this.expositionCanvas.getContext('2d')
 
 		this.position = { x: 0, y: 0 }
 		this.pickedColor
@@ -18,6 +22,11 @@ class MusicalCanvas
 		this.then = Date.now()
 		this.interval = 1000/this.fps
 		this.delta
+
+		this.hitboxNumber = 0
+		this.hitboxSize = 20
+		this.mainHitboxPosition = {}
+		this.secondHitboxPosition = {}
 
 		this.video.addEventListener('play', this.draw())
 		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX, event.clientY))
@@ -61,15 +70,19 @@ class MusicalCanvas
 		return $video
 	}
     
-	setCanvasVideo(video)
+	setCanvasVideo(video, width, height)
 	{
 		const $body = document.querySelector('body')
 		const $canvas = document.createElement('canvas')
 
-		$canvas.width = 480
-		// $canvas.width = 240
-		$canvas.height = 270
-		// $canvas.height = 135
+		// $canvas.width = 480
+		// $canvas.height = 270
+
+		// $canvas.width = 120
+		// $canvas.height = 67.5
+
+		$canvas.width = width
+		$canvas.height = height
 
 		$body.appendChild($canvas)
 		
@@ -156,12 +169,10 @@ class MusicalCanvas
     
 	findColor() 
 	{
-		const hitbox = []
 		this.trackedPixels = []
 
 		const data = this.getImageData() 
 		this.trackedPixels = []
-		// let halfcounter = 0
 
 		for (let i = 0; i < data.length; i += 8) 
 		{
@@ -173,37 +184,27 @@ class MusicalCanvas
 				this.position.x = Math.floor((i % (this.canvas.offsetWidth * 4)) / 4)
 				this.position.y = Math.floor(i / (this.canvas.offsetWidth * 4))
 
-				// if (halfcounter % 2 == 0)
-				// {
 				this.trackedPixels.push(i/4)
-				// }
+		
 
-				// this.context.clearRect(this.position.x, this.position.y, 1, 1)
-				// halfcounter++
+				// this.context.clearRect(this.position.x, this.position.y, 1, 1
 			}
 		}
-		// this.hitboxesCalculator()
-		// this.drawHitboxes(this.hitboxesCalculator())
-		this.drawMainHitbox(this.hitboxesCalculator())
-
-		// requestAnimationFrame(this.findColor.bind(this))
+		
+		if(this.hitboxNumber === 1)
+		{
+			this.drawMainHitbox(this.hitboxesCalculator())
+		}
+		else if(this.hitboxNumber === 2)
+		{
+			this.drawDoubleHitboxes(this.hitboxesCalculator())
+		}
 	}
 
 	colorInterval(h, l)
 	{
 		const hInterval = 0.03
 		return 	(h > this.pickedColor.h - hInterval && h < this.pickedColor.h + hInterval) && (l > 0.3 && l < 0.6)
-	}
-
-	drawHitboxes(hitboxes)
-	{
-		for(let i = 0; i < hitboxes.length; i++)
-		{
-			if(hitboxes[i].length > 800)
-			{
-				this.context.clearRect(hitboxes[i][hitboxes[i].length/2] % this.canvas.offsetWidth, hitboxes[i][hitboxes[i].length/2] / this.canvas.offsetWidth, 50, 50)
-			}
-		}
 	}
 
 	drawMainHitbox(hitboxes)
@@ -255,19 +256,143 @@ class MusicalCanvas
 				}
 			}
 	
-			this.context.clearRect(min.x, min.y, 1, 10)
-			this.context.clearRect(min.x, min.y, 10, 1)
+			if(hitboxes[biggest].length > this.hitboxSize)
+			{
+				this.drawHitbox(min, max)
+				
+				this.mainHitboxPosition.x = max.x - ((max.x - min.x) / 2)
+				this.mainHitboxPosition.y = max.y - ((max.y - min.y)/2)
+			}
+			// else
+			// {
+			// 	this.mainHitboxPosition.x = 0
+			// 	this.mainHitboxPosition.y = 0
+			// }
 
-			this.context.clearRect(min.x, max.y, 1, -10)
-			this.context.clearRect(min.x, max.y, 10, 1)
-
-			this.context.clearRect(max.x, min.y, 1, 10)
-			this.context.clearRect(max.x, min.y, -10, 1)
-			
-			this.context.clearRect(max.x, max.y, 1, -10)
-			this.context.clearRect(max.x, max.y, -10, 1)
 		}
 	}
+	
+	drawDoubleHitboxes(hitboxes)
+	{
+		if(hitboxes.length > 0)
+		{
+			let biggest = 0
+			let biggish = 0
+	
+			for(let i = 1; i < hitboxes.length; i++)
+			{
+				if(hitboxes[i].length > hitboxes[biggish].length)
+				{
+					if(hitboxes[i].length > hitboxes[biggest].length)
+					{
+						biggish = biggest
+						biggest = i
+					}
+					else
+					{
+						biggish = i
+					}
+				}
+			}
+
+			let minBiggest = this.getMinHitbox(hitboxes, biggest)
+			let maxBiggest = this.getMaxHitbox(hitboxes, biggest)
+
+			let minBiggish = this.getMinHitbox(hitboxes, biggish)
+			let maxBiggish = this.getMaxHitbox(hitboxes, biggish)
+	
+			if(hitboxes[biggest].length > this.hitboxSize)
+			{
+				if(biggest !== 0)
+				{
+					if(hitboxes[biggish].length > this.hitboxSize)
+					{
+						this.drawHitbox(minBiggish, maxBiggish)
+						
+						this.secondHitboxPosition.x = maxBiggish.x - ((maxBiggish.x - minBiggish.x) / 2)
+						this.secondHitboxPosition.y = maxBiggish.y - ((maxBiggish.y - minBiggish.y)/2)
+					}
+				}
+				
+				this.drawHitbox(minBiggest, maxBiggest)
+				
+				this.mainHitboxPosition.x = maxBiggest.x - ((maxBiggest.x - minBiggest.x) / 2)
+				this.mainHitboxPosition.y = maxBiggest.y - ((maxBiggest.y - minBiggest.y)/2)
+			}
+		}
+	}	
+
+	drawHitbox(min, max)
+	{
+		this.context.clearRect(min.x, min.y, 1, 10)
+		this.context.clearRect(min.x, min.y, 10, 1)
+
+		this.context.clearRect(min.x, max.y, 1, -10)
+		this.context.clearRect(min.x, max.y, 10, 1)
+
+		this.context.clearRect(max.x, min.y, 1, 10)
+		this.context.clearRect(max.x, min.y, -10, 1)
+		
+		this.context.clearRect(max.x, max.y, 1, -10)
+		this.context.clearRect(max.x, max.y, -10, 1)
+	}
+
+	getMinHitbox(hitboxes, hitbox)
+	{
+		let min = {
+			x: hitboxes[hitbox][0] % this.canvas.offsetWidth,
+			y: hitboxes[hitbox][0] / this.canvas.offsetWidth
+		}
+
+		for(let j = 1; j < hitboxes[hitbox].length; j++)
+		{
+			let current = {
+				x: hitboxes[hitbox][j] % this.canvas.offsetWidth,
+				y: hitboxes[hitbox][j] / this.canvas.offsetWidth
+			}
+
+			if(current.x < min.x)
+			{
+				min.x = current.x
+			}
+			if(current.y < min.y)
+			{
+				min.y = current.y
+			}
+		}
+
+		return min
+	}
+
+	getMaxHitbox(hitboxes, hitbox)
+	{
+		let max = {
+			x: hitboxes[hitbox][0] % this.canvas.offsetWidth,
+			y: hitboxes[hitbox][0] / this.canvas.offsetWidth
+		}
+
+		for(let j = 1; j < hitboxes[hitbox].length; j++)
+		{
+			let current = {
+				x: hitboxes[hitbox][j] % this.canvas.offsetWidth,
+				y: hitboxes[hitbox][j] / this.canvas.offsetWidth
+			}
+
+			if(current.x > max.x)
+			{
+				max.x = current.x
+			}
+			if(current.y > max.y)
+			{
+				max.y = current.y
+			}
+		}
+
+		return max
+	}
+
+
+
 
 	latency()
 	{

@@ -1,17 +1,34 @@
-class Oscillator
+class Oscillator extends MusicalCanvas
 {
-	constructor(trackingColor)
+	constructor()
 	{
-		this.context = new AudioContext()
-		this.oscillator = this.context.createOscillator()
+		super()
+		
+		this.audioContext = new AudioContext()
+		this.oscillator = this.audioContext.createOscillator()
 
-		this.gain = this.context.createGain()
+		this.oscillatorGain = this.audioContext.createGain()
 
 		this.oscillator.frequency.value = 440
-		this.gain.gain.value = 0.6
+		this.oscillatorGain.gain.value = 0.6
 
-		this.oscillator.connect(this.gain)
-		this.gain.connect(this.context.destination)
+		this.oscillator.connect(this.oscillatorGain)
+		this.oscillatorGain.connect(this.audioContext.destination)
+
+		this.launch()
+	}
+
+	launch()
+	{
+		if(this.pickedColor)
+		{
+			cancelAnimationFrame(this.loop)
+			this.play()
+			this.update()
+			return false
+		}
+
+		this.loop = requestAnimationFrame(this.launch.bind(this))
 	}
 
 	play()
@@ -21,8 +38,9 @@ class Oscillator
 
 	update()
 	{
-		this.oscillator.frequency.value = trackingColor.y
-		this.gain.gain.value = trackingColor.x / window.innerWidth
+		// console.log(Math.floor(this.mainHitboxPosition.y))
+		this.oscillator.frequency.value = Math.floor((((this.mainHitboxPosition.y) / this.canvas.offsetHeight) * 500) + 100)
+		this.oscillatorGain.gain.value = this.mainHitboxPosition.x / this.canvas.offsetWidth
 		
 		requestAnimationFrame(this.update.bind(this))
 	}

@@ -10,19 +10,76 @@
   
     <!--endbuild-->
   </head>
-  <body>
+  <body class="home">
+
     <!-- <img class="grid" src="assets/images/grid.png" alt=""> -->
     <!-- <img class="baseline" src="assets/images/baseline.png" alt=""> -->
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="560" height="400" style="display: none">
       <path id="jelly" class="jelly-path" d="M234 50C326.88 50 326 79.43 372 110S510 139.76999999999998 510 230S373.3 320 326 320 234.42000000000002 349.7 188 350C95.1 350 50 319.15 50 260S96 199.7 96 140 141.12 50 234 50z"/>
     </svg>
     <!-- <video class="img" src="assets/videos/minions.mp4" alt="" autoplay></video> -->
-
     
+    <div class="container homeView">
+        <video class="img" src="assets/videos/minions.mp4" alt="" autoplay loop style="display: none"></video>
+      <div class="track homeView">
+          <img class="track__waves lazyload" src="assets/images/homepage/track.png" alt="track">
+      </div>
+  
+      <div class="loop homeView">
+          <img class="loop__arrows lazyload" src="assets/images/homepage/loop.png" alt="track">
+      </div>
+      <div class="drum homeView">
+        <img class="drum__icon lazyload" src="assets/images/homepage/drum.png" alt="">
+      </div>
+      <header class="header column--12">
+        <div class="header__title column--2 homeView">
+          <h1 class="header__text">Melody Maker</h1>
+        </div>
+      </header>
+  
+      
+      <div class="content column--12">
+        <div class="content__text column--4">
+          <div class="content__title column--4">
+            <h2>Move it</h2>
+          </div>
+          <div class="content__description column--4">
+            <p class="content__p">Create your own melody with your own movements. Found a colored object and let’s go !</p>
+          </div>
+        </div>
+        <div class="content__preview column--4">
+          <div class="content__jelly"></div>
+        </div>
+      </div>
 
+      <div class="hoverButton column--4">
+        <div class="hoverButton__container">
+          <div class="hoverButton__climbContainer">
+            <div class="hoverButton__climb"></div>
+          </div>
+          <div class="hoverButton__expendContainer"></div>
+          <div class="hoverButton__background hoverButton__expend--loop"></div>
+          <div class="hoverButton__base">
+              <svg class="svg">
+                  <use xlink:href="assets/images/homepage/organicButtonRing.svg#buttonRing"></use>
+              </svg>
+              <div class="hoverButton__begin">Begin</div>
+          </div> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="loader">
+      <div class="loader__block loader__block--1"></div>
+      <div class="loader__block loader__block--2"></div>
+      <div class="loader__block loader__block--3"></div>
+      <div class="loader__block loader__block--4"></div>
+      <div class="loader__box"></div>
+    </div>
 
     <!-- <img class="img" src="assets/test.png" alt=""> -->
     <!-- <div class="waves"></div> -->
+
     <audio class="note" src="assets/sounds/do-majeur.m4a"></audio>
     <audio class="note" src="assets/sounds/la-mineur.m4a"></audio>
     <audio class="note" src="assets/sounds/mi-mineur.m4a"></audio>
@@ -35,6 +92,9 @@
   
     <!--build:js scripts/main.min.js -->
     <script src="scripts/jelly.js"></script>
+    <script src="scripts/DOMLoader.js"></script>
+    <script src="scripts/ViewsTransition.js"></script>
+    <script src="scripts/OrganicButton.js"></script>
     <script src="scripts/WavesCanvas.js"></script>
     <script src="scripts/MusicalCanvas.js"></script>
     <script src="scripts/DrumKit.js"></script>

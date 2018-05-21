@@ -4,7 +4,7 @@ class DrumKit extends MusicalCanvas
 	{
 		super()
 
-		this.hitboxNumber = 2
+		this.hitboxNumber = 1
 
 		this.playInterval = 5
 

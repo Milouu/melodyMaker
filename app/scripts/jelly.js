@@ -420,7 +420,7 @@
                     if (o.debug) this.drawPoints(p, o);
                 }
             }
-            window.requestAnimationFrame(this.renderJelly.bind(this));
+            this.requestAnimationFrame = window.requestAnimationFrame(this.renderJelly.bind(this));
         },
 
         drawPath: function (p) {
@@ -468,6 +468,10 @@
                 if (this.o[i] && this.o[i].hover) return i;
             }
             return -1;
+        },
+        stop: function () {
+            console.log('STOP')
+            cancelAnimationFrame(this.requestAnimationFrame)
         }
     };
 

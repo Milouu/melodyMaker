@@ -1,0 +1,343 @@
+// .loader
+//     position absolute
+//     left 50%
+//     top 50%
+//     transform  translateX(-50%) translateY(-50%) rotate(0deg)
+//     border 16px solid #F3F3F3
+//     // border-top 16px solid $blue
+//     border-radius 50%
+
+//     width 100px
+//     height 100px
+
+//     background-color $blue
+
+//     animation-name loader
+//     animation-duration 4s
+//     animation-timing-function ease
+//     animation-fill-mode both
+//     animation-iteration-count infinite
+
+//     transition 500ms opacity ease, 500ms visibility ease
+
+//     @keyframes loader {
+//     0% {
+//         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(1)
+//         // background-color $blue
+//         // border-top 16px solid $blue
+//     }
+//     33.33% {
+//         transform translateX(-50%) translateY(-50%) rotate(360deg) scale(0.2)
+//         // background-color $red
+//         // border-top 16px solid $red
+//     }
+//     66.66% {
+//         transform translateX(-50%) translateY(-50%) rotate(720deg) scale(1)
+//         // background-color $green
+//         // border-top 16px solid $green
+//     }
+//     100% {
+//         transform translateX(-50%) translateY(-50%) rotate(1080deg) scale(0.2)
+//         // background-color $yellow
+//         // border-top 16px solid $blue
+//     }
+// }
+
+// .loader
+//     position absolute
+//     left 50%
+//     top 50%
+//     transform  translateX(-50%) translateY(-50%) rotate(0deg)
+//     border 2px solid $blue
+
+//     width 100px
+//     height 100px
+
+//     animation-name loader
+//     animation-duration 2s
+//     animation-timing-function ease
+//     animation-iteration-count infinite
+
+//     transition 500ms opacity ease, 500ms visibility ease
+
+// .loader::before
+//     content ''
+//     position absolute
+//     left 50%
+//     top 50%
+//     transform  translateX(-50%) translateY(-50%)
+//     background-color $white
+//     width 100px
+//     height 60px
+//     z-index -1
+
+// .loader::after
+//     content ''
+//     position absolute
+//     left 50%
+//     top 50%
+//     transform  translateX(-50%) translateY(-50%)
+//     background-color $white
+//     width 60px
+//     height 100px
+//     z-index -1
+
+// .loader__block
+//     width 80px
+//     height 80px
+
+//     position absolute
+//     left 50%
+//     top 50%
+//     transform  translateX(-50%) translateY(-50%)
+
+//     background-color $red
+
+//     animation-name loaderColors
+//     animation-duration 4s
+//     animation-timing-function ease
+//     animation-iteration-count infinite
+
+// @keyframes loader {
+//     0% {
+//         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(1)
+//         // background-color $blue
+//         // border-top 16px solid $blue
+//     }
+//     25% {
+//         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(0.8)
+//         // background-color $red
+//         // border-top 16px solid $red
+//     }
+//     50% {
+//         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(1.1)
+//         // background-color $red
+//         // border-top 16px solid $red
+//     }
+//     75% {
+//         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(0.6)
+//         // background-color $red
+//         // border-top 16px solid $red
+//     }
+//     100% {
+//         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(1)
+//         // background-color $red
+//         // border-top 16px solid $red
+//     }
+// }
+
+@keyframes loaderColors {
+    0% {
+        background-color $blue
+        transform translateX(-50%) translateY(-50%) rotate(0deg) scale(1)
+    }
+    25% {
+        background-color $red
+        transform translateX(-50%) translateY(-50%) rotate(360deg) scale(0.8)
+    }
+    50% {
+        background-color $green
+        transform translateX(-50%) translateY(-50%) rotate(720deg) scale(1.1)
+    }
+    75% {
+        background-color $yellow
+        transform translateX(-50%) translateY(-50%) rotate(1080deg) scale(0.6)
+    }
+    100% {
+        background-color $blue
+        transform translateX(-50%) translateY(-50%) rotate(1440deg) scale(1)
+    }
+}
+
+.loader
+    width 100px
+    height 100px
+    position absolute
+
+    display flex
+    align-items end
+
+    left 50%
+    top 50%
+    transform  translateX(-50%) translateY(-50%) rotate(0deg)
+
+.loader__box
+    width 100px
+    height 100px
+    position absolute
+
+    background-color $blue
+
+    left 50%
+    top 50%
+    transform  translateX(-50%) translateY(-50%) rotate(0deg)
+
+    animation-name loaderColors
+    animation-duration 4s
+    animation-timing-function ease
+    animation-iteration-count infinite
+    
+.loader__block
+    width 20px
+    height 20px
+    // border 2px solid $blue
+    position absolute
+
+.loader__block--1
+    left 0px
+    border-left 2px solid $blue
+    border-top 2px solid $blue
+
+    animation-name loader--1
+    animation-duration 2s
+    animation-timing-function ease
+    animation-iteration-count infinite
+
+.loader__block--2
+    right 0px
+    border-right 2px solid $blue
+    border-top 2px solid $blue
+
+    animation-name loader--2
+    animation-duration 2s
+    animation-timing-function ease
+    animation-iteration-count infinite
+
+.loader__block--3
+    bottom 0px
+    left 0px
+    border-left 2px solid $blue
+    border-bottom 2px solid $blue
+
+    animation-name loader--3
+    animation-duration 2s
+    animation-timing-function ease
+    animation-iteration-count infinite
+
+.loader__block--4
+    bottom 0px
+    right 0px
+    border-right 2px solid $blue
+    border-bottom 2px solid $blue
+
+    animation-name loader--4
+    animation-duration 2s
+    animation-timing-function ease
+    animation-iteration-count infinite
+
+$state--1 = 80%
+$state--2 = -100%
+$state--3 = 40%
+$state--4 = 10%
+
+@keyframes loader--1 {
+    0% {
+        transform translateX(- $state--1) translateY(- $state--1) rotate(0deg)
+        // background-color $blue
+        // border-top 16px solid $blue
+    }
+    25% {
+        transform translateX(- $state--2) translateY(- $state--2) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    50% {
+        transform translateX(- $state--3) translateY(- $state--3) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    75% {
+        transform translateX(- $state--4) translateY(- $state--4) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    100% {
+        transform translateX(- $state--1) translateY(- $state--1) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+}
+
+@keyframes loader--2 {
+    0% {
+        transform translateX( $state--1) translateY(- $state--1) rotate(0deg)
+        // background-color $blue
+        // border-top 16px solid $blue
+    }
+    25% {
+        transform translateX($state--2) translateY(- $state--2) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    50% {
+        transform translateX($state--3) translateY(- $state--3) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    75% {
+        transform translateX($state--4) translateY(- $state--4) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    100% {
+        transform translateX($state--1) translateY(- $state--1) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+}
+
+@keyframes loader--3 {
+    0% {
+        transform translateX(- $state--1) translateY($state--1) rotate(0deg)
+        // background-color $blue
+        // border-top 16px solid $blue
+    }
+    25% {
+        transform translateX(- $state--2) translateY($state--2) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    50% {
+        transform translateX(- $state--3) translateY($state--3) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    75% {
+        transform translateX(- $state--4) translateY($state--4) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    100% {
+        transform translateX(- $state--1) translateY($state--1) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+}
+
+@keyframes loader--4 {
+    0% {
+        transform translateX($state--1) translateY($state--1) rotate(0deg)
+        // background-color $blue
+        // border-top 16px solid $blue
+    }
+    25% {
+        transform translateX($state--2) translateY($state--2) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    50% {
+        transform translateX($state--3) translateY($state--3) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    75% {
+        transform translateX($state--4) translateY($state--4) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+    100% {
+        transform translateX($state--1) translateY($state--1) rotate(0deg)
+        // background-color $red
+        // border-top 16px solid $red
+    }
+}

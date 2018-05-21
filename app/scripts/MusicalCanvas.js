@@ -309,7 +309,7 @@ class MusicalCanvas
 	colorInterval(h, l)
 	{
 		const hInterval = 0.03
-		return 	(h > this.pickedColor.h - hInterval && h < this.pickedColor.h + hInterval) && (l > 0.3 && l < 0.6)
+		return 	(h > this.pickedColor.h - hInterval && h < this.pickedColor.h + hInterval) && (l > 0.3 && l <= 0.7)
 	}
 
 	drawMainHitbox(hitboxes)

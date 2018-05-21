@@ -4,12 +4,19 @@ class DrumKit extends MusicalCanvas
 	{
 		super()
 
-		this.hitboxNumber = 1
+		this.hitboxNumber = 2
 
-		this.playInterval = 20
+		this.playInterval = 5
 
+		this.isUp = [true]
 		// this.mainIsUp = [true]
 		// this.secondIsUp = [true]
+		this.oldMainPos = this.mainHitboxPosition
+
+		this.now2
+		this.then2 = Date.now()
+		this.interval2 = 1000/this.fps
+		this.delta2
 
 		this.snareReady = true 
 		this.hiHatReady = true
@@ -33,13 +40,29 @@ class DrumKit extends MusicalCanvas
 
 	run()
 	{
-		this.checkSnare()
-		this.checkHiHat()
-		this.activateSound(this.mainHitboxPosition)
-		this.activateSound(this.secondHitboxPosition)
-		// this.logs()
-
 		requestAnimationFrame(this.run.bind(this))
+
+		this.now2 = Date.now()
+		this.delta2 = this.now2 - this.then2
+		
+		if (this.delta2 > this.interval2) 
+		{				
+			this.then2 = this.now2 - (this.delta2 % this.interval2)		
+			
+			if(this.hitboxNumber === 1)
+			{
+				// this.activateSoundSolo(this.mainHitboxPosition, this.isUp)
+				this.displacementSoundActivation(this.mainHitboxPosition)
+			}
+			else if(this.hitboxNumber === 2)
+			{
+				this.checkSnare()
+				this.checkHiHat()
+				this.activateSound(this.mainHitboxPosition)
+				this.activateSound(this.secondHitboxPosition)
+				this.logs()
+			}
+		}
 	}
 
 	logs()
@@ -48,6 +71,32 @@ class DrumKit extends MusicalCanvas
 		console.log('Mainpos:' + JSON.stringify(this.mainHitboxPosition))
 		console.log('Secondpos:' + JSON.stringify(this.secondHitboxPosition))
 		// console.log('hiHatReady : ' + this.hiHatReady)
+	}
+
+	displacementSoundActivation(hitboxPos)
+	{
+		const soundInterval = 5
+		if((hitboxPos.y >= this.oldMainPos.y + soundInterval) && (hitboxPos.x >= this.snarePos.x))
+		{
+			if(this.snareReady === true)
+			{
+				this.playSound(this._snare)
+				this.snareReady = false
+			}
+		}
+		else if(hitboxPos.y <= this.oldMainPos.y)
+		{
+			this.snareReady = true
+		}
+
+		if(this.oldMainPos !== hitboxPos)
+		{
+			console.log('old: ' + JSON.stringify(this.oldMainPos))
+			console.log('new: ' + JSON.stringify(hitboxPos))
+			console.log('')
+		}
+
+		this.oldMainPos = hitboxPos
 	}
 
 	checkSnare()
@@ -88,31 +137,31 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
-	// activateSound(hitboxPosition, isUp)
-	// {
-	// 	if(hitboxPosition.x >= this.snarePos.x && hitboxPosition.y >= this.snarePos.y)
-	// 	{
-	// 		if(isUp[0] === true)
-	// 		{
-	// 			isUp[0] = false
+	activateSoundSolo(hitboxPosition, isUp)
+	{
+		if(hitboxPosition.x >= this.snarePos.x && hitboxPosition.y >= this.snarePos.y)
+		{
+			if(isUp[0] === true)
+			{
+				isUp[0] = false
 	
-	// 			this.playSound(this._snare)
-	// 		}
-	// 	}
-	// 	else if(hitboxPosition.x <= this.hiHatPos.x && hitboxPosition.y >= this.hiHatPos.y)
-	// 	{
-	// 		if(isUp[0] === true)
-	// 		{
-	// 			isUp[0] = false
+				this.playSound(this._snare)
+			}
+		}
+		else if(hitboxPosition.x <= this.hiHatPos.x && hitboxPosition.y >= this.hiHatPos.y)
+		{
+			if(isUp[0] === true)
+			{
+				isUp[0] = false
 				
-	// 			this.playSound(this._hiHat)
-	// 		}
-	// 	}
-	// 	else if(hitboxPosition.y <= this.snarePos.y - 10)
-	// 	{
-	// 		isUp[0] = true
-	// 	}
-	// }
+				this.playSound(this._hiHat)
+			}
+		}
+		else if(hitboxPosition.y <= this.snarePos.y - this.playInterval)
+		{
+			isUp[0] = true
+		}
+	}
 
 	playSound(sound)
 	{

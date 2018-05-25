@@ -1,10 +1,11 @@
 class ViewsTransition 
 {
-    constructor(oldDOMView, newDOMView, transitionOutClass, transitionInClass, classInstance = null)
+    constructor(oldDOMView, newDOMView, transitionOutClass, transitionInClass, classInstances = null)
     {
         this.oldDOMView = document.querySelectorAll('.' + oldDOMView)
         this.$body = document.querySelector('body')
-        this.class = classInstance
+        this.classes = classInstances
+        console.log(this.classes)
 
         setTimeout(() => 
         {
@@ -19,17 +20,29 @@ class ViewsTransition
         setTimeout(() => 
         { 
             this.oldDOMView[0].remove() 
-        
-            let view = this.getPage('http://localhost:3000/views/calibration.html', '.calibration', 'body')
 
-            if(view != undefined)
+            let views = this.getPage('views/calibration.html', 'body', 'body')
+
+            // const $currentBody = document.querySelector('body')
+            // console.log($currentBody)
+
+            if(views)
             {
-                view = document.querySelector('.' + newDOMView)
+                views = document.querySelectorAll('.' + newDOMView)
 
                 setTimeout(() => 
                 { 
-                    classInstance == 'MusicalCanvas' ? new MusicalCanvas() : false
-                    view.classList.add(transitionInClass) 
+                    for(let i = 0; i < views.length; i++) 
+                    {
+                        views[i].classList.add(transitionInClass[i]) 
+                    }
+
+                    for(const classInstance of this.classes) 
+                    {
+                        console.log(classInstance)
+                        classInstance == 'MusicalCanvas' ? new DrumKit() : false
+                        classInstance == 'Calibration' ? new Calibration() : false
+                    }
                 }, 10)
             }
         }, 1000)

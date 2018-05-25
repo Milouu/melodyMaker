@@ -14,6 +14,7 @@ class MusicalCanvas
 		this.position = { x: 0, y: 0 }
 		this.pickedColor
 		this.trackedPixels = []
+	
 
 		this.tab = []
 
@@ -41,24 +42,26 @@ class MusicalCanvas
 	setWebcam() 
 	{
 		// Set variables
-		const $body = document.querySelector('body')
+		const $calibrationVideo = document.querySelector('.calibration')
 		const $video = document.createElement('video')
     
 		// Place the video tag at the end of body
-		$body.appendChild($video)
-	
+		$calibrationVideo.appendChild($video)
+		
+		$video.classList.add('calibration__video')
+		
 		// Navigator supports getUserMedia ?
 		if(navigator.mediaDevices.getUserMedia)
 		{
 			console.log(navigator)
 			// Recover only video of webcam
 			navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-				.then(localMediaStream => 
+			.then(localMediaStream => 
 				{
 					// Video tag takes source of webcam and play video
 					$video.srcObject = localMediaStream
 					$video.play()
-                    
+					$video.style.opacity = '1'
 				})
 				.catch(error => 
 				{
@@ -75,7 +78,7 @@ class MusicalCanvas
     
 	setCanvasVideo(video, width, height)
 	{
-		const $body = document.querySelector('body')
+		const $container = document.querySelector('.container')
 		const $canvas = document.createElement('canvas')
 
 		// $canvas.width = 480
@@ -87,7 +90,7 @@ class MusicalCanvas
 		$canvas.width = width
 		$canvas.height = height
 
-		$body.appendChild($canvas)
+		$container.appendChild($canvas)
 		
 		// video.style.display = 'none'
 		

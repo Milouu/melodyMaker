@@ -3,6 +3,8 @@ class organicButton
     constructor(buttonClass, hitboxClass, expendContainer, expendClass, activeClass)
     {
         this.$button = document.querySelector('.' + buttonClass)
+        this.$buttonBase = document.querySelector('.hoverButton__base')
+        this.$buttonAccess = document.querySelector('.hoverButton__access')
         this.$hitbox = document.querySelector('.' + hitboxClass)
         this.$expendContainer = document.querySelector('.' + expendContainer)
         this.$expend = expendClass
@@ -61,8 +63,10 @@ class organicButton
 
         setTimeout(() => 
         {
+            !mouseUp ? this.$buttonBase.classList.add('hoverButton__base--valid') : false
+            !mouseUp ? this.$buttonAccess.classList.add('hoverButton__access--valid') : false
             !mouseUp ? canvas.stop() : false
-            !mouseUp ? new ViewsTransition('homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], 'transitionIn', 'MusicalCanvas') : console.log('dontLaunch')
+            !mouseUp ? new ViewsTransition('homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionIn', 'transitionTitle--display'], ['Calibration', 'MusicalCanvas']) : console.log('dontLaunch')
         }, 1000)
     }
 }

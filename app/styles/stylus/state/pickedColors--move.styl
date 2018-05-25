@@ -1,0 +1,20 @@
+.pickedColors__color--active
+    opacity 1
+    cursor pointer
+
+.pickedColors__color--firstIsSecond
+    transform translateX(calc(100% + 20px))
+    &:hover
+        transform translateX(calc(100% + 20px)) scale(1.05)
+
+.pickedColors__color--secondIsFirst
+    transform translateX(calc(-100% - 20px))
+    &:hover
+        transform translateX(calc(-100% - 20px)) scale(1.05)
+
+.pickedColors__addStick--oneColor
+    transform translateX(calc(-100% - 20px))
+
+.pickedColors__addStick--twoColor
+    opacity 0  
+    pointer-events none

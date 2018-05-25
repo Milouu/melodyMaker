@@ -1,0 +1,116 @@
+.pickedColors
+  grid-column-start 7
+  grid-row-start 3
+  display grid
+  grid-template-columns repeat(4, 1fr)
+  grid-column-gap 20px
+
+  // overflow hidden
+
+  @media screen and (max-width: $tablet-landscape)
+    grid-template-columns repeat(3, 1fr)
+  
+.pickedColors__color
+  display flex
+  flex-direction column
+  justify-content space-between
+  box-shadow 0px 10px 30px 0px rgba(0, 0, 0, 0.06)
+  background #ccc
+  opacity 0
+  will-change opacity, transform
+  overflow hidden
+  transition transform 150ms ease
+  &:hover
+    transform scale(1.05)
+    box-shadow 0px 10px 30px 0px rgba(0, 0, 0, 0.02)
+
+.pickedColors__trashcanContainer
+  display flex 
+  flex-direction row
+  justify-content flex-end
+
+.pickedColors__trashcan
+  // background red
+  height 24px 
+  width 24px 
+  margin 5px 5px
+  cursor pointer
+
+.pickedColors__trashcanIcon
+  width 24px
+  height 24px
+  opacity 0
+  transition opacity 150ms ease
+
+.pickedColors__color:hover .pickedColors__trashcanIcon
+  opacity 0.2
+
+.pickedColors__trashcan:hover .pickedColors__trashcanIcon
+  opacity 0.3
+
+.pickedColors__stickNumber
+  display flex 
+  justify-content center
+  align-items center
+  height 40px
+  font-family aileronBold
+  background #FFF
+  color $black
+  transition transform 150ms ease
+
+.pickedColors__color:hover .pickedColors__stickNumber
+  transform translateY(100%)
+
+.pickedColors__addStick 
+  grid-column-start 3
+  display flex 
+  justify-content center
+  align-items center
+  cursor pointer
+  background #FFF
+  box-shadow 0px 10px 30px 0px rgba(0, 0, 0, 0.06)
+  transform translateX(calc(-200% - 40px))
+  transition transform 0.3s, opacity 0.3s 
+  will-change transform, opacity
+  overflow hidden
+
+.pickedColors__addCross
+  height 40px
+  width 5px
+  background $blue
+  position relative
+
+.pickedColors__addCross::after
+  content ''
+  height 40px
+  width 5px
+  position absolute
+  transform rotate(90deg)
+  background $blue
+
+.pickedColors__hitbox
+  grid-row-start 3
+  grid-column-start 7
+  cursor pointer
+
+.pickedColors__eyeDropperIcon
+  margin-bottom 10px
+  @media screen and (max-width: $tablet-landscape)
+    width 48px
+
+.pickedColors__color:hover .pickedColors__pickAgain
+  opacity 0.2
+
+.pickedColors__pickAgain
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center
+  opacity 0
+
+.pickedColors__sentence
+  font-family 'aileron'
+  font-weight bold
+  font-size 24px
+  @media screen and (max-width: $desktop)
+    font-size 18px

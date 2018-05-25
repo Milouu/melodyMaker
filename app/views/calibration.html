@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,82 @@
     <link rel="stylesheet" href="../styles/css/main.css" />
     <title>Calibration</title>
 </head>
+
 <body>
-    <div class="calibration">
-        <div class="newView">Calibration</div>
-    </div>   
+    <div class="calibrationContainer newView">
+
+        <header class="header column--12">
+            <div class="header__title column--2 homeView">
+                <h1 class="header__text">Melody Maker</h1>
+            </div>
+        </header>
+
+        <div class="calibration column--6 column__medium--8"></div>
+        <div class="transitionTitle newView">Calibration</div>
+
+        <div class="explanations column--3 column__medium--4">
+            <div class="explanations__bar">
+                <div class="explanations__fillBar"></div>
+            </div>
+            <div class="explanations__content">
+                <h2 class="explanations__title">Calibrate your drum stick</h2>
+                <div class="explanations__explanation">
+                    <div class="explanations__numberContainer">
+                        <div class="explanations__number">1</div>
+                    </div>
+                    <p class="explanations__sentence">Eye dropped your colored object on webcam view.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pickedColors column--6">
+            <div class="pickedColors__color column--1">
+                <div class="pickedColors__trashcanContainer">
+                    <div class="pickedColors__trashcan">
+                        <img class="pickedColors__trashcanIcon" src="../assets/images/icons/delete.svg" alt="delete">
+                    </div>
+                </div>
+                <div class="pickedColors__pickAgain">
+                    <img class="pickedColors__eyeDropperIcon" src="../assets/images/icons/eyeDropper.svg" alt="delete">
+                    <p class="pickedColors__sentence">Pick again !</p>
+                </div>
+                <div class="pickedColors__stickNumber">
+                    <p>Drum stick 1</p>
+                </div>
+            </div>
+            <div class="pickedColors__color column--1">
+                <div class="pickedColors__trashcanContainer">
+                    <div class="pickedColors__trashcan">
+                        <img class="pickedColors__trashcanIcon" src="../assets/images/icons/delete.svg" alt="delete">
+                    </div>
+                </div>
+                <div class="pickedColors__pickAgain">
+                    <img class="pickedColors__eyeDropperIcon" src="../assets/images/icons/eyeDropper.svg" alt="delete">
+                    <p class="pickedColors__sentence">Pick again !</p>
+                </div>
+                <div class="pickedColors__stickNumber">
+                    <p>Drum stick 2</p>
+                </div>
+            </div>
+            <div class="pickedColors__addStick column--1">
+                <div class="pickedColors__addCross"></div>
+            </div>
+        </div>
+        <div class="pickedColors__hitbox column--3"></div>
+
+    </div>
+
+    <div class="eyeDropper">
+        <div class="eyeDropper__greyRing">
+            <div class="eyeDropper__coloredRing">
+                <div class="eyeDropper__square"></div>
+            </div>
+        </div>
+    </div>
+
 </body>
-    <script src="../scripts/ViewsTransition.js"></script>
-</html> 
+<script src="../scripts/MusicalCanvas.js"></script>
+<script src="../scripts/DrumKit.js"></script>
+<script src="../scripts/ViewsTransition.js"></script>
+
+</html>

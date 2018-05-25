@@ -15,7 +15,7 @@
     pointer-events none
     display none
 
-.container
+.homeContainer
     height 100vh
     display grid
     // display none
@@ -28,6 +28,21 @@
 
     opacity 0
     transition opacity 500ms ease, transform 500ms ease
+
+.calibrationContainer
+    height 100vh
+    display grid
+    // display none
+
+    grid-template-columns repeat(12, minmax(40px,1fr))
+    // grid-template-columns repeat(2, 1fr) repeat(4, minmax(64px, 1fr)) repeat(4, minmax(100px, 1fr)) repeat(2, 1fr)
+    grid-template-rows 84px 1fr minmax(160px, 200px) 1fr
+    grid-column-gap 20px
+    grid-row-gap 20px
+
+    @media screen and (max-width: $tablet-landscape)
+        grid-template-rows 84px 1fr minmax(180px, 200px) 1fr
+
 
 @keyframes containerEnter {
     from {

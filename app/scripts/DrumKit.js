@@ -4,31 +4,38 @@ class DrumKit extends MusicalCanvas
 	{
 		super()
 
-		this.hitboxNumber = 2
+		// Number of hitboxes being tracked
+		this.hitboxNumber = 1
 
+		// Interval the stick has to travel on his way up from a zone to be able to make a sound again
 		this.playInterval = 5
 
+		// Variables used to control if the sound in a zone can be launched again
 		this.isUp = [true]
 		// this.mainIsUp = [true]
 		// this.secondIsUp = [true]
+		this.snareReady = true 
+		this.hiHatReady = true
 		this.oldMainPos = this.mainHitboxPosition
 
+		// Variables to control requestAnimation Frame Speed
 		this.now2
 		this.then2 = Date.now()
 		this.interval2 = 1000/this.fps
 		this.delta2
 
-		this.snareReady = true 
-		this.hiHatReady = true
 		
+		// DOM Variables
 		this._snare = document.querySelector('.snare')
 		this._hiHat = document.querySelector('.hi-hat')
 
+		// Position of the snare zone 
 		this.snarePos = {
 			x: this.canvas.offsetWidth / 2,
 			y: (this.canvas.offsetHeight / 3) * 2
 		}
 
+		// Position of the hi-hat zone
 		this.hiHatPos = {
 			x: this.canvas.offsetWidth / 2,
 			y: (this.canvas.offsetHeight / 3) * 2
@@ -37,7 +44,7 @@ class DrumKit extends MusicalCanvas
 		this.run()
 	}
 	
-
+	// Launches the correct functions for the sound activation based on the number of hitboxes calculated
 	run()
 	{
 		requestAnimationFrame(this.run.bind(this))
@@ -65,6 +72,7 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
+	// console logs
 	logs()
 	{
 		console.log('snareReady : ' + this.snareReady)
@@ -73,6 +81,7 @@ class DrumKit extends MusicalCanvas
 		// console.log('hiHatReady : ' + this.hiHatReady)
 	}
 
+	// Launch sounds based on the deplacements of the hitbox
 	displacementSoundActivation(hitboxPos)
 	{
 		const soundInterval = 5
@@ -99,6 +108,7 @@ class DrumKit extends MusicalCanvas
 		this.oldMainPos = hitboxPos
 	}
 
+	// Checks that there is no hitbox in the snare zone
 	checkSnare()
 	{
 		if((this.mainHitboxPosition.x < this.snarePos.x - this.playInterval || this.mainHitboxPosition.y < this.snarePos.y - this.playInterval) && (this.secondHitboxPosition.x < this.snarePos.x - this.playInterval || this.secondHitboxPosition.y < this.snarePos.y - this.playInterval))
@@ -107,6 +117,7 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
+	// Checks that there is no hitbox in the hi-hat zone
 	checkHiHat()
 	{
 		if((this.mainHitboxPosition.x > this.hiHatPos.x + this.playInterval || this.mainHitboxPosition.y < this.hiHatPos.y - this.playInterval) && (this.secondHitboxPosition.x > this.hiHatPos.x + this.playInterval || this.secondHitboxPosition.y < this.hiHatPos.y - this.playInterval))
@@ -115,6 +126,7 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
+	// Launch sounds based on the position of the hitbox 
 	activateSound(hitboxPosition)
 	{
 		if(hitboxPosition.x >= this.snarePos.x && hitboxPosition.y >= this.snarePos.y)
@@ -137,6 +149,8 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
+	// Launches sounds based on the position of the hitbox
+	// Works only with one hitbox 
 	activateSoundSolo(hitboxPosition, isUp)
 	{
 		if(hitboxPosition.x >= this.snarePos.x && hitboxPosition.y >= this.snarePos.y)
@@ -163,6 +177,7 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
+	// Plays the sound passed in the parameters
 	playSound(sound)
 	{
 		sound.currentTime = 0

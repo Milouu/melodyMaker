@@ -2,42 +2,48 @@ class MusicalCanvas
 {
 	constructor() 
 	{
+		// Webcam video
 		this.video = this.setWebcam()
 
+		// Canvas variables
 		this.canvas = this.setCanvasVideo(this.video, 120, 67.5)
 		this.context = this.canvas.getContext('2d')
 		// this.canvas.style.display = 'none'
 
-		// this.expositionCanvas = this.setCanvasVideo(this.video, 960, 540)
-		// this.expositionContext = this.expositionCanvas.getContext('2d')
-
+		// Position of a pixel, used to clear rect a tracked pixels, may be obsolete
 		this.position = { x: 0, y: 0 }
+
+		// Color picked with eye dropper
 		this.pickedColor
+
+		// Table containing all the pixels entering in the color interval of the picked color
 		this.trackedPixels = []
 
-		this.tab = []
-
+		// Variables used to control the speed of requestAnimationFrame
 		this.fps = 30
 		this.now
 		this.then = Date.now()
 		this.interval = 1000/this.fps
 		this.delta
 
+		// Number of hitboxes being tracked
 		this.hitboxNumber = 0
+		// Minimum number of pixels needed for a hitbox to be considered as such
 		this.hitboxSize = 20
+
+		// Hitboxes positions 
 		this.mainHitboxPosition = {}
 		this.secondHitboxPosition = {}
 
+		// Event Listeners
 		this.video.addEventListener('play', this.draw())
 		this.video.addEventListener('click', (event) => this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop))
-		// this.video.addEventListener('load', this.drawCalibration())
 		
 		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop))
-		window.addEventListener('keydown', (event) => this.runColorTracker(event))
-
 		// window.addEventListener('resize', this.canvasResize())
 	}
 
+	// Activates video from webcam and returns it
 	setWebcam() 
 	{
 		// Set variables
@@ -50,7 +56,6 @@ class MusicalCanvas
 		// Navigator supports getUserMedia ?
 		if(navigator.mediaDevices.getUserMedia)
 		{
-			console.log(navigator)
 			// Recover only video of webcam
 			navigator.mediaDevices.getUserMedia({ video: true, audio: false })
 				.then(localMediaStream => 
@@ -72,33 +77,25 @@ class MusicalCanvas
 
 		return $video
 	}
-    
+		
+	// Appends a canvas of a given size in body
+	// Useless video passage ???
 	setCanvasVideo(video, width, height)
 	{
 		const $body = document.querySelector('body')
 		const $canvas = document.createElement('canvas')
-
-		// $canvas.width = 480
-		// $canvas.height = 270
-
-		// $canvas.width = 120
-		// $canvas.height = 67.5
 
 		$canvas.width = width
 		$canvas.height = height
 
 		$body.appendChild($canvas)
 		
-		// video.style.display = 'none'
-		
 		return $canvas
 	}
 
+	// Draws the canvas based on the webcam video at 30fps
 	draw()
-	{
-		// this.clearCanvas()
-		// this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
-		
+	{		
 		requestAnimationFrame(this.draw.bind(this))
 		
 		this.now = Date.now()
@@ -110,7 +107,6 @@ class MusicalCanvas
 			
 			this.clearCanvas()
 			this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
-			// this.drawExpoCanvas()
 			
 			
 			if(this.pickedColor)
@@ -120,57 +116,42 @@ class MusicalCanvas
 		}
 	}
 
-	drawExpoCanvas()
-	{
-		this.expositionContext.drawImage(this.canvas, 0, 0, this.expositionCanvas.offsetWidth, this.expositionCanvas.offsetHeight)
-	}
-
+	// Clears canvas
 	clearCanvas() 
 	{
 		this.context.clearRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
-		// this.expositionContext.clearRect(0, 0, this.expositionCanvas.offsetWidth, this.expositionCanvas.offsetHeight)
 	}
 
+	// Returns getImageData results from canvas 
 	getImageData()
 	{
 		return this.context.getImageData(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight).data
 	}
 
+	// Picks a color by clicking on canvas 
 	pickColor(x, y)
 	{
 		const data = this.getImageData()
 		const clickedPixelIndex = ((this.canvas.offsetWidth * 4) * y) + (x * 4)
 		
+		// Converts the rgb color in hsl
 		const hslPickedColor = this.rgbToHsl(data[clickedPixelIndex], data[clickedPixelIndex + 1], data[clickedPixelIndex + 2])
 		this.pickedColor = {
 			h : hslPickedColor[0],
 			l : hslPickedColor[2]
 		}
-		
-		// Create div showing what color has been picked 
-		const $body = document.querySelector('body')
-		const $colorDiv = document.createElement('div')
-		$colorDiv.style.display = 'inline-block'
-		$colorDiv.style.width = '20px'
-		$colorDiv.style.height = '20px'
-		$colorDiv.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
-		// $colorDiv.style.background = 'red'
-
-		$body.appendChild($colorDiv)
 
 		console.log(this.pickedColor)
 	}
 
+	// Picks a color by clicking on webcam video
 	pickColorFromDisplay(x, y)
 	{
 		const data = this.getImageData()
 		const newX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
 		const newY = Math.floor(y/(this.video.offsetHeight / this.canvas.offsetHeight))
 		const clickedPixelIndex = ((this.canvas.offsetWidth * 4) * newY) + (newX * 4)
-		console.log('x: ' + newX)
-		console.log('y: ' + newY)
 
-		
 		const hslPickedColor = this.rgbToHsl(data[clickedPixelIndex], data[clickedPixelIndex + 1], data[clickedPixelIndex + 2])
 		this.pickedColor = {
 			h : hslPickedColor[0],
@@ -179,71 +160,24 @@ class MusicalCanvas
 		
 		// Create div showing what color has been picked 
 		const $body = document.querySelector('body')
-		const $colorDiv = document.createElement('div')
-		$colorDiv.style.display = 'inline-block'
-		$colorDiv.style.width = '20px'
-		$colorDiv.style.height = '20px'
+		let $colorDiv = document.querySelector('.colorDiv')
+
+		if($colorDiv === null)
+		{
+			$colorDiv = document.createElement('div')
+			$colorDiv.classList.add('colorDiv')	
+			$colorDiv.style.display = 'inline-block'
+			$colorDiv.style.width = '40px'
+			$colorDiv.style.height = '40px'
+		}
 		$colorDiv.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
-		// $colorDiv.style.background = 'red'
 
 		$body.appendChild($colorDiv)
 
 		console.log(this.pickedColor)
 	}
 
-	drawCalibration()
-	{
-		const $body = document.querySelector('body')
-		const calibrationCanvas = document.createElement('canvas')
-		const calibrationContext = calibrationCanvas.getContext('2d')
-
-		this.video.style.position = 'relative'
-		calibrationCanvas.style.position = 'absolute'
-		calibrationCanvas.style.pointerEvents = 'none'
-		calibrationCanvas.style.top = '0'
-		calibrationCanvas.style.left = '0'
-		calibrationCanvas.width = this.video.offsetWidth
-		calibrationCanvas.height = this.video.offsetHeight
-
-		const calibrationStartHeight = calibrationCanvas.height / 4
-		const calibrationEndHeight = (calibrationCanvas.height / 4) * 3
-		const calibrationStartWidth = calibrationCanvas.width / 4
-		const calibrationEndWidth = (calibrationCanvas.width / 4) * 3
-
-		const circleSize = 25
-
-
-		calibrationContext.beginPath()
-		calibrationContext.arc(calibrationStartWidth, calibrationStartHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-		
-		calibrationContext.beginPath()
-		calibrationContext.arc( calibrationEndWidth, calibrationStartHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-
-		calibrationContext.beginPath()
-		calibrationContext.arc(calibrationStartWidth, calibrationEndHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-
-		calibrationContext.beginPath()
-		calibrationContext.arc(calibrationEndWidth, calibrationEndHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-
-		$body.appendChild(calibrationCanvas)
-	}
-
+	// Converts rgb color to hsl
 	rgbToHsl(r, g, b)
 	{
 		r /= 255, g /= 255, b /= 255
@@ -271,7 +205,8 @@ class MusicalCanvas
         
 		return [h, s, l]
 	}
-    
+		
+	// Tracks every pixel on canvas whose color is in a certain interval of the eye dropped color
 	findColor() 
 	{
 		this.trackedPixels = []
@@ -286,16 +221,17 @@ class MusicalCanvas
 			const l = hslPickedColor[2]
 
 			if (this.colorInterval(h, l)) {
-				this.position.x = Math.floor((i % (this.canvas.offsetWidth * 4)) / 4)
-				this.position.y = Math.floor(i / (this.canvas.offsetWidth * 4))
+				// this.position.x = Math.floor((i % (this.canvas.offsetWidth * 4)) / 4)
+				// this.position.y = Math.floor(i / (this.canvas.offsetWidth * 4))
+				// this.context.clearRect(this.position.x, this.position.y, 1, 1)
 
 				this.trackedPixels.push(i/4)
 		
 
-				// this.context.clearRect(this.position.x, this.position.y, 1, 1
 			}
 		}
 		
+		// Launches hitboxes calculation and tracking based on the number of hitboxes to track
 		if(this.hitboxNumber === 1)
 		{
 			this.drawMainHitbox(this.hitboxesCalculator())
@@ -306,12 +242,14 @@ class MusicalCanvas
 		}
 	}
 
+	// Checks if a given color is in the interval of the eye dropped color
 	colorInterval(h, l)
 	{
 		const hInterval = 0.03
 		return 	(h > this.pickedColor.h - hInterval && h < this.pickedColor.h + hInterval) && (l > 0.3 && l <= 0.7)
 	}
 
+	// Calculates and draws the biggest hitbox
 	drawMainHitbox(hitboxes)
 	{
 		if(hitboxes.length > 0)
@@ -377,6 +315,7 @@ class MusicalCanvas
 		}
 	}
 	
+	// Calculates and draws the 2 biggest hitboxes
 	drawDoubleHitboxes(hitboxes)
 	{
 		if(hitboxes.length > 0)
@@ -427,6 +366,7 @@ class MusicalCanvas
 		}
 	}	
 
+	// Draws a hitbox on canvas
 	drawHitbox(min, max)
 	{
 		this.context.clearRect(min.x, min.y, 1, 10)
@@ -442,6 +382,7 @@ class MusicalCanvas
 		this.context.clearRect(max.x, max.y, -10, 1)
 	}
 
+	// Calculates the first point in a given hitbox
 	getMinHitbox(hitboxes, hitbox)
 	{
 		let min = {
@@ -469,6 +410,7 @@ class MusicalCanvas
 		return min
 	}
 
+	// Calculates the last point in a given hitbox 
 	getMaxHitbox(hitboxes, hitbox)
 	{
 		let max = {
@@ -496,36 +438,15 @@ class MusicalCanvas
 		return max
 	}
 
-
-
-
-	latency()
-	{
-		this.oldPosition.x = this.position.x
-		this.oldPosition.y = this.position.y
-	}
-    
-	runColorTracker(event)
-	{
-		if(event.keyCode == 32)
-		{
-			if(this.pickedColor)
-			{
-				this.findColor()
-			}
-			else
-			{
-				window.alert('No color selected')
-			}
-		}
-	}
-
+	// Resizes the canvas
+	// Obsolete ?
 	canvasResize()
 	{
 		this.canvas.width = window.innerWidth
 		this.canvas.height = window.innerHeight
 	}
 
+	// Calculates all the existing hitboxes based on the pixels tracked 
 	hitboxesCalculator()
 	{
 		this.hitboxes = []

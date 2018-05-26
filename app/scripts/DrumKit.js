@@ -7,7 +7,7 @@ class DrumKit extends MusicalCanvas
 		// Number of hitboxes being tracked
 		this.hitboxNumber = 1
 
-		// Interval the stick has to travel on his way up from a zone to be able to make a sound again
+		// Interval the stick has travel from a zone to be able to launch a sound again in the same zone
 		this.playInterval = 5
 
 		// Variables used to control if the sound in a zone can be launched again
@@ -16,7 +16,8 @@ class DrumKit extends MusicalCanvas
 		// this.secondIsUp = [true]
 		this.snareReady = true 
 		this.hiHatReady = true
-		this.oldMainPos = this.mainHitboxPosition
+		// this.oldMainPos = this.mainHitboxPosition
+		this.oldMainPos = {x: 0, y: 0}
 
 		// Variables to control requestAnimation Frame Speed
 		this.now2
@@ -60,6 +61,7 @@ class DrumKit extends MusicalCanvas
 			{
 				// this.activateSoundSolo(this.mainHitboxPosition, this.isUp)
 				this.displacementSoundActivation(this.mainHitboxPosition)
+				// this.logs()
 			}
 			else if(this.hitboxNumber === 2)
 			{
@@ -75,10 +77,11 @@ class DrumKit extends MusicalCanvas
 	// console logs
 	logs()
 	{
+		// console.log('Mainpos:' + JSON.stringify(this.mainHitboxPosition))
+		// console.log('Secondpos:' + JSON.stringify(this.secondHitboxPosition))
 		console.log('snareReady : ' + this.snareReady)
-		console.log('Mainpos:' + JSON.stringify(this.mainHitboxPosition))
-		console.log('Secondpos:' + JSON.stringify(this.secondHitboxPosition))
 		// console.log('hiHatReady : ' + this.hiHatReady)
+		console.log('')
 	}
 
 	// Launch sounds based on the deplacements of the hitbox
@@ -93,21 +96,24 @@ class DrumKit extends MusicalCanvas
 				this.snareReady = false
 			}
 		}
-		else if(hitboxPos.y <= this.oldMainPos.y)
+		else if ((hitboxPos.y >= this.oldMainPos.y + soundInterval) && (hitboxPos.x <= this.hiHatPos.x))
+		{
+			if(this.hiHatReady === true)
+			{
+				this.playSound(this._hiHat)
+				this.hiHatReady = false
+			}
+		}
+		else if(hitboxPos.y < this.oldMainPos.y && hitboxPos.y < this.snarePos.y)
 		{
 			this.snareReady = true
+			this.hiHatReady = true
 		}
-
-		if(this.oldMainPos !== hitboxPos)
-		{
-			console.log('old: ' + JSON.stringify(this.oldMainPos))
-			console.log('new: ' + JSON.stringify(hitboxPos))
-			console.log('')
-		}
-
-		this.oldMainPos = hitboxPos
+		
+		this.oldMainPos.x = hitboxPos.x
+		this.oldMainPos.y = hitboxPos.y	
 	}
-
+	
 	// Checks that there is no hitbox in the snare zone
 	checkSnare()
 	{

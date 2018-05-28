@@ -50,7 +50,7 @@ class organicButton
 
         this.$expenders.push(this.$expender)
         
-        for(const $expender of this.$expenders){ setTimeout(() => { $expender.remove() }, 80000) }
+        for(const $expender of this.$expenders){ setTimeout(() => { $expender.remove() }, 500) }
     }
     buttonAction()
     {

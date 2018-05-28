@@ -55,10 +55,10 @@ class Calibration
           this.eyeDropperCursor.classList.remove('eyeDropper--delete')
         })
       })
-      // color.addEventListener('click', () => 
-      // {
-      //   this.flash(color)
-      // })
+      color.addEventListener('click', () => 
+      {
+        this.flash(color)
+      })
     }
 
     // Set eyeDropper style between colors
@@ -200,8 +200,8 @@ class Calibration
       const $expenders = []
       const $expender = document.createElement('div')
 
-      $expender.classList.add('hoverButton__background')
-      $expender.classList.add('hoverButton__background--climb')
+      $expender.classList.add('pickedColors__flash')
+      $expender.classList.add('pickedColors__color--flash')
       container.appendChild($expender)
       $expenders.push($expender)
       

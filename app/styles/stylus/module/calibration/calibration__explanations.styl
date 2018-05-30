@@ -14,15 +14,18 @@
   background-color rgba(35, 228, 132, 0.3)
 
 .explanations__fillBar
-  width 20%
   height 8px
   background-color $green
+  transform-origin left
+  transition transform 0.3s ease
+  will-change transform
 
 .explanations__content
   height 100%
   padding 20px
   padding-top 10px
   padding-bottom 30px
+  position relative
   display flex
   flex-direction column
   justify-content space-between
@@ -70,6 +73,13 @@
 .explanations__explanation
   display flex
   align-items center
+  transition opacity 300ms ease
+  will-change transform
+  position absolute
+  bottom 30px
+  left 20px
+  right 20px
+  opacity 0
 
   @media screen and (max-width: $tablet-landscape)
     display block

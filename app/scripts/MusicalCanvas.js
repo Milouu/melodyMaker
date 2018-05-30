@@ -11,6 +11,7 @@ class MusicalCanvas
 		// this.expositionCanvas = this.setCanvasVideo(this.video, 960, 540)
 		// this.expositionContext = this.expositionCanvas.getContext('2d')
 
+		this.mousePos = { x: 0, y: 0 }
 		this.position = { x: 0, y: 0 }
 		this.pickedColor
 		this.trackedPixels = []
@@ -29,12 +30,22 @@ class MusicalCanvas
 		this.mainHitboxPosition = {}
 		this.secondHitboxPosition = {}
 
+		// Calibration variables
+		this.eyeDropperRing = document.querySelector('.eyeDropper__coloredRing')
+		this.eyeDropperSquare = document.querySelector('.eyeDropper__square')
+		this.eyeDropperStatus = false
+		this.videoHover = false
+
+		document.addEventListener('mousemove', (event) => this.saveMousePos(event.clientX, event.clientY))
+
 		this.video.addEventListener('play', this.draw())
-		this.video.addEventListener('click', (event) => this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop))
-		// this.video.addEventListener('load', this.drawCalibration())
-		
-		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop))
-		window.addEventListener('keydown', (event) => this.runColorTracker(event))
+
+		this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop) : false)
+		this.canvas.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop) : false)
+
+
+		this.video.addEventListener('mousemove', () => { this.videoHover = true })
+		this.video.addEventListener('mouseleave', () => { this.videoHover = false })
 
 		// window.addEventListener('resize', this.canvasResize())
 	}
@@ -78,7 +89,7 @@ class MusicalCanvas
     
 	setCanvasVideo(video, width, height)
 	{
-		const $container = document.querySelector('.container')
+		const $container = document.querySelector('body')
 		const $canvas = document.createElement('canvas')
 
 		// $canvas.width = 480
@@ -114,7 +125,11 @@ class MusicalCanvas
 			this.clearCanvas()
 			this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
 			// this.drawExpoCanvas()
-			
+
+			if(this.videoHover === true)
+			{
+				this.eyeDropperColorUpdate(this.mousePos.x - this.video.offsetLeft, this.mousePos.y - this.video.offsetTop)
+			}
 			
 			if(this.pickedColor)
 			{
@@ -123,20 +138,33 @@ class MusicalCanvas
 		}
 	}
 
-	drawExpoCanvas()
+	saveMousePos(x, y)
 	{
-		this.expositionContext.drawImage(this.canvas, 0, 0, this.expositionCanvas.offsetWidth, this.expositionCanvas.offsetHeight)
+		this.mousePos.x = x
+		this.mousePos.y = y
 	}
 
 	clearCanvas() 
 	{
 		this.context.clearRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
-		// this.expositionContext.clearRect(0, 0, this.expositionCanvas.offsetWidth, this.expositionCanvas.offsetHeight)
 	}
 
 	getImageData()
 	{
 		return this.context.getImageData(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight).data
+	}
+
+	// activate the eyedropper
+	activateEyedropper()
+	{
+		console.log('activateEyedropper')
+		this.eyeDropperStatus = true
+	}
+
+	// deactivate the eyedropper
+	deactivateEyedropper()
+	{
+		this.eyeDropperStatus = false
 	}
 
 	pickColor(x, y)
@@ -181,70 +209,29 @@ class MusicalCanvas
 		}
 		
 		// Create div showing what color has been picked 
-		const $body = document.querySelector('body')
-		const $colorDiv = document.createElement('div')
-		$colorDiv.style.display = 'inline-block'
-		$colorDiv.style.width = '20px'
-		$colorDiv.style.height = '20px'
-		$colorDiv.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
-		// $colorDiv.style.background = 'red'
+		const $colors = document.querySelectorAll('.pickedColors__color')
 
-		$body.appendChild($colorDiv)
+		if($colors[0] !== undefined)
+		{
+			$colors[0].style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
+		}
+
+		this.deactivateEyedropper()
 
 		console.log(this.pickedColor)
 	}
 
-	drawCalibration()
+	eyeDropperColorUpdate(x, y)
 	{
-		const $body = document.querySelector('body')
-		const calibrationCanvas = document.createElement('canvas')
-		const calibrationContext = calibrationCanvas.getContext('2d')
+		const data = this.getImageData()
+		const hoverX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
+		const hoverY = Math.floor(y/(this.video.offsetHeight / this.canvas.offsetHeight))
+		const hoveredPixelIndex = ((this.canvas.offsetWidth * 4) * hoverY) + (hoverX * 4)
 
-		this.video.style.position = 'relative'
-		calibrationCanvas.style.position = 'absolute'
-		calibrationCanvas.style.pointerEvents = 'none'
-		calibrationCanvas.style.top = '0'
-		calibrationCanvas.style.left = '0'
-		calibrationCanvas.width = this.video.offsetWidth
-		calibrationCanvas.height = this.video.offsetHeight
-
-		const calibrationStartHeight = calibrationCanvas.height / 4
-		const calibrationEndHeight = (calibrationCanvas.height / 4) * 3
-		const calibrationStartWidth = calibrationCanvas.width / 4
-		const calibrationEndWidth = (calibrationCanvas.width / 4) * 3
-
-		const circleSize = 25
-
-
-		calibrationContext.beginPath()
-		calibrationContext.arc(calibrationStartWidth, calibrationStartHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-		
-		calibrationContext.beginPath()
-		calibrationContext.arc( calibrationEndWidth, calibrationStartHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-
-		calibrationContext.beginPath()
-		calibrationContext.arc(calibrationStartWidth, calibrationEndHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-
-		calibrationContext.beginPath()
-		calibrationContext.arc(calibrationEndWidth, calibrationEndHeight, circleSize, 0, 2 * Math.PI, false)
-		calibrationContext.lineWidth = 5
-		calibrationContext.strokeStyle = 'blue'
-		calibrationContext.stroke()
-		calibrationContext.closePath()
-
-		$body.appendChild(calibrationCanvas)
+		const hslHoveredColor = this.rgbToHsl(data[hoveredPixelIndex], data[hoveredPixelIndex + 1], data[hoveredPixelIndex + 2])
+	
+		this.eyeDropperRing.style.borderColor = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
+		this.eyeDropperSquare.style.background = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
 	}
 
 	rgbToHsl(r, g, b)

@@ -1,4 +1,4 @@
-.pickedColors__color--active
+.pickedColors__color--dropped
     opacity 1
     cursor pointer
 
@@ -19,5 +19,20 @@
     opacity 0  
     pointer-events none
 
+.pickedColors__addStick--disabled
+    opacity 0.5
+    cursor no-drop
+    // pointer-events none
+
 .pickedColors__color--flash
     animation flash 300ms ease
+
+.pickedColors__color--undropped
+    opacity 0.5
+    cursor no-drop
+    pointer-events none
+
+.pickedColors__color--dropped
+    opacity 0.5
+    &:hover
+        opacity 1

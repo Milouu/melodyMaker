@@ -40,8 +40,11 @@ class ViewsTransition
                     for(const classInstance of this.classes) 
                     {
                         console.log(classInstance)
-                        classInstance == 'MusicalCanvas' ? new DrumKit() : false
-                        classInstance == 'Calibration' ? new Calibration() : false
+                        let drumKit = ''
+                        let calibration = ''
+
+                        // classInstance == 'MusicalCanvas' ? drumKit = new DrumKit() : false
+                        classInstance == 'Calibration' ? calibration = new Calibration() : false
                     }
                 }, 10)
             }

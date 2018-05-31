@@ -30,7 +30,26 @@ class Calibration {
     this.calibrationTL = new TimelineLite()
     this.calibrationTL.pause()
     this.calibrationTL.staggerFromTo(this.calibrationRings, 0.4, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1}, 0.6)
-    this.calibrationTL.staggerTo(this.calibrationRings, 0.2, {scale: 1}, 0.6, '-=1.8')
+		this.calibrationTL.staggerTo(this.calibrationRings, 0.2, {scale: 1}, 0.6, '-=1.8')
+		
+		//Timeline for animation on successful calibration on a ring
+		this.calibratedRingNumber = 0
+		this.validationRing = document.querySelector('.calibration__validationRing')
+		this.calibrationSuccessTL = new TimelineLite()
+		this.calibrationSuccessTL.pause()
+		// this.calibrationSuccessTL.to(this.calibrationRings[this.calibratedRingNumber], 0.3, {backgroundColor: "#5469FE"})
+		this.calibrationSuccessTL.to(this.validationRing, 0.3, {scale: 1.575, opacity: 1})
+		this.calibrationSuccessTL.to(this.validationRing, 1, {strokeDashoffset: 230}, '+=0.3')
+
+		// Testing animation 
+		this.calibrationRings[0].addEventListener('mouseenter', () => { 
+			this.calibrationSuccessTL.timeScale(1)
+			this.calibrationSuccessTL.play() 
+		})
+		this.calibrationRings[0].addEventListener('mouseleave', () => { 
+			this.calibrationSuccessTL.timeScale(2)
+			this.calibrationSuccessTL.reverse() 
+		})
 
 		// Click active on addStick
 		this.addStickActive = true

@@ -68,6 +68,7 @@ dist/
 npm-debug.log
 yarn-error.log
 .eslintrc.js
+debug.log
 
 # Editor directories and files
 .idea

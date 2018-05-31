@@ -26,11 +26,13 @@ class ViewsTransition
             if(views != undefined)
             {
                 views = document.querySelectorAll('.' + newDOMView)
-
+                console.log('VIEWS NEW : ' + views)
+                for(const view of views) { view.classList.add('preTransition') }
                 setTimeout(() => 
                 { 
                     for(let i = 0; i < views.length; i++) 
                     {
+                        for(const view of views) { view.classList.remove('preTransition') }
                         views[i].classList.add(transitionInClass[i]) 
                     }
 

@@ -7,8 +7,3 @@ body {
 p {
   line-height: 20px;
 }
-.callToAction--calibration {
-  width: 100px;
-  height: 100px;
-  background: #f00;
-}

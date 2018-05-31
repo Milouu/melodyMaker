@@ -10,7 +10,7 @@ class Rooter
             if(this.$callToAction.classList.contains('callToAction--home'))
             {
                 canvas.stop()
-                new ViewsTransition('calibration', 'homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionIn', 'transitionTitle--display'], ['Calibration', 'MusicalCanvas'])
+                new ViewsTransition('calibration', 'domView', 'domView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionTitle--display', 'transitionIn', 'calibrationIn', 'calibrationIn'], ['Calibration', 'MusicalCanvas'])
             }
             if(this.$callToAction.classList.contains('callToAction--calibration'))
             {

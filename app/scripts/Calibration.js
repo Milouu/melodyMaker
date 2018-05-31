@@ -26,6 +26,12 @@ class Calibration {
     
     this.calibrationRings = document.querySelectorAll('.calibration__ring')
 
+    //TweenMax Timeline for calibrationRings apparition/disapparition animation
+    this.calibrationTL = new TimelineLite()
+    this.calibrationTL.pause()
+    this.calibrationTL.staggerFromTo(this.calibrationRings, 0.4, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1}, 0.6)
+    this.calibrationTL.staggerTo(this.calibrationRings, 0.2, {scale: 1}, 0.6, '-=1.8')
+
 		// Click active on addStick
 		this.addStickActive = true
 
@@ -72,7 +78,14 @@ class Calibration {
 				})
 			})
 			this.colors[i].addEventListener('click', () => {
-				this.flash(this.colors[i])
+        this.flash(this.colors[i])
+
+        // for(const calibrationRing of this.calibrationRings)
+        // {
+        //   calibrationRing.classList.add('calibration__ring--deactivate')
+        //   calibrationRing.classList.remove('calibration__ring--activate')
+        // }
+        this.deactivateCalibrationRings()
 			})
 			this.colors[i].addEventListener('click', () => {
 				!this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
@@ -121,17 +134,37 @@ class Calibration {
 				this.eyeDropperActive = false
 
         // this.addStickActive = true
-        for(const calibrationRing of this.calibrationRings)
-        {
-          calibrationRing.classList.add('calibration__ring--activate')
-        }
+        // for(const calibrationRing of this.calibrationRings)
+        // {
+        //   calibrationRing.classList.remove('calibration__ring--deactivate')
+        //   calibrationRing.classList.add('calibration__ring--activate')
+        // }
+        this.activateCalibrationRings()
 			}
 		})
 
 		this.setMouse()
 
 		// this.eyeDropperInit()
-	}
+  }
+  
+  activateCalibrationRings()
+  {
+    this.calibrationTL.timeScale(1)
+    this.calibrationTL.play()
+    console.log(this.calibrationRings[0])
+    this.calibrationRings[0].style.height = 30
+    this.calibrationRings[0].style.width = 30
+    this.calibrationRings[0].style.opacity = 1
+    this.calibrationRings[0].style.transform = 'scale(2)'
+    console.log(this.calibrationRings[0])
+  }
+
+  deactivateCalibrationRings()
+  {
+    this.calibrationTL.timeScale(2)
+    this.calibrationTL.reverse()
+  }
 
 	addColor() {
 		this.eyeDropperInit()
@@ -158,7 +191,15 @@ class Calibration {
 	}
 
 	removeColor(trashcan) {
-		console.log(this.colors[1].classList.contains('pickedColors__color--undropped'))
+    console.log(this.colors[1].classList.contains('pickedColors__color--undropped'))
+    
+    // for(const calibrationRing of this.calibrationRings)
+    // {
+    //   calibrationRing.classList.add('calibration__ring--deactivate')
+    //   calibrationRing.classList.remove('calibration__ring--activate')
+    // }
+    this.deactivateCalibrationRings()
+
 		if (trashcan === this.trashcans[0]) {
 			this.colors[0].classList.remove('pickedColors__color--undropped')
 			this.colors[0].classList.remove('pickedColors__color--dropped')

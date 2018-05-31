@@ -65,8 +65,8 @@ class organicButton
         {
             !mouseUp ? this.$buttonBase.classList.add('hoverButton__base--valid') : false
             !mouseUp ? this.$buttonAccess.classList.add('hoverButton__access--valid') : false
-            !mouseUp ? canvas.stop() : false
-            !mouseUp ? new ViewsTransition('homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionIn', 'transitionTitle--display'], ['Calibration', 'MusicalCanvas']) : console.log('dontLaunch')
+            // !mouseUp ? canvas.stop() : false
+            // !mouseUp ? new ViewsTransition('homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionIn', 'transitionTitle--display'], ['Calibration', 'MusicalCanvas']) : console.log('dontLaunch')
         }, 1000)
     }
 }

@@ -54,6 +54,7 @@ class MusicalCanvas
 	{
 		// Set variables
 		const $calibrationVideo = document.querySelector('.calibration')
+		console.log($calibrationVideo)
 		const $video = document.createElement('video')
     
 		// Place the video tag at the end of body

@@ -1,6 +1,6 @@
 class ViewsTransition 
 {
-    constructor(oldDOMView, newDOMView, transitionOutClass, transitionInClass, classInstances = null)
+    constructor(newPageName, oldDOMView, newDOMView, transitionOutClass, transitionInClass, classInstances = null)
     {
         this.oldDOMView = document.querySelectorAll('.' + oldDOMView)
         this.$body = document.querySelector('body')
@@ -21,12 +21,9 @@ class ViewsTransition
         { 
             this.oldDOMView[0].remove() 
 
-            let views = this.getPage('views/calibration.html', 'body', 'body')
+            let views = this.getPage(`views/${newPageName}.html`, 'body', 'body')
 
-            // const $currentBody = document.querySelector('body')
-            // console.log($currentBody)
-
-            if(views)
+            if(views != undefined)
             {
                 views = document.querySelectorAll('.' + newDOMView)
 
@@ -45,6 +42,7 @@ class ViewsTransition
 
                         // classInstance == 'MusicalCanvas' ? drumKit = new DrumKit() : false
                         classInstance == 'Calibration' ? calibration = new Calibration() : false
+                        new Rooter()
                     }
                 }, 10)
             }

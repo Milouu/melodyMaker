@@ -3,12 +3,19 @@ class Rooter
     constructor() 
     {
         this.$callToAction = document.querySelector('.callToAction')
-        console.log(this.$callToAction)
+
+        // Homepage
         this.$callToAction.addEventListener('click', () => 
         {
-            console.log('docou')
-            canvas.stop()
-            new ViewsTransition('homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionIn', 'transitionTitle--display'], ['Calibration', 'MusicalCanvas'])
+            if(this.$callToAction.classList.contains('callToAction--home'))
+            {
+                canvas.stop()
+                new ViewsTransition('calibration', 'homeView', 'newView', ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], ['transitionIn', 'transitionTitle--display'], ['Calibration', 'MusicalCanvas'])
+            }
+            if(this.$callToAction.classList.contains('callToAction--calibration'))
+            {
+                console.log('DASHBOARD')
+            }
         })
     }
 }

@@ -14,8 +14,6 @@ class Calibration {
 		this.eyeDropperCursor = document.querySelector('.eyeDropper__greyRing')
 		this.eyeDropperColored = document.querySelector('.eyeDropper__coloredRing')
 
-		console.log(this.video)
-
 		this.colors = document.querySelectorAll('.pickedColors__color')
 		this.stickNumbers = document.querySelectorAll('.pickedColors__stickNumber>p')
 		this.colorsHitbox = document.querySelector('.pickedColors__hitbox')
@@ -24,7 +22,9 @@ class Calibration {
 		console.log(this.explanations)
 		this.mouse = { x: 0, y: 0 }
 
-		this.fillBar = document.querySelector('.explanations__fillBar')
+    this.fillBar = document.querySelector('.explanations__fillBar')
+    
+    this.calibrationRings = document.querySelectorAll('.calibration__ring')
 
 		// Click active on addStick
 		this.addStickActive = true
@@ -98,22 +98,33 @@ class Calibration {
 			})
 		})
 
+
 		// Color dropped
 		this.video.addEventListener('click', () => {
 			if (!this.addStickActive) {
 				this.fillBar.classList.add('explanations__fillBar--step3')
-				// this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
+        // this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
+        
 				this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
-				this.eyeDropper.classList.add('eyeDropper--dropped')
-				setTimeout(() => { this.body.classList.remove('cursor--undisplay') }, 300)
+        this.eyeDropper.classList.add('eyeDropper--dropped')
+        
+        setTimeout(() => { this.body.classList.remove('cursor--undisplay') }, 300)
+        
 				this.colors[0].classList.remove('pickedColors__color--undropped')
-				this.colors[0].classList.add('pickedColors__color--dropped')
+        this.colors[0].classList.add('pickedColors__color--dropped')
+        
 				this.explanations[1].classList.remove('explanations__explanation--current')
-				this.explanations[2].classList.add('explanations__explanation--current')
-				this.step = 3
+        this.explanations[2].classList.add('explanations__explanation--current')
+        
+        this.step = 3
+        
 				this.eyeDropperActive = false
 
-				// this.addStickActive = true
+        // this.addStickActive = true
+        for(const calibrationRing of this.calibrationRings)
+        {
+          calibrationRing.classList.add('calibration__ring--activate')
+        }
 			}
 		})
 

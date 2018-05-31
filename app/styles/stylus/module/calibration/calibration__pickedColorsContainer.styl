@@ -1,0 +1,170 @@
+.pickedColors
+  grid-column-start 7
+  grid-row-start 3
+  display grid
+  grid-template-columns repeat(4, 1fr)
+  grid-column-gap 20px
+
+  user-select none
+  @media screen and (max-width: $tablet-landscape)
+    grid-template-columns repeat(3, 1fr)
+  
+.pickedColors__color
+  display flex
+  flex-direction column
+  justify-content space-between
+  overflow hidden
+  // pointer-events none
+
+  background #ccc
+
+  opacity 0
+
+  box-shadow 0px 10px 30px 0px rgba(0, 0, 0, 0.06)
+  will-change opacity, transform
+  transition transform 150ms ease
+
+.pickedColors__color--dropped:hover
+    transform scale(1.05)
+    box-shadow 0px 10px 30px 0px rgba(0, 0, 0, 0.02)
+
+.pickedColors__trashcanContainer
+  display flex 
+  flex-direction row
+  justify-content flex-end
+
+.pickedColors__trashcan
+  height 24px 
+  width 24px 
+  margin 5px 5px
+
+  cursor pointer
+
+.pickedColors__trashcanIcon
+  width 24px
+  height 24px
+
+  opacity 0
+
+  transition opacity 150ms ease
+
+.pickedColors__color--dropped:hover .pickedColors__trashcanIcon
+  // opacity 0.2
+  opacity 0.4
+
+.pickedColors__trashcan:hover .pickedColors__trashcanIcon
+  // opacity 0.3
+  opacity 0.6
+
+.pickedColors__stickNumber
+  height 40px
+  display flex 
+  justify-content center
+  align-items center
+
+  background #FFF
+
+  font-family aileronBold
+  color $black
+  
+  transition transform 150ms ease
+
+.pickedColors__color--dropped:hover .pickedColors__stickNumber
+  transform translateY(100%)
+
+.pickedColors__addStick 
+  display flex 
+  justify-content center
+  align-items center
+  overflow hidden
+
+  grid-column-start 3
+
+  background #FFF
+
+  cursor pointer
+
+  box-shadow 0px 10px 30px 0px rgba(0, 0, 0, 0.06)
+  transform translateX(calc(-200% - 40px))
+  transition transform 300ms, opacity 300ms 
+  will-change transform, opacity
+
+.pickedColors__addCross
+  height 40px
+  width 5px
+  position relative
+
+  background $blue
+
+.pickedColors__addCross::after
+  content ''
+  height 40px
+  width 5px
+  position absolute
+
+  background $blue
+
+  transform rotate(90deg)
+
+.pickedColors__hitbox
+  grid-row-start 3
+  grid-column-start 7
+
+  // cursor pointer
+
+.pickedColors__eyeDropperIcon
+  margin-bottom 10px
+  @media screen and (max-width: $tablet-landscape)
+    width 48px
+
+.pickedColors__color--dropped:hover .pickedColors__pickAgain
+  // opacity 0.2
+  opacity 0.4
+
+.pickedColors__pickAgain
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+
+  opacity 0
+
+.pickedColors__sentence
+  font-family 'aileron'
+  font-weight bold
+  font-size 24px
+  @media screen and (max-width: $desktop)
+    font-size 18px
+
+.pickedColors__flash
+    width 400px
+    height 400px
+    position absolute
+    border-radius 50%
+    top 50%
+    left 50%
+
+    background-color #5469FE
+
+    pointer-events none
+
+    opacity 0.25
+
+    transform-origin top left
+    transform scale(0) translateX(-50%) translateY(-50%)
+    transition transform 300ms ease, opacity 300ms ease
+    z-index 0
+
+  @keyframes flash
+{
+    0%
+    {
+        transform: scale(0.25) translateX(-50%) translateY(-50%);
+        opacity: 0.1
+    }
+    100%
+    {
+        transform: scale(1) translateX(-50%) translateY(-50%);
+        opacity: 0
+    }
+}

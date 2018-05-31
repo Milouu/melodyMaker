@@ -12,6 +12,8 @@ class MusicalCanvas
 
 		// Position of a pixel, used to clear rect a tracked pixels, may be obsolete
 		this.position = { x: 0, y: 0 }
+		
+		this.mousePos = { x: 0, y: 0 }
 
 		// Color picked with eye dropper
 		this.pickedColor
@@ -35,11 +37,24 @@ class MusicalCanvas
 		this.mainHitboxPosition = {}
 		this.secondHitboxPosition = {}
 
+		// Calibration variables
+		this.eyeDropperRing = document.querySelector('.eyeDropper__coloredRing')
+		this.eyeDropperSquare = document.querySelector('.eyeDropper__square')
+		this.eyeDropperStatus = false
+		this.videoHover = false
+
 		// Event Listeners
+		document.addEventListener('mousemove', (event) => this.saveMousePos(event.clientX, event.clientY))
+
 		this.video.addEventListener('play', this.draw())
-		this.video.addEventListener('click', (event) => this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop))
-		
-		this.canvas.addEventListener('click', (event) => this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop))
+
+		this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop) : false)
+		this.canvas.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop) : false)
+
+
+		this.video.addEventListener('mousemove', () => { this.videoHover = true })
+		this.video.addEventListener('mouseleave', () => { this.videoHover = false })
+
 		// window.addEventListener('resize', this.canvasResize())
 	}
 
@@ -47,26 +62,35 @@ class MusicalCanvas
 	setWebcam() 
 	{
 		// Set variables
-		const $body = document.querySelector('body')
+		const $calibrationVideo = document.querySelector('.calibration')
 		const $video = document.createElement('video')
     
 		// Place the video tag at the end of body
-		$body.appendChild($video)
-	
+		$calibrationVideo.appendChild($video)
+		
+		$video.classList.add('calibration__video')
+		
 		// Navigator supports getUserMedia ?
 		if(navigator.mediaDevices.getUserMedia)
 		{
 			// Recover only video of webcam
 			navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-				.then(localMediaStream => 
+			.then(localMediaStream => 
 				{
 					// Video tag takes source of webcam and play video
 					$video.srcObject = localMediaStream
 					$video.play()
-                    
+					$video.style.opacity = '1'
 				})
 				.catch(error => 
 				{
+          // For dev without webcam
+          $video.src = "assets/videos/minions.mp4"
+          $video.play()
+          $video.muted = true
+          $video.loop = true
+          $video.style.opacity = '1'
+
 					window.alert('The following error occurred: ' + error.name)
 				})
 		}
@@ -82,13 +106,13 @@ class MusicalCanvas
 	// Useless video passage ???
 	setCanvasVideo(video, width, height)
 	{
-		const $body = document.querySelector('body')
+		const $container = document.querySelector('body')
 		const $canvas = document.createElement('canvas')
 
 		$canvas.width = width
 		$canvas.height = height
 
-		$body.appendChild($canvas)
+		$container.appendChild($canvas)
 		
 		return $canvas
 	}
@@ -108,6 +132,10 @@ class MusicalCanvas
 			this.clearCanvas()
 			this.context.drawImage(this.video, 0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight)
 			
+			if(this.videoHover === true)
+			{
+				this.eyeDropperColorUpdate(this.mousePos.x - this.video.offsetLeft, this.mousePos.y - this.video.offsetTop)
+			}
 			
 			if(this.pickedColor)
 			{
@@ -116,6 +144,13 @@ class MusicalCanvas
 		}
 	}
 
+	// Saves mouse position
+	saveMousePos(x, y)
+	{
+		this.mousePos.x = x
+		this.mousePos.y = y
+	}
+	
 	// Clears canvas
 	clearCanvas() 
 	{
@@ -128,6 +163,19 @@ class MusicalCanvas
 		return this.context.getImageData(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight).data
 	}
 
+	// activate the eyedropper
+	activateEyedropper()
+	{
+		console.log('activateEyedropper')
+		this.eyeDropperStatus = true
+	}
+	
+	// deactivate the eyedropper
+	deactivateEyedropper()
+	{
+		this.eyeDropperStatus = false
+	}
+	
 	// Picks a color by clicking on canvas 
 	pickColor(x, y)
 	{
@@ -159,24 +207,32 @@ class MusicalCanvas
 		}
 		
 		// Create div showing what color has been picked 
-		const $body = document.querySelector('body')
-		let $colorDiv = document.querySelector('.colorDiv')
+		const $colors = document.querySelectorAll('.pickedColors__color')
 
-		if($colorDiv === null)
+		if($colors[0] !== undefined)
 		{
-			$colorDiv = document.createElement('div')
-			$colorDiv.classList.add('colorDiv')	
-			$colorDiv.style.display = 'inline-block'
-			$colorDiv.style.width = '40px'
-			$colorDiv.style.height = '40px'
+			$colors[0].style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
 		}
-		$colorDiv.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
 
-		$body.appendChild($colorDiv)
+		this.deactivateEyedropper()
 
 		console.log(this.pickedColor)
 	}
 
+	// Updates eyedropper color depending on the pixel hovered
+	eyeDropperColorUpdate(x, y)
+	{
+		const data = this.getImageData()
+		const hoverX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
+		const hoverY = Math.floor(y/(this.video.offsetHeight / this.canvas.offsetHeight))
+		const hoveredPixelIndex = ((this.canvas.offsetWidth * 4) * hoverY) + (hoverX * 4)
+		
+		const hslHoveredColor = this.rgbToHsl(data[hoveredPixelIndex], data[hoveredPixelIndex + 1], data[hoveredPixelIndex + 2])
+		
+		this.eyeDropperRing.style.borderColor = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
+		this.eyeDropperSquare.style.background = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
+	}
+	
 	// Converts rgb color to hsl
 	rgbToHsl(r, g, b)
 	{

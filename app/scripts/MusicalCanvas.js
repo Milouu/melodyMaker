@@ -38,6 +38,7 @@ class MusicalCanvas
 		this.secondHitboxPosition = {}
 
 		// Calibration variables
+		this.calibrationContainer = document.querySelector('.calibration')
 		this.eyeDropperRing = document.querySelector('.eyeDropper__coloredRing')
 		this.eyeDropperSquare = document.querySelector('.eyeDropper__square')
 		this.eyeDropperStatus = false
@@ -75,7 +76,7 @@ class MusicalCanvas
 		{
 			// Recover only video of webcam
 			navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-			.then(localMediaStream => 
+				.then(localMediaStream => 
 				{
 					// Video tag takes source of webcam and play video
 					$video.srcObject = localMediaStream
@@ -84,12 +85,12 @@ class MusicalCanvas
 				})
 				.catch(error => 
 				{
-          // For dev without webcam
-          $video.src = "assets/videos/minions.mp4"
-          $video.play()
-          $video.muted = true
-          $video.loop = true
-          $video.style.opacity = '1'
+					// For dev without webcam
+					// $video.src = "assets/videos/minions.mp4"
+					// $video.play()
+					// $video.muted = true
+					// $video.loop = true
+					// $video.style.opacity = '1'
 
 					window.alert('The following error occurred: ' + error.name)
 				})
@@ -134,7 +135,8 @@ class MusicalCanvas
 			
 			if(this.videoHover === true)
 			{
-				this.eyeDropperColorUpdate(this.mousePos.x - this.video.offsetLeft, this.mousePos.y - this.video.offsetTop)
+				
+				this.eyeDropperColorUpdate(this.mousePos.x - this.video.offsetLeft - this.calibrationContainer.offsetLeft, this.mousePos.y - this.video.offsetTop - this.calibrationContainer.offsetTop)
 			}
 			
 			if(this.pickedColor)

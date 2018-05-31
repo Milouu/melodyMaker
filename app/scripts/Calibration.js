@@ -152,12 +152,6 @@ class Calibration {
   {
     this.calibrationTL.timeScale(1)
     this.calibrationTL.play()
-    console.log(this.calibrationRings[0])
-    this.calibrationRings[0].style.height = 30
-    this.calibrationRings[0].style.width = 30
-    this.calibrationRings[0].style.opacity = 1
-    this.calibrationRings[0].style.transform = 'scale(2)'
-    console.log(this.calibrationRings[0])
   }
 
   deactivateCalibrationRings()

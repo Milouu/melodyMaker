@@ -26,6 +26,7 @@ class Calibration {
     
 		
 		// Variables for calibration rings animations
+		this.ringsDisplay = false
 		this.calibrationRingContainers = document.querySelectorAll('.calibration__ringContainer')
     this.calibrationRings = document.querySelectorAll('.calibration__ring')
 		this.calibratedRingNumber = 0
@@ -189,19 +190,48 @@ class Calibration {
 	
 	calibrate()
 	{
-		// if(this.musicalCanvas.mainHitboxPosition.x > this.musicalCanvas.canvas.offsetWidth * 0.25)
+		if(this.ringsDisplay === true)
+		{
+			requestAnimationFrame(this.calibrate.bind(this))
+			const ringLeftInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.calibrationRingContainers[0].offsetLeft) / this.musicalCanvas.video.offsetWidth
+			const ringWidthInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.calibrationRingContainers[0].offsetWidth) / this.musicalCanvas.video.offsetWidth
+			const ringTopInCanvas = (this.musicalCanvas.canvas.offsetHeight * this.calibrationRingContainers[0].offsetTop) / this.musicalCanvas.video.offsetHeight
+			const ringHeightInCanvas = (this.musicalCanvas.canvas.offsetHeight * this.calibrationRingContainers[0].offsetHeight) / this.musicalCanvas.video.offsetHeight
+	
+			// console.log('RL: ' + ringLeftInCanvas)
+			// console.log('RW: ' + ringWidthInCanvas)
+			// console.log('HBX: ' + this.musicalCanvas.mainHitboxPosition.x)
+			// console.log(this.calibrationRingContainers[0].offsetWidth)
+			// console.log('RT: ' + ringTopInCanvas)
+			// console.log('RH: ' + ringHeightInCanvas)
+			// console.log('HBY: ' + this.musicalCanvas.mainHitboxPosition.y)
+			// console.log('')
+
+			if((this.musicalCanvas.mainHitboxPosition.x  > ringLeftInCanvas && this.musicalCanvas.mainHitboxPosition.x < ringLeftInCanvas + ringWidthInCanvas) &&
+			this.musicalCanvas.mainHitboxPosition.y > ringTopInCanvas && this.musicalCanvas.mainHitboxPosition.y < ringTopInCanvas + ringHeightInCanvas )
+			{
+				this.calibrationCalculationTL.play()
+			}
+			else
+			{
+				this.calibrationCalculationTL.reverse()
+			}
+		}
 	}
   
   activateCalibrationRings()
   {
     this.calibrationTL.timeScale(1)
-    this.calibrationTL.play()
+		this.calibrationTL.play()
+		this.ringsDisplay = true
+		this.calibrate()
   }
 
   deactivateCalibrationRings()
   {
     this.calibrationTL.timeScale(2)
-    this.calibrationTL.reverse()
+		this.calibrationTL.reverse()
+		this.ringsDisplay = false
   }
 
 	addColor() {

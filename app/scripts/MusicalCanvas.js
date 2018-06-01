@@ -8,7 +8,9 @@ class MusicalCanvas
 		// Canvas variables
 		this.canvas = this.setCanvasVideo(this.video, 120, 67.5)
 		this.context = this.canvas.getContext('2d')
-		// this.canvas.style.display = 'none'
+		// For dev
+		this.canvas.style.position = 'absolute'
+		this.canvas.style.top = 0
 
 		// Position of a pixel, used to clear rect a tracked pixels, may be obsolete
 		this.position = { x: 0, y: 0 }
@@ -29,7 +31,7 @@ class MusicalCanvas
 		this.delta
 
 		// Number of hitboxes being tracked
-		this.hitboxNumber = 0
+		this.hitboxNumber = 1
 		// Minimum number of pixels needed for a hitbox to be considered as such
 		this.hitboxSize = 20
 

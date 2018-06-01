@@ -128,24 +128,42 @@
 
 @keyframes loaderColors {
     0% {
-        background-color $blue
+        // background-color $blue
         transform translateX(-50%) translateY(-50%) rotate(0deg) scale(1)
     }
     25% {
-        background-color $red
+        // background-color $red
         transform translateX(-50%) translateY(-50%) rotate(360deg) scale(0.8)
     }
     50% {
-        background-color $green
+        // background-color $green
         transform translateX(-50%) translateY(-50%) rotate(720deg) scale(1.1)
     }
     75% {
-        background-color $yellow
+        // background-color $yellow
         transform translateX(-50%) translateY(-50%) rotate(1080deg) scale(0.6)
     }
     100% {
-        background-color $blue
+        // background-color $blue
         transform translateX(-50%) translateY(-50%) rotate(1440deg) scale(1)
+    }
+}
+
+@keyframes loaderTxt {
+    0% {
+        content 'Play'
+    }
+    25% {
+        content 'With'
+    }
+    50% {
+        content 'Your'
+    }
+    75% {
+        content 'Movement'
+    }
+    100% {
+        content 'Play'
     }
 }
 
@@ -176,6 +194,22 @@
     animation-duration 4s
     animation-timing-function ease
     animation-iteration-count infinite
+    // font-family 'aileron'
+
+    color $white
+
+// .loader__box:after
+//     width 100px
+//     height 100px
+//     display flex
+//     align-items center
+//     justify-content center
+//     content 'hey'
+
+//     animation-name loaderTxt
+//     animation-duration 4s
+//     animation-timing-function ease
+//     animation-iteration-count infinite
     
 .loader__block
     width 20px

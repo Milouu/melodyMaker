@@ -11,19 +11,22 @@ class Rooter
             {
                 let mouseUp = false
 
-                // Pause video canvas
-                canvas.stop()
-
+                
                 this.$callToAction.addEventListener('mouseup', () => { mouseUp = true })
                 setTimeout(() => 
                 {
-                    !mouseUp ? new ViewsTransition
-                    (
-                        'calibration', 'domView', 'domView', 
-                        ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], 
-                        ['transitionTitle--display', 'transitionIn', 'calibrationIn', 'calibrationIn'], 
-                        ['Calibration', 'MusicalCanvas']
-                    ) : false
+                    // Pause video canvas
+                    if(!mouseUp)
+                    {
+                        new ViewsTransition
+                        (
+                            'calibration', 'domView', 'domView', 
+                            ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], 
+                            ['transitionTitle--display', 'transitionIn', 'calibrationIn', 'calibrationIn'], 
+                            ['Calibration', 'MusicalCanvas']
+                        )
+                        canvas.stop()
+                    }
                 
                 }, 1000)
             }

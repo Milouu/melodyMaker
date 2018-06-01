@@ -6,8 +6,12 @@ body
   background-color $white
 
 p
-  line-height 20px
+  line-height 30px
+  font-size 1em
 
+  @media screen and (min-width: $desktop-large)
+    line-height 38px
+    font-size 1.2em
 // .newView
 //   position absolute
 //   pointer-events none
@@ -22,6 +26,3 @@ p
 //   width 100px
 //   height 100px
 //   background red
-
-.img
-  width 100px

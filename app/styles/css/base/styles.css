@@ -5,8 +5,12 @@ body {
   background-color: $white;
 }
 p {
-  line-height: 20px;
+  line-height: 30px;
+  font-size: 1em;
 }
-.img {
-  width: 100px;
+@media screen and (min-width: $desktop-large) {
+  p {
+    line-height: 38px;
+    font-size: 1.2em;
+  }
 }

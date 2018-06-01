@@ -388,7 +388,7 @@
 
         renderJelly: function () {
             this.ctx.clearRect(0, 0, this.width, this.height);
-            const pattern = this.ctx.createPattern(document.querySelector('.img'), "repeat");
+            const pattern = this.ctx.createPattern(document.querySelector('.img'), 'repeat');
             var o, p, left, top, width, height, i, j;
             for (i = 0; i < this.o.length; i++) {
                 o = this.o[i];

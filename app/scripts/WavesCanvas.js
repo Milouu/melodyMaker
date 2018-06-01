@@ -38,7 +38,7 @@ class WavesCanvas
 		this.options = {
 			paths: '#jelly',                // Shape we want to draw
 			pointsNumber: 20,               // Number of points
-			maxDistance: 100,               // Max distance among points
+			maxDistance: 50,               // Max distance among points
 			// color: pattern,              // Color of path
 			// centroid: '.centroid-text',  // Element to move accordingly with the centroid of the shape
 			// debug: true                  // Uncomment this to see the points

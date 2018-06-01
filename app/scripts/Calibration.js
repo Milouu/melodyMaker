@@ -26,6 +26,7 @@ class Calibration {
     
 		
 		// Variables for calibration rings animations
+		this.calibrationRingContainers = document.querySelectorAll('.calibration__ringContainer')
     this.calibrationRings = document.querySelectorAll('.calibration__ring')
 		this.calibratedRingNumber = 0
 		this.validationRing = document.querySelector('.calibration__validationRing')
@@ -43,7 +44,7 @@ class Calibration {
 		
 		this.calibrationCalculationTL = new TimelineLite()
 		this.calibrationCalculationTL.pause()
-		this.calibrationCalculationTL.to(this.validationRing, 0.3, {scale: 1.575, opacity: 1})
+		this.calibrationCalculationTL.to(this.validationRing, 0.3, {scale: 1.2, opacity: 1})
 		this.calibrationCalculationTL.to(this.validationRing, 1, {strokeDashoffset: 230})
 		this.calibrationCalculationTL.to(this.calibrationRings[this.calibratedRingNumber], 0.3, {backgroundColor: "#5469FE"})
 		this.calibrationCalculationTL.from(this.successTick1, 0.1, {scale: 0}, '-=0.1')
@@ -57,13 +58,13 @@ class Calibration {
 		this.calibrationSuccessTL.from(this.successTick2, 0.15, {scale: 0})
 
 		// Testing animation 
-		this.calibrationRings[0].addEventListener('mouseenter', () => { 
+		this.calibrationRingContainers[this.calibratedRingNumber].addEventListener('mouseenter', () => { 
 			this.calibrationCalculationTL.timeScale(1)
 			this.calibrationCalculationTL.play() 
 
 			// this.calibrationSuccessTL.play()
 		})
-		this.calibrationRings[0].addEventListener('mouseleave', () => { 
+		this.calibrationRingContainers[0].addEventListener('mouseleave', () => { 
 			this.calibrationCalculationTL.timeScale(2)
 			this.calibrationCalculationTL.reverse()
 			
@@ -184,7 +185,12 @@ class Calibration {
 		this.setMouse()
 
 		// this.eyeDropperInit()
-  }
+	}
+	
+	calibrate()
+	{
+		// if(this.musicalCanvas.mainHitboxPosition.x > this.musicalCanvas.canvas.offsetWidth * 0.25)
+	}
   
   activateCalibrationRings()
   {

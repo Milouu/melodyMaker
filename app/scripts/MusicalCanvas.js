@@ -49,7 +49,7 @@ class MusicalCanvas
 
 		this.video.addEventListener('play', this.draw())
 
-		this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.video.offsetLeft, event.clientY - this.video.offsetTop) : false)
+		this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.calibrationContainer.offsetLeft - this.video.offsetLeft, event.clientY - this.calibrationContainer.offsetTop - this.video.offsetTop) : false)
 		this.canvas.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop) : false)
 
 

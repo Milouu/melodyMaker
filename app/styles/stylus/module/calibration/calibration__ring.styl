@@ -1,10 +1,12 @@
 .calibration__ring 
   position absolute
-  z-index 99
-  height h = 50px 
-  width w = 50px
-  margin-top -(h/2)
-  margin-left -(w/2) 
+  // z-index 99
+  // height h = 50px 
+  // width w = 50px
+  // margin-top -(h/2)
+  // margin-left -(w/2) 
+  height 100%
+  width 100%
   border 5px solid $blue
   border-radius 50%
   opacity 0
@@ -25,10 +27,17 @@
 //   }
 // }
 
+.calibration__ringContainer
+  position absolute
+  z-index 99
+  height 50px
+  width 50px
+  transform translateX(-50%) translateY(-50%)
+  // animation calibrationApparition 0.6s ease paused 
+
 .calibration__ring1
   top 25%
-  left 25%  
-  // animation calibrationApparition 0.6s ease paused 
+  left 25% 
 
 .calibration__ring2
   top 25%
@@ -47,7 +56,7 @@
 
 .calibration__validationRing
   position absolute
-  z-index 98
+  z-index -1
   height 100%
   width 100%
   stroke $white

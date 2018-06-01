@@ -24,7 +24,14 @@ class Calibration {
 
     this.fillBar = document.querySelector('.explanations__fillBar')
     
+		
+		// Variables for calibration rings animations
     this.calibrationRings = document.querySelectorAll('.calibration__ring')
+		this.calibratedRingNumber = 0
+		this.validationRing = document.querySelector('.calibration__validationRing')
+		this.successLogo = document.querySelector('.calibration__successTickContainer')
+		this.successTick1 = document.querySelector('.calibration__successTick1')
+		this.successTick2 = document.querySelector('.calibration__successTick2')
 
     //TweenMax Timeline for calibrationRings apparition/disapparition animation
     this.calibrationTL = new TimelineLite()
@@ -32,23 +39,35 @@ class Calibration {
     this.calibrationTL.staggerFromTo(this.calibrationRings, 0.4, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1}, 0.6)
 		this.calibrationTL.staggerTo(this.calibrationRings, 0.2, {scale: 1}, 0.6, '-=1.8')
 		
+		//Animation timeline for calibration calculation on a ring
+		
+		this.calibrationCalculationTL = new TimelineLite()
+		this.calibrationCalculationTL.pause()
+		this.calibrationCalculationTL.to(this.validationRing, 0.3, {scale: 1.575, opacity: 1})
+		this.calibrationCalculationTL.to(this.validationRing, 1, {strokeDashoffset: 230})
+		this.calibrationCalculationTL.to(this.calibrationRings[this.calibratedRingNumber], 0.3, {backgroundColor: "#5469FE"})
+		this.calibrationCalculationTL.from(this.successTick1, 0.1, {scale: 0}, '-=0.1')
+		this.calibrationCalculationTL.from(this.successTick2, 0.1, {scale: 0})
+
 		//Timeline for animation on successful calibration on a ring
-		this.calibratedRingNumber = 0
-		this.validationRing = document.querySelector('.calibration__validationRing')
 		this.calibrationSuccessTL = new TimelineLite()
 		this.calibrationSuccessTL.pause()
-		// this.calibrationSuccessTL.to(this.calibrationRings[this.calibratedRingNumber], 0.3, {backgroundColor: "#5469FE"})
-		this.calibrationSuccessTL.to(this.validationRing, 0.3, {scale: 1.575, opacity: 1})
-		this.calibrationSuccessTL.to(this.validationRing, 1, {strokeDashoffset: 230}, '+=0.3')
+		this.calibrationSuccessTL.to(this.calibrationRings[this.calibratedRingNumber], 0.3, {backgroundColor: "#5469FE"})
+		this.calibrationSuccessTL.from(this.successTick1, 0.15, {scale: 0})
+		this.calibrationSuccessTL.from(this.successTick2, 0.15, {scale: 0})
 
 		// Testing animation 
 		this.calibrationRings[0].addEventListener('mouseenter', () => { 
-			this.calibrationSuccessTL.timeScale(1)
-			this.calibrationSuccessTL.play() 
+			this.calibrationCalculationTL.timeScale(1)
+			this.calibrationCalculationTL.play() 
+
+			// this.calibrationSuccessTL.play()
 		})
 		this.calibrationRings[0].addEventListener('mouseleave', () => { 
-			this.calibrationSuccessTL.timeScale(2)
-			this.calibrationSuccessTL.reverse() 
+			this.calibrationCalculationTL.timeScale(2)
+			this.calibrationCalculationTL.reverse()
+			
+			// this.calibrationSuccessTL.reverse()
 		})
 
 		// Click active on addStick

@@ -25,6 +25,7 @@ class Rooter
                             ['transitionTitle--display', 'transitionIn', 'calibrationIn', 'calibrationIn'], 
                             ['Calibration', 'MusicalCanvas']
                         )
+                        // console.log('STOPPPPPP')
                         canvas.stop()
                     }
                 

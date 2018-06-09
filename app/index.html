@@ -19,64 +19,15 @@
     </svg>
     <!-- <video class="img" src="assets/videos/minions.mp4" alt="" autoplay></video> -->
     
-    <div class="homeContainer domView">
-        <video class="img" src="assets/videos/awkwarde.mp4" alt="" autoplay loop style="display: none"></video>
-      <div class="track domView">
-          <img class="track__waves lazyload" src="assets/images/homepage/track.png" alt="track">
-      </div>
-  
-      <div class="loop domView">
-          <img class="loop__arrows lazyload" src="assets/images/homepage/loop.png" alt="track">
-      </div>
-      <div class="drum domView">
-        <img class="drum__icon lazyload" src="assets/images/homepage/drum.png" alt="">
-      </div>
-      <header class="header column--12">
-        <div class="header__title column--2 domView">
-          <h1 class="header__text">Melody Maker</h1>
-        </div>
-      </header>
-  
-      
-      <div class="content column--12">
-        <div class="content__text column--4">
-          <div class="content__title column--4">
-            <h2>Move it</h2>
-          </div>
-          <div class="content__description column--4">
-            <p class="content__p">Create your own melody with your own movements. Found a colored object and let’s go !</p>
-          </div>
-        </div>
-        <div class="content__preview column--4">
-          <div class="content__jelly"></div>
-        </div>
-      </div>
+    <container>
 
-      <div class="hoverButton column--4">
-        <div class="hoverButton__container">
-          <div class="hoverButton__climbContainer">
-            <div class="hoverButton__climb"></div>
-          </div>
-          <div class="hoverButton__expendContainer"></div>
-          <div class="hoverButton__background hoverButton__expend--loop"></div>
-          <div class="hoverButton__base callToAction callToAction--home">
-              <svg class="svg">
-                  <use xlink:href="assets/images/homepage/organicButtonRing.svg#buttonRing"></use>
-              </svg>
-              <div class="hoverButton__begin">Begin</div>
-              <div class="hoverButton__access">Access</div>
-          </div> 
-        </div>
-      </div>
-
-    </div>
-    
+    </container>
     <div class="loader">
-      <div class="loader__block loader__block--1"></div>
-      <div class="loader__block loader__block--2"></div>
-      <div class="loader__block loader__block--3"></div>
-      <div class="loader__block loader__block--4"></div>
-      <div class="loader__box"></div>
+        <div class="loader__block loader__block--1"></div>
+        <div class="loader__block loader__block--2"></div>
+        <div class="loader__block loader__block--3"></div>
+        <div class="loader__block loader__block--4"></div>
+        <div class="loader__box"></div>
     </div>
 
     <!-- <img class="img" src="assets/test.png" alt=""> -->
@@ -93,6 +44,7 @@
     <audio src="assets/sounds/drum.m4a"></audio>
   
     <!--build:js scripts/main.min.js -->
+    <script src="scripts/library/TweenMax.min.js"></script>
     <script src="scripts/jelly.js"></script>
     <script src="scripts/DOMLoader.js"></script>
     <script src="scripts/ViewsTransition.js"></script>
@@ -101,7 +53,10 @@
     <script src="scripts/MusicalCanvas.js"></script>
     <script src="scripts/DrumKit.js"></script>
     <script src="scripts/Oscillator.js"></script>
+    <script src="scripts/views/HomeController.js"></script>
     <script src="scripts/Calibration.js"></script>
+    <script src="scripts/views/CalibrationController.js"></script>
+    <script src="scripts/views/DashboardController.js"></script>
     <script src="scripts/Rooter.js"></script>
     <script src="scripts/script.js"></script>
     <!--endbuild-->

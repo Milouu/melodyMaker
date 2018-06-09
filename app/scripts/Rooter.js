@@ -1,40 +1,37 @@
-class Rooter 
+class Rooter
 {
-    constructor() 
+    constructor()
     {
-        this.$callToAction = document.querySelector('.callToAction')
+        // Set next button
+        const nextButton = document.querySelector('.newViewButton')
 
-        // Homepage
-        this.$callToAction.addEventListener('mousedown', () => 
+        // Listening click event on next button
+        nextButton.addEventListener('mousedown', () => 
         {
-            if(this.$callToAction.classList.contains('callToAction--home'))
+            // Recovers page name with data-name
+            const pageName = nextButton.dataset.name
+            console.log(pageName)
+            if(nextButton.classList.contains('newViewButton--delay'))
             {
+                console.log('DELAY')
                 let mouseUp = false
 
-                
-                this.$callToAction.addEventListener('mouseup', () => { mouseUp = true })
+                nextButton.addEventListener('mouseup', () => 
+                {
+                    mouseUp = true
+                })
+
                 setTimeout(() => 
                 {
-                    // Pause video canvas
-                    if(!mouseUp)
-                    {
-                        new ViewsTransition
-                        (
-                            'calibration', 'domView', 'domView', 
-                            ['transitionOut', 'track--animate', 'loop--animate', 'drum--animate', 'header__title--animate'], 
-                            ['transitionTitle--display', 'transitionIn', 'calibrationIn', 'calibrationIn'], 
-                            ['Calibration', 'MusicalCanvas']
-                        )
-                        // console.log('STOPPPPPP')
-                        canvas.stop()
-                    }
-                
+                    if(!mouseUp) { new ViewsController(pageName) }
                 }, 1000)
             }
-            if(this.$callToAction.classList.contains('callToAction--calibration'))
+            else
             {
-                console.log('DASHBOARD')
+                // Instance of ViewsTransition
+                new ViewsController(pageName) // essayer de ne pas re instancier viewscotroller car reset this.page
             }
+
         })
     }
 }

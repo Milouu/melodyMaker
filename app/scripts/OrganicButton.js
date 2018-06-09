@@ -70,5 +70,3 @@ class organicButton
         }, 1000)
     }
 }
-
-new organicButton('hoverButton__container', 'hoverButton', 'hoverButton__expendContainer', 'hoverButton__background','hoverButton__background--climb')

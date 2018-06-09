@@ -1,14 +1,15 @@
 class DOMLoader
 {   
-    constructor(sourceClass, arrayOfElementsClassName, arrayOfStateClassName) 
+    constructor(sourceClass, loaderClass, loaderUndisplayClass) 
     {
-        this.elements = arrayOfElementsClassName
-        this.states = arrayOfStateClassName
+        this.loader = document.querySelector('.' + loaderClass)
+        console.log(this.loader)
+        this.loaderUndisplay = loaderUndisplayClass
         this.sources = document.querySelectorAll('.' + sourceClass)
 
-        this.loader()
+        this.load()
     }
-    loader()
+    load()
     {
         let loaded = -1
 
@@ -33,9 +34,15 @@ class DOMLoader
     }
     init()
     {
-        for(let i = 0; i < this.elements.length; i++) {
-            const element = document.querySelector('.' + this.elements[i])
-            element.classList.add(this.states[i])
-        }
+        console.log('load')
+        // for(let i = 0; i < this.elements.length; i++) {
+        //     console.log(this.elements[i])
+        //     const element = document.querySelector('.' + this.elements[i])
+        //     element.classList.add(this.states[i])
+        // }
+        console.log(this.loaderUndisplay)
+        this.loader.classList.add(this.loaderUndisplay)
+
+        new ViewsController('home', true)
     }
 }

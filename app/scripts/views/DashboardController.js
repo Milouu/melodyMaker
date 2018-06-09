@@ -1,4 +1,4 @@
-class CalibrationDashboard
+class DashboardController
 {
     constructor()
     {   

@@ -5,10 +5,10 @@ class CalibrationController
         this.box1 = document.querySelector('.box-1')
         this.end = false 
         this.button = document.querySelector('.newViewButton')
-        this.button.addEventListener('click', () => 
-        {
-            console.log('click')
-        })
+        // this.button.addEventListener('click', () => 
+        // {
+        //     console.log('click')
+        // })
     }
     add()
     {
@@ -23,16 +23,19 @@ class CalibrationController
     }
     remove()
     {
+        console.log('remoefgnpzqeogo');
+        
         const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
         
         timeline
-        .to(".calibrationContainer", 0.3, {opacity: 0, scale: 1})
+        .to(".calibrationContainer", 1, {opacity: 0})
     }
     instances()
     {
     }
     ending()
     {
+
         this.end = true
     }
     endRemove()

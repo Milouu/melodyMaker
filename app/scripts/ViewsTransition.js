@@ -1,36 +1,42 @@
 class ViewsController
 {
-    constructor(newPageName, instance = false)
+    constructor()
     {
-        // Set variables
-        this.oldDOMView = document.querySelector('.view')
-        this.newPageName = newPageName
-        // this.page = null
+        this.home = new HomeController()
+        this.calibration = new CalibrationController()
+        this.dashboard = new DashboardController()
+        
+        this.newPageName = null
+        this.oldDOMView = null
+        this.currentPage = null
 
-        // If page is the first (home for example), not of DOM to remove
-        instance ? this.initNewDOM() : this.removeOldDOM()
+        this.end = false
     }
 
-    removeOldDOM()
+    removeOldDOM(currentPageName, newPageName)
     {
-        console.log(this.page)
-        // Instant pageOne
-        this.newPageName == 'home' ? this.page = new DashboardController() : false
-        this.newPageName == 'calibration' ? this.page = new HomeController() : false
-        this.newPageName == 'dashboard' ? this.page = new CalibrationController() : false
-        console.log(this.page)
+        this.end = false
 
+        this.newPageName = newPageName
+
+        if(currentPageName == 'home') this.currentPage = this.home
+        if(currentPageName == 'calibration') this.currentPage = this.calibration
+        if(currentPageName == 'dashboard') this.currentPage = this.dashboard
+
+        console.log(this.currentPage)
+        console.log(currentPageName)
         // Animate removing elements
-        this.page.remove()
+        this.currentPage.remove()
 
         // Call remove
         this.remove()
     }
 
-    initNewDOM()
+    initNewDOM(newPageName)
     {
+        this.newPageName = newPageName
         // Takes the DOM of new page and inject it into current view 
-        this.getPage(`views/${this.newPageName}.html`, 'container', 'container')
+        this.getPage(`views/${newPageName}.html`, 'container', 'container')
         
         // Try to catch new dom elements
         this.tryCatchDOM()
@@ -39,7 +45,7 @@ class ViewsController
     remove()
     {
         // Store state of animations: end or not ?
-        const end = this.page.endRemove()
+        const end = this.currentPage.endRemove()
 
         setTimeout(() => 
         {
@@ -55,7 +61,7 @@ class ViewsController
                 this.oldDOMView.remove() 
 
                 // Init new view
-                this.initNewDOM()
+                this.initNewDOM(this.newPageName)
             }
         }, 0) // Trick to prevent Maximum call stack size 
     }
@@ -63,28 +69,28 @@ class ViewsController
     tryCatchDOM()
     {
         const newView = document.querySelector('.view')
-        console.log(newView)
 
         newView == null ? setTimeout(() => { this.tryCatchDOM()}, 50) : this.pageProperty(newView)
     }
 
     pageProperty(newView)
     {
+        this.oldDOMView = newView
+
         // newView ready to display
         newView.style.opacity = '1'
         
         // Check which instance to do
-        console.log('INSTANCE PAGE')
-        this.newPageName == 'home' ? this.page = new HomeController() : false
-        this.newPageName == 'home' ? this.page.add() : false
-        this.newPageName == 'calibration' ? this.page = new CalibrationController() : false
-        this.newPageName == 'calibration' ? this.page.add() : false
-        this.newPageName == 'dashboard' ? this.page = new DashboardController() : false
-        this.newPageName == 'dashboard' ? this.page.add() : false
-        // Reset Rooter
-        new Rooter()     
-    }
+        this.newPageName == 'home' ? this.home.add() : false
+        this.newPageName == 'calibration' ? this.calibration.add() : false
+        this.newPageName == 'dashboard' ? this.dashboard.add() : false   
 
+        this.end = true
+    }
+    newViewButton()
+    {
+        return document.querySelector('.newViewButton')
+    }
     getPage(url, from, to)
     {
         const cached = sessionStorage[url]
@@ -99,5 +105,9 @@ class ViewsController
         XHRt.open("GET", url, true)
         XHRt.send()
         return XHRt
+    }
+    ending()
+    {
+        return this.end
     }
 }

@@ -470,7 +470,6 @@
             return -1;
         },
         stop: function () {
-            console.log('STOP')
             cancelAnimationFrame(this.requestAnimationFrame)
         }
     };

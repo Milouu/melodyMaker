@@ -26,6 +26,7 @@ class HomeController
     }
     remove()
     {
+        this.canvas.stop()
         const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
         
         timeline 

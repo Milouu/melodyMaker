@@ -1,0 +1,106 @@
+.calibration__ring 
+  position absolute
+  height 100%
+  width 100%
+  border 5px solid $blue
+  border-radius 50%
+  opacity 0
+  will-change opacity, transform
+
+.calibration__ringContainer
+  position absolute
+  z-index 99
+  height 50px
+  width 50px
+  transform translateX(-50%) translateY(-50%)
+
+.calibration__ring1
+  top 25%
+  left 25% 
+
+.calibration__ring2
+  top 25%
+  left 75%
+
+.calibration__ring3
+  top 75%
+  left 25% 
+
+.calibration__ring4
+  top 75%
+  left 75% 
+
+.calibration__validationRing
+  position absolute
+  z-index -1
+  height 100%
+  width 100%
+  stroke $white
+  stroke-width 5px
+  fill none 
+  stroke-dasharray 192px
+  stroke-dashoffset 384px
+  opacity 0
+  transform rotate(-90deg) scale(1)
+  will-change stroke-dashoffset
+
+.calibration__successTickContainer
+  position absolute 
+  z-index 99
+  top 0 
+  left 0 
+  width 100% 
+  height 100%
+
+.calibration__successTick1
+  position absolute
+  top 50%
+  left 50%
+  height 10px 
+  width 5px 
+  background $white 
+  transform-origin top
+  transform translateX(-250%) translateY(-5%) rotate(-45deg) 
+  will-change transform
+
+.calibration__successTick2
+  position absolute
+  bottom 0
+  left 0
+  height 20px 
+  width 5px 
+  background $white 
+  transform-origin bottom
+  transform translateX(-50%) rotate(90deg) 
+  will-change transform
+
+.calibration__whiteCircle
+  position absolute
+  display flex 
+  align-items center 
+  justify-content center
+  z-index 99
+  height 96px
+  width 96px
+  background $white
+  border-radius 50%
+  transform translateX(-50%) translateY(-50%)
+
+.calibration__toDashboardRing
+  top 80%
+  left 50%
+
+.calibration__transitionRing
+  height 54px
+  width 54px
+  stroke $blue
+  stroke-width 5px
+  fill none 
+  stroke-dasharray 192px
+  stroke-dashoffset 384px
+  opacity 0
+  transform rotate(-90deg)
+  will-change stroke-dashoffset, scale
+
+
+

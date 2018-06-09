@@ -34,7 +34,7 @@ gulp.task('stylus', () => {
 gulp.task('watch', ['browserSync', 'stylus'], () => {
 	gulp.watch('app/styles/stylus/**/*.styl', ['stylus'])
 	gulp.watch('app/scripts/**/*.js', browserSync.reload)
-	gulp.watch('app/*.html', browserSync.reload)
+	gulp.watch('app/**/*.html', browserSync.reload)
 })
 
 // Task to concat and minify css & js files and transfer them to dist directory

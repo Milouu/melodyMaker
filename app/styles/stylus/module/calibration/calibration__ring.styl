@@ -1,10 +1,5 @@
 .calibration__ring 
   position absolute
-  // z-index 99
-  // height h = 50px 
-  // width w = 50px
-  // margin-top -(h/2)
-  // margin-left -(w/2) 
   height 100%
   width 100%
   border 5px solid $blue
@@ -12,28 +7,12 @@
   opacity 0
   will-change opacity, transform
 
-// @keyframes calibrationApparition {
-//   0% {
-//     opacity 0
-//     transform scale(0)
-//   }
-//   75% {
-//     opacity 1
-//     transform scale(1.2)
-//   }
-//   100% {
-//     opacity 1
-//     transform scale(1)
-//   }
-// }
-
 .calibration__ringContainer
   position absolute
   z-index 99
   height 50px
   width 50px
   transform translateX(-50%) translateY(-50%)
-  // animation calibrationApparition 0.6s ease paused 
 
 .calibration__ring1
   top 25%
@@ -41,18 +20,15 @@
 
 .calibration__ring2
   top 25%
-  left 75%  
-  // animation calibrationApparition 0.6s ease 0.6s paused 
+  left 75%
 
 .calibration__ring3
   top 75%
-  left 25%  
-  // animation calibrationApparition 0.6s ease 1.2s paused 
+  left 25% 
 
 .calibration__ring4
   top 75%
-  left 75%
-  // animation calibrationApparition 0.6s ease 1.8s paused 
+  left 75% 
 
 .calibration__validationRing
   position absolute
@@ -97,3 +73,34 @@
   transform-origin bottom
   transform translateX(-50%) rotate(90deg) 
   will-change transform
+
+.calibration__whiteCircle
+  position absolute
+  display flex 
+  align-items center 
+  justify-content center
+  z-index 99
+  height 96px
+  width 96px
+  background $white
+  border-radius 50%
+  transform translateX(-50%) translateY(-50%)
+
+.calibration__toDashboardRing
+  top 80%
+  left 50%
+
+.calibration__transitionRing
+  height 54px
+  width 54px
+  stroke $blue
+  stroke-width 5px
+  fill none 
+  stroke-dasharray 192px
+  stroke-dashoffset 384px
+  opacity 0
+  transform rotate(-90deg)
+  will-change stroke-dashoffset, scale
+
+
+

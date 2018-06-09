@@ -70,13 +70,20 @@ class Calibration {
 		]
 
 		// Animation timeline on calibration success
-		this.calibrationSuccessTL = new TimelineLite({paused: true})
+		this.calibrationSuccessTL = new TimelineLite({paused: true, onComplete: this.checkGoToDashboardWithStick, onCompleteScope: this})
 		this.calibrationSuccessTL
 			.to(this.successTxt, 0.3, {opacity: 1}, '+= 1')
 			.fromTo(this.whiteCircle, 0.3, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1}, '+=0.5')
 			.to(this.whiteCircle, 0.1, {scale: 1})
 			.fromTo(this.transitionRing, 0.3, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1})
 			.to(this.transitionRing, 0.1, {scale: 1})
+
+		// Animation timeline for the transition button leading to the dashboard page
+		this.toDashboardTL = new TimelineLite({paused: true, onComplete: this.goToDashboard, onCompleteScope: this})
+		this.toDashboardTL
+			.to(this.transitionRing, 0.3, {scale: 1.8})
+			.to(this.transitionRing, 1, {strokeDashoffset: 230}, '+=0.5')
+			.to(this.whiteCircle, 0.3, {backgroundColor: '#5469FE'})
 
 			// Testing
 		let i = 0
@@ -91,11 +98,7 @@ class Calibration {
 			}	
 
 			if(event.keyCode == 69){
-				const testTL = new TimelineLite()
-				testTL
-					.to(this.transitionRing, 0.3, {scale: 1.8})
-					.to(this.transitionRing, 1, {strokeDashoffset: 230}, '+=0.5')
-					.to(this.whiteCircle, 0.3, {backgroundColor: '#5469FE'})
+				this.toDashboardTL.play()
 			}
 		})
 
@@ -418,5 +421,32 @@ class Calibration {
 		$expenders.push($expender)
 
 		for (const $expender of $expenders) { setTimeout(() => { $expender.remove() }, 500) }
+	}
+
+	goToDashboard()
+	{
+		this.whiteCircle.click()
+	}
+
+	checkGoToDashboardWithStick()
+	{
+		const ringLeftInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.whiteCircle.offsetLeft) / this.musicalCanvas.video.offsetWidth
+		const ringWidthInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.whiteCircle.offsetWidth) / this.musicalCanvas.video.offsetWidth
+		const ringTopInCanvas = (this.musicalCanvas.canvas.offsetHeight * this.whiteCircle.offsetTop) / this.musicalCanvas.video.offsetHeight
+		const ringHeightInCanvas = (this.musicalCanvas.canvas.offsetHeight * this.whiteCircle.offsetHeight) / this.musicalCanvas.video.offsetHeight
+
+		if((this.musicalCanvas.mainHitboxPosition.x  > ringLeftInCanvas && this.musicalCanvas.mainHitboxPosition.x < ringLeftInCanvas + ringWidthInCanvas) &&
+					this.musicalCanvas.mainHitboxPosition.y > ringTopInCanvas && this.musicalCanvas.mainHitboxPosition.y < ringTopInCanvas + ringHeightInCanvas )
+		{
+			this.toDashboardTL.timeScale(1)
+			this.toDashboardTL.play()
+		}
+		else
+		{
+			this.toDashboardTL.timeScale(2)
+			this.toDashboardTL.reverse()	
+		}
+
+		setTimeout(this.checkGoToDashboardWithStick.bind(this), 50)
 	}
 }

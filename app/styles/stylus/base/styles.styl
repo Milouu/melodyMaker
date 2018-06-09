@@ -1,13 +1,36 @@
 body 
-  background #fff
   overflow hidden
-  height 400px
+  padding-left 10px
+  padding-right 10px
 
-// Parent of cavans [DELETE]
-.waves
-  width 860px
-  height 600px
+  background-color $white
 
-.jelly 
-  width 100%
-  height 100%
+p
+  line-height 30px
+  font-size 1em
+
+  @media screen and (min-width: $desktop-large)
+    line-height 38px
+    font-size 1.2em
+// .newView
+//   position absolute
+//   pointer-events none
+//   left 50%
+//   top 50%
+//   transform translate(-50%, -50%)
+//   opacity 0
+//   transition opacity 5s ease
+//   font-size 100px
+
+// .callToAction--calibration
+//   width 100px
+//   height 100px
+//   background red
+
+.newViewButton--calibration
+  width 50px
+  height 50px
+  position absolute
+  left 0
+  top 0
+  background-color red

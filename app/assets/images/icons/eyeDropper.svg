@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_colorize</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M72.485,19.705 L64.295,11.515 C62.93,10.15 60.725,10.15 59.36,11.515 L48.44,22.435 L41.685,15.75 L36.75,20.685 L41.72,25.655 L10.5,56.875 L10.5,73.5 L27.125,73.5 L58.345,42.28 L63.315,47.25 L68.25,42.315 L61.53,35.595 L72.45,24.675 C73.85,23.275 73.85,21.07 72.485,19.705 L72.485,19.705 Z M24.22,66.5 L17.5,59.78 L45.71,31.57 L52.43,38.29 L24.22,66.5 L24.22,66.5 Z" id="path-1"></path>
+    </defs>
+    <g id="calibration---3#valid-2-copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-778.000000, -661.000000)">
+        <g id="Group-5" transform="translate(730.000000, 600.000000)">
+            <g id="Group-6" transform="translate(24.000000, 51.000000)">
+                <g id="ic_colorize" transform="translate(14.000000, 0.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#000000" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,24 @@
+.content__text
+    grid-column-start 3
+
+    font-size 18px
+    font-family 'aileron'
+
+    display grid
+    grid-template-columns repeat(4, 1fr)
+
+.content__title
+    grid-column-start 1
+    font-size 120px
+    font-family 'ballPark'
+    margin-bottom -10px
+
+    @media screen and (min-width: $desktop-large)
+        font-size 180px
+    @media screen and (max-width: $desktop)
+        font-size 92px
+    @media screen and (max-width: $tablet-landscape)
+        font-size 72px
+
+.content__description
+    justify-self top

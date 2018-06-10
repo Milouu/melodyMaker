@@ -5,7 +5,7 @@ class Rooter
         // Set next button
         this.viewsController = new ViewsController()
         
-        this.currentPageName = 'home'
+        this.currentPageName = 'dashboard'
         this.viewsController.initNewDOM(this.currentPageName)
 
         this.tryCatchNewViewButton()
@@ -28,6 +28,7 @@ class Rooter
     }
     events(newViewButton)
     {
+
         newViewButton.addEventListener('click', () => 
         {
             const newPageName = newViewButton.dataset.name
@@ -38,6 +39,7 @@ class Rooter
 
             this.isEnding()
         })
+
     }
     isEnding()
     {

@@ -1,0 +1,55 @@
+$seperatorGrey = #D8D8D8
+
+.dashboard__metricsContainer
+    height 14px
+    display flex
+
+.dashboard__trackInstrument--mesure
+    opacity 0
+
+.dashboard__metrics
+    position relative
+    height 14px
+    display flex
+    flex auto
+    justify-content space-between
+    align-items flex-end
+
+.dashboard__userPicture--mesure
+    opacity 0
+
+.dashboard__metric
+    width 1px
+    height 100%
+    transform-origin bottom
+
+    background-color $seperatorGrey
+
+.dashboard__metric:nth-child(2n)
+    height 50%
+
+.dashboard__cursor
+    display flex
+    justify-content center
+    left 0
+    top 0
+    transform translateX(-50%)
+    position absolute
+    z-index 10
+    cursor pointer
+
+.dashboard__cursorTriangle
+    width 28px
+    height 28px
+
+    background-color $seperatorGrey
+
+    clip-path: polygon(100% 0, 0 0, 50% 80%)
+
+.dashboard__cursorLine
+    width 1px
+    height 100vh
+    position absolute
+    transform translateX(-25%)
+    background-color $yellowTools
+    z-index 30

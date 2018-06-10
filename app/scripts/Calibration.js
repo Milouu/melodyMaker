@@ -40,7 +40,9 @@ class Calibration {
 		// Variables for calibration rings animations
 		this.ringsDisplay = false
 		this.calibratedRings = [false, false, false, false]
-		this.calibrationSuccessful = false
+    this.calibrationSuccessful = false
+    this.firstColorCalibrated = false
+    this.secondColorCalibrated = false
 		this.calibratedRingNumber = 0
 		this.calibrationRingContainers = this.videoContainer.querySelectorAll('.calibration__ringContainer')
 		this.calibrationRings = this.videoContainer.querySelectorAll('.calibration__ring')
@@ -116,7 +118,10 @@ class Calibration {
 		// Trashcan events
 		for (const trashcan of this.trashcans) {
 			// Launch removeColor() on click
-			trashcan.addEventListener('click', () => { this.removeColor(trashcan) })
+			trashcan.addEventListener('click', () => { 
+        event.stopPropagation()
+        this.removeColor(trashcan) 
+      })
 		}
 
 		// Set eyeDropper style when mouseneter and mouseleave on color cards.
@@ -129,11 +134,11 @@ class Calibration {
 				})
 			})
 			this.colors[i].addEventListener('click', () => {
-				this.flash(this.colors[i])
+        console.log('coloros')
 
-				this.deactivateCalibrationRings()
-			})
-			this.colors[i].addEventListener('click', () => {
+        this.flash(this.colors[i])
+        this.deactivateCalibrationRings()
+
 				!this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
 				!this.eyeDropperActive ? this.eyeDropperInit() : false
 				!this.eyeDropperActive ? this.colors[i].style.background = '#ccc' : false
@@ -227,8 +232,18 @@ class Calibration {
 				this.deactivateCalibrationRings()
         this.calibrationSuccessTL.play()
         
-				this.colors[0].classList.remove('pickedColors__color--dropped')
-				this.colors[0].classList.add('pickedColors__color--calibrated')
+        if(this.colors[0].classList.contains('pickedColors__color--dropped'))
+        {
+          this.colors[0].classList.remove('pickedColors__color--dropped')
+          this.colors[0].classList.add('pickedColors__color--calibrated')
+          this.firstColorCalibrated = true
+        }
+        else if(this.colors[1].classList.contains('pickedColors__color--dropped'))
+        {
+          this.colors[1].classList.remove('pickedColors__color--dropped')
+          this.colors[1].classList.add('pickedColors__color--calibrated')
+          this.secondColorCalibrated = true
+        }
 			}
 		}
 	}
@@ -286,7 +301,8 @@ class Calibration {
 			calibrationCalculationTL.pause(0, true)
 		}
 		// this.calibrationSuccessful = false
-		this.ringsDisplay = false
+    this.ringsDisplay = false
+    this.calibratedRings = [false, false, false, false]
 	}
 
 	addColor() 
@@ -319,11 +335,12 @@ class Calibration {
 		this.deactivateCalibrationRings()
 
 		if (trashcan === this.trashcans[0]) {
-			// Reset color block when removed
+      // Reset color block when removed
 			this.colors[0].classList.remove('pickedColors__color--undropped')
 			this.colors[0].classList.remove('pickedColors__color--dropped')
       this.colors[0].classList.remove('pickedColors__color--calibrated')
-			this.colors[0].style.background = '#ccc'
+      // this.colors[0].style.background = '#ccc'
+      this.firstColorCalibrated = false
 		
 
 			if (this.colors[1].classList.contains('pickedColors__color--undropped') && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) {
@@ -348,7 +365,8 @@ class Calibration {
 			this.colors[1].classList.remove('pickedColors__color--undropped')
 			this.colors[1].classList.remove('pickedColors__color--dropped')
       this.colors[1].classList.remove('pickedColors__color--calibrated')
-			this.colors[1].style.background = '#ccc'
+      // this.colors[1].style.background = '#ccc'
+      this.secondColorCalibrated = false
 
 			if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !this.colors[0].classList.contains('pickedColors__color--undropped')) {
 				this.addStick.classList.remove('pickedColors__addStick--oneColor')

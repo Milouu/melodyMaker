@@ -171,7 +171,6 @@ class MusicalCanvas
 	// activate the eyedropper
 	activateEyedropper()
 	{
-		console.log('activateEyedropper')
 		this.eyeDropperStatus = true
 	}
 	

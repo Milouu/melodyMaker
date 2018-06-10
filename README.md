@@ -16,10 +16,6 @@
   >
   > The webcam is now tracking your drumsticks !
 
-- Phone pairing
-
-  > Sync your phone with the website and slide it in your shoes so that it detects your foot's movements.
-
 - Drum simulator
 
   > You can play on a virtual drum with your drumsticks and your phone ! 

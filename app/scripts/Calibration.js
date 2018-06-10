@@ -144,14 +144,19 @@ class Calibration {
 				})
 			})
 			this.colors[i].addEventListener('click', () => {
-        console.log('coloros')
-
         this.flash(this.colors[i])
         this.deactivateCalibrationRings()
 
+        this.calibrationSuccessTL.timeScale(2)
+        this.calibrationSuccessTL.reverse()
+        this.calibrationSuccessful = false
+
+        this.addStickActive = false
+        this.addStick.classList.add('pickedColors__addStick--disabled')
+
 				!this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
 				!this.eyeDropperActive ? this.eyeDropperInit() : false
-				!this.eyeDropperActive ? this.colors[i].style.background = '#ccc' : false
+				// !this.eyeDropperActive ? this.colors[i].style.background = '#ccc' : false
         !this.eyeDropperActive ? this.colors[i].classList.add('pickedColors__color--undropped') : false			
       })
 		}
@@ -390,9 +395,10 @@ class Calibration {
    */
 	removeColor(trashcan) 
 	{
-		this.deactivateCalibrationRings()
+    this.deactivateCalibrationRings()
 
-		if (trashcan === this.trashcans[0]) {
+    if (trashcan === this.trashcans[0]) 
+    {
       // Reset color block when removed
 			this.colors[0].classList.remove('pickedColors__color--undropped')
 			this.colors[0].classList.remove('pickedColors__color--dropped')
@@ -401,24 +407,28 @@ class Calibration {
       this.firstColorCalibrated = false
 		
 
-			if (this.colors[1].classList.contains('pickedColors__color--undropped') && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) {
+      if (this.colors[1].classList.contains('pickedColors__color--undropped') && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
+      {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 				this.colors[0].classList.add('pickedColors__color--firstIsSecond')
 				this.colors[1].classList.add('pickedColors__color--secondIsFirst')
 				this.stickNumbers[0].innerHTML = 'Drum Stick 2'
 				this.stickNumbers[1].innerHTML = 'Drum Stick 1'
 			}
-			else if (this.colors[1].classList.contains('pickedColors__color--undropped') && this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) {
+      else if (this.colors[1].classList.contains('pickedColors__color--undropped') && this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
+      {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 			}
-			else {
+      else 
+      {
 				this.addStick.classList.remove('pickedColors__addStick--oneColor')
 				this.addStick.classList.remove('pickedColors__addStick--disabled')
 				this.colorsHitbox.style.cursor = 'none'
 				this.addStickActive = true
 			}
 		}
-		else if (trashcan === this.trashcans[1]) {
+    else if (trashcan === this.trashcans[1]) 
+    {
 			// Reset color block when removed
 			this.colors[1].classList.remove('pickedColors__color--undropped')
 			this.colors[1].classList.remove('pickedColors__color--dropped')
@@ -426,7 +436,8 @@ class Calibration {
       // this.colors[1].style.background = '#ccc'
       this.secondColorCalibrated = false
 
-			if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !this.colors[0].classList.contains('pickedColors__color--undropped')) {
+      if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !this.colors[0].classList.contains('pickedColors__color--undropped')) 
+      {
 				this.addStick.classList.remove('pickedColors__addStick--oneColor')
 				this.colors[0].classList.remove('pickedColors__color--firstIsSecond')
 				this.colors[1].classList.remove('pickedColors__color--secondIsFirst')
@@ -434,17 +445,32 @@ class Calibration {
 				this.stickNumbers[1].innerHTML = 'Drum Stick 2'
 				this.colorsHitbox.style.cursor = 'pointer'
 			}
-			else if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && this.colors[0].classList.contains('pickedColors__color--undropped')) {
+      else if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && this.colors[0].classList.contains('pickedColors__color--undropped')) 
+      {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 				this.colors[0].classList.remove('pickedColors__color--firstIsSecond')
 				this.colors[1].classList.remove('pickedColors__color--secondIsFirst')
 				this.stickNumbers[0].innerHTML = 'Drum Stick 1'
 				this.stickNumbers[1].innerHTML = 'Drum Stick 2'
 			}
-			else {
+      else 
+      {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 			}
-		}
+    }
+    
+    if(this.calibrationSuccessful === true && this.firstColorCalibrated === false && this.secondColorCalibrated === false)
+    {
+      this.calibrationSuccessTL.timeScale(2)
+      this.calibrationSuccessTL.reverse()
+      this.calibrationSuccessful = false
+    }
+    else if(this.calibrationSuccessful == false && (this.firstColorCalibrated === true || this.secondColorCalibrated === true))
+    {
+      this.calibrationSuccessTL.timeScale(1)
+      this.calibrationSuccessTL.play()
+      this.calibrationSuccessful = true
+    }
 	}
 
   /**

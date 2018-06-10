@@ -14,7 +14,10 @@ class Calibration {
 
 		this.eyeDropper = this.body.querySelector('.eyeDropper')
 		this.eyeDropperCursor = this.eyeDropper.querySelector('.eyeDropper__greyRing')
-		this.eyeDropperColored = this.eyeDropperCursor.querySelector('.eyeDropper__coloredRing')
+    // this.eyeDropperColored = this.eyeDropperCursor.querySelector('.eyeDropper__coloredRing')
+    // this.eyeDropperSquare = this.eyeDropperColored.querySelector('.eyeDropper__square')
+    this.eyeDropperColored = this.body.querySelector('.eyeDropper__coloredRing')
+    this.eyeDropperSquare = this.body.querySelector('.eyeDropper__square')
 
 		this.colors = this.body.querySelectorAll('.pickedColors__color')
 		this.stickNumbers = this.body.querySelectorAll('.pickedColors__stickNumber>p')
@@ -115,7 +118,7 @@ class Calibration {
     // Click event on add stick button
 		this.addStick.addEventListener('click', () => {
 			this.fillBar.classList.add('explanations__fillBar--step2')
-			this.addStickActive ? this.musicalCanvas.activateEyedropper() : false
+			// this.addStickActive ? this.musicalCanvas.activateEyedropper() : false
 			this.addStickActive ? this.flash(this.addStick) : false
       this.addStickActive ? this.addColor() : false
       
@@ -157,7 +160,7 @@ class Calibration {
         this.addStickActive = false
         this.addStick.classList.add('pickedColors__addStick--disabled')
 
-				!this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
+				// !this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
 				!this.eyeDropperActive ? this.eyeDropperInit() : false
 				// !this.eyeDropperActive ? this.colors[i].style.background = '#ccc' : false
         !this.eyeDropperActive ? this.colors[i].classList.add('pickedColors__color--undropped') : false			
@@ -166,7 +169,6 @@ class Calibration {
 
     // Color dropped in video with click event
     this.videoContainer.addEventListener('click', () => {
-      console.log(this.addStickActive)
       if (!this.addStickActive) {
         this.step = 3
         this.fillBar.classList.add('explanations__fillBar--step3')
@@ -177,7 +179,7 @@ class Calibration {
         this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
         this.eyeDropper.classList.add('eyeDropper--dropped')
         
-        console.log('pleaseeee')
+       
         if(this.colors[0].classList.contains('pickedColors__color--undropped'))
         {
           this.musicalCanvas.pickColorFromDisplay(event.clientX - this.videoContainer.offsetLeft - this.musicalCanvas.video.offsetLeft, event.clientY - this.videoContainer.offsetTop - this.musicalCanvas.video.offsetTop, this.colors[0])
@@ -187,7 +189,6 @@ class Calibration {
         }
         else if(this.colors[1].classList.contains('pickedColors__color--undropped'))
         {
-          console.log('enter')
           this.musicalCanvas.pickColorFromDisplay(event.clientX - this.videoContainer.offsetLeft - this.musicalCanvas.video.offsetLeft, event.clientY - this.videoContainer.offsetTop - this.musicalCanvas.video.offsetTop, this.colors[1])
 
           this.colors[1].classList.remove('pickedColors__color--undropped')
@@ -200,6 +201,23 @@ class Calibration {
         this.activateCalibrationRings()
 
       }
+    })
+
+    // this.eyeDropperUpdating = null
+    // this.videoContainer.addEventListener('mouseenter', () => {
+    //   this.eyeDropperUpdating = requestAnimationFrame(this.musicalCanvas.eyeDropperColorUpdate((this.mouse.x - this.musicalCanvas.video.offsetLeft - this.videoContainer.offsetLeft), (this.mouse.y - this.musicalCanvas.video.offsetTop - this.videoContainer.offsetTop), this.eyeDropperColored, this.eyeDropperSquare))
+
+    //   this.videoContainer.addEventListener('mouseleave', () => {
+    //     cancelAnimationFrame(this.eyeDropperUpdating)
+    //   })
+    // })
+
+    this.videoContainer.addEventListener('mouseenter', () => {
+      this.musicalCanvas.eyeDropperColorUpdate((this.mouse.x - this.musicalCanvas.video.offsetLeft - this.videoContainer.offsetLeft), (this.mouse.y - this.musicalCanvas.video.offsetTop - this.videoContainer.offsetTop), this.eyeDropperColored, this.eyeDropperSquare)
+
+    })
+    this.videoContainer.addEventListener('mouseleave', () => {
+      clearTimeout(this.musicalCanvas.eyeDropperUpdating)
     })
 
 		// Delete eyeDropper style between colors
@@ -360,12 +378,8 @@ class Calibration {
 			// calibrationCalculationTL.reverse()
 		}
 		// this.calibrationSuccessful = false
-<<<<<<< HEAD
-		this.ringsDisplay = false
-=======
     this.ringsDisplay = false
     this.calibratedRings = [false, false, false, false]
->>>>>>> 7058c544feedb5ee4a470405b531b2424a02c555
 	}
 
   /**

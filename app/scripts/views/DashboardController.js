@@ -8,7 +8,11 @@ class DashboardController
     add()
     {
         const addButton = document.querySelector('.dashboard__add')
-        const instruments = document.querySelector('.instruments');
+        const instruments = document.querySelector('.instruments')
+        const dashboard = document.querySelector('.dashboard')
+
+        let navMenu = false
+
         const timeline = new TimelineMax({onComplete: this.instances, onCompleteScope: this})
 
         timeline 
@@ -28,8 +32,10 @@ class DashboardController
         window.addEventListener('click', (event) => {
             if (addButton.contains(event.target)) {
                 // Clicked in buttonToDisplay
-                TweenMax.to('.dashboard', 0.3, {scale: 1.2, x: '30%', rotationY:'-45', opacity: 0.8, transformOrigin:'center'})
-                TweenMax.to('.instruments', 0.3, {x: '0%', scale: 1, opacity: 1, transformOrigin:'center'})
+                navMenu = true
+
+                TweenMax.to('.dashboard', 0.3, {scale: 1.2, x: '30%', rotationY:'-45', opacity: 1, transformOrigin:'center', cursor: 'pointer'})
+                TweenMax.to('.instruments', 0.3, {y: '-50%', scale: 1, opacity: 1, transformOrigin:'center'})
             } 
             else if(instruments.contains(event.target))
             {
@@ -37,9 +43,22 @@ class DashboardController
             }
             else {
                 // Clicked outside buttonToDisplay and window
+                navMenu = false
+                dashboard.style.boxShadow = '0px 10px 30px 0px rgba(0, 0, 0, 0.06)'
                 TweenMax.to('.dashboard', 0.3, {scale: 1, x: '0%', rotationY:'0', opacity: 1, transformOrigin:'center'})
-                TweenMax.to('.instruments', 0.3, {x: '0%', scale: 0.6, opacity: 0, transformOrigin:'center'})
+                TweenMax.to('.instruments', 0.3, {y: '-50%', scale: 0.6, opacity: 0, transformOrigin:'center'})
             }
+
+            dashboard.addEventListener('mouseenter', () => 
+            {
+                if(navMenu)
+                {
+                    dashboard.style.boxShadow = '0px 0px 0px 5px #5469FE'
+                    dashboard.addEventListener('mouseleave', () => {
+                        dashboard.style.boxShadow = '0px 10px 30px 0px rgba(0, 0, 0, 0.06)'
+                    })
+                }
+            })
         })
         // window.addEventListener('click', () => 
         // {

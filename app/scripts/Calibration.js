@@ -360,12 +360,8 @@ class Calibration {
 			// calibrationCalculationTL.reverse()
 		}
 		// this.calibrationSuccessful = false
-<<<<<<< HEAD
-		this.ringsDisplay = false
-=======
     this.ringsDisplay = false
     this.calibratedRings = [false, false, false, false]
->>>>>>> 7058c544feedb5ee4a470405b531b2424a02c555
 	}
 
   /**

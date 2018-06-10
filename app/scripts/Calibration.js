@@ -50,8 +50,9 @@ class Calibration {
 		this.successTicks1 = this.videoContainer.querySelectorAll('.calibration__successTick1')
 		this.successTicks2 = this.videoContainer.querySelectorAll('.calibration__successTick2')
 		this.successTxt = this.videoContainer.querySelector('.calibration__successTxt')
-		this.whiteCircle = this.videoContainer.querySelector('.calibration__whiteCircle')
+    this.whiteCircle = this.videoContainer.querySelector('.calibration__whiteCircle')
 		this.transitionRing = this.whiteCircle.querySelector('.calibration__transitionRing')
+    this.newViewButton = document.querySelector('.newViewButton')
 
 		/**
 		 * TweenMax Timelines
@@ -81,18 +82,20 @@ class Calibration {
 			.to(this.transitionRing, 0.1, {scale: 1})
 
 		// Animation timeline for the transition button leading to the dashboard page
-		this.toDashboardTL = new TimelineLite({paused: true, onComplete: this.goToDashboard, onCompleteScope: this})
+		this.toDashboardTL = new TimelineLite({paused: true})
 		this.toDashboardTL
 			.to(this.transitionRing, 0.3, {scale: 1.8})
-			.to(this.transitionRing, 1, {strokeDashoffset: 230}, '+=0.5')
+			.to(this.transitionRing, 1, {strokeDashoffset: 230, onComplete: this.goToDashboard, onCompleteScope: this}, '+=0.5')
 			.to(this.whiteCircle, 0.3, {backgroundColor: '#5469FE'})
 
 			// Testing
 		let i = 0
 		document.addEventListener('keydown', () =>{ 
 			//spacebar
-			event.keyCode == 32 ? this.calibrationSuccessTL.play() : false
-
+			if (event.keyCode == 32) {
+				this.calibrationSuccessTL.play()
+				this.calibrationSuccessful = true
+			}
 			// F
 			if((event.keyCode == 70) && (i<4)) {
 				this.calibrationCalculationTLs[i].play()
@@ -101,7 +104,7 @@ class Calibration {
       else if(i == 4) i = 0
 
 			if(event.keyCode == 69){
-				this.toDashboardTL.play()
+				this.toDashboardTL.play({onComplete: console.log('lol')})
 			}
 		})
 
@@ -292,9 +295,9 @@ class Calibration {
    */
 	calibrationCalculationTLGenerator(index)
 	{
-		let calibrationCalculationTL = new TimelineLite({paused: true, onComplete : this.validateCalibration, onCompleteParams: [index], onCompleteScope: this})
+		let calibrationCalculationTL = new TimelineLite({paused: true})
 		calibrationCalculationTL.to(this.validationRings[index], 0.3, {scale: 1.2, opacity: 1})
-		calibrationCalculationTL.to(this.validationRings[index], 1, {strokeDashoffset: 230})
+		calibrationCalculationTL.to(this.validationRings[index], 1, {strokeDashoffset: 230, onComplete : this.validateCalibration, onCompleteParams: [index], onCompleteScope: this})
 		calibrationCalculationTL.to(this.calibrationRings[index], 0.3, {backgroundColor: '#5469FE'})
 		calibrationCalculationTL.from(this.successTicks1[index], 0.1, {scale: 0}, '-=0.1')
 		calibrationCalculationTL.from(this.successTicks2[index], 0.1, {scale: 0})
@@ -324,6 +327,7 @@ class Calibration {
 		}
 		if(countRings === 4)
 		{
+			console.log(this.calibrationSuccessful)
 			this.calibrationSuccessful = true
 		}
 	}
@@ -356,8 +360,12 @@ class Calibration {
 			// calibrationCalculationTL.reverse()
 		}
 		// this.calibrationSuccessful = false
+<<<<<<< HEAD
+		this.ringsDisplay = false
+=======
     this.ringsDisplay = false
     this.calibratedRings = [false, false, false, false]
+>>>>>>> 7058c544feedb5ee4a470405b531b2424a02c555
 	}
 
   /**
@@ -550,7 +558,7 @@ class Calibration {
    */
 	goToDashboard()
 	{
-		this.whiteCircle.click()
+		this.newViewButton.click()
 	}
 
   /**

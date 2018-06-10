@@ -225,8 +225,10 @@ class Calibration {
 			else 
 			{
 				this.deactivateCalibrationRings()
-				this.calibrationSuccessTL.play()
-				this.colors[0].style.opacity = 1
+        this.calibrationSuccessTL.play()
+        
+				this.colors[0].classList.remove('pickedColors__color--dropped')
+				this.colors[0].classList.add('pickedColors__color--calibrated')
 			}
 		}
 	}
@@ -283,7 +285,7 @@ class Calibration {
 			// calibrationCalculationTL.reverse()
 			calibrationCalculationTL.pause(0, true)
 		}
-		this.calibrationSuccessful = false
+		// this.calibrationSuccessful = false
 		this.ringsDisplay = false
 	}
 
@@ -317,11 +319,12 @@ class Calibration {
 		this.deactivateCalibrationRings()
 
 		if (trashcan === this.trashcans[0]) {
+			// Reset color block when removed
 			this.colors[0].classList.remove('pickedColors__color--undropped')
 			this.colors[0].classList.remove('pickedColors__color--dropped')
-			// Reset color block to grey color & low opacity
+      this.colors[0].classList.remove('pickedColors__color--calibrated')
 			this.colors[0].style.background = '#ccc'
-			this.colors[0].style.opacity = 0.5
+		
 
 			if (this.colors[1].classList.contains('pickedColors__color--undropped') && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
@@ -341,11 +344,11 @@ class Calibration {
 			}
 		}
 		else if (trashcan === this.trashcans[1]) {
+			// Reset color block when removed
 			this.colors[1].classList.remove('pickedColors__color--undropped')
 			this.colors[1].classList.remove('pickedColors__color--dropped')
-			// Reset color block to grey color & low opacity
+      this.colors[1].classList.remove('pickedColors__color--calibrated')
 			this.colors[1].style.background = '#ccc'
-			this.colors[1].style.opacity = 0.5
 
 			if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !this.colors[0].classList.contains('pickedColors__color--undropped')) {
 				this.addStick.classList.remove('pickedColors__addStick--oneColor')
@@ -407,7 +410,7 @@ class Calibration {
 
 	eyeDropperRemove() 
 	{
-		eyeDropper.style.opacity = '0'
+		eyeDropper.style.opacity = 0
 	}
 
 	flash(container) 

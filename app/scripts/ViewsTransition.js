@@ -93,11 +93,11 @@ class ViewsController
 	}
 	getPage(url, from, to)
 	{
-		const cached = sessionStorage[url]
+		// const cached = sessionStorage[url]
 		if(!from){from="body"} // Default to grabbing body tag
 		if(to && to.split){to = document.querySelector(to)} // A string TO turns into an element
 		if(!to){to = document.querySelector(from)} // Default re-using the source elm as the target elm
-		if(cached){return to.innerHTML = cached} // Cache responses for instant re-use re-use
+		// if(cached){return to.innerHTML = cached} // Cache responses for instant re-use re-use
 
 		const XHRt = new XMLHttpRequest // New ajax
 		XHRt.responseType = 'document'  // Ajax2 context and onload() event

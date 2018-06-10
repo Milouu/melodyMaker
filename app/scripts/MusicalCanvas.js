@@ -51,7 +51,7 @@ class MusicalCanvas
 
 		this.video.addEventListener('play', this.draw())
 
-		this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.calibrationContainer.offsetLeft - this.video.offsetLeft, event.clientY - this.calibrationContainer.offsetTop - this.video.offsetTop) : false)
+		// this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.calibrationContainer.offsetLeft - this.video.offsetLeft, event.clientY - this.calibrationContainer.offsetTop - this.video.offsetTop) : false)
 		this.canvas.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop) : false)
 
 
@@ -89,11 +89,11 @@ class MusicalCanvas
 				.catch(error => 
 				{
 					// For dev without webcam
-					// $video.src = "assets/videos/minions.mp4"
-					// $video.play()
-					// $video.muted = true
-					// $video.loop = true
-					// $video.style.opacity = '1'
+					$video.src = "assets/videos/minions.mp4"
+					$video.play()
+					$video.muted = true
+					$video.loop = true
+					$video.style.opacity = '1'
 
 					window.alert('The following error occurred: ' + error.name)
 				})
@@ -171,7 +171,6 @@ class MusicalCanvas
 	// activate the eyedropper
 	activateEyedropper()
 	{
-		console.log('activateEyedropper')
 		this.eyeDropperStatus = true
 	}
 	
@@ -198,7 +197,7 @@ class MusicalCanvas
 	}
 
 	// Picks a color by clicking on webcam video
-	pickColorFromDisplay(x, y)
+	pickColorFromDisplay(x, y, color)
 	{
 		const data = this.getImageData()
 		const newX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
@@ -211,13 +210,15 @@ class MusicalCanvas
 			l : hslPickedColor[2]
 		}
 		
-		// Create div showing what color has been picked 
-		const $colors = document.querySelectorAll('.pickedColors__color')
+		// Update color card with the color picked during calibration
+		// const $colors = document.querySelectorAll('.pickedColors__color')
 
-		if($colors[0] !== undefined)
-		{
-			$colors[0].style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
-		}
+		// if($colors[0] !== undefined)
+		// {
+		// 	$colors[0].style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
+    // }
+    console.log(color)
+    color.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
 
 		this.deactivateEyedropper()
 

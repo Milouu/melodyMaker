@@ -97,7 +97,8 @@ class Calibration {
 			if((event.keyCode == 70) && (i<4)) {
 				this.calibrationCalculationTLs[i].play()
 				this.calibratedRings[i++] = true
-			}	
+      }	
+      else if(i == 4) i = 0
 
 			if(event.keyCode == 69){
 				this.toDashboardTL.play()
@@ -342,7 +343,12 @@ class Calibration {
 		this.calibrationTL.reverse()
 		for(const calibrationCalculationTL of this.calibrationCalculationTLs)
 		{
-			calibrationCalculationTL.pause(0, true)
+      calibrationCalculationTL.pause(0, true)
+      
+      // calibrationCalculationTL.restart()
+      // calibrationCalculationTL.pause()
+      
+			// calibrationCalculationTL.reverse()
 		}
 		// this.calibrationSuccessful = false
     this.ringsDisplay = false
@@ -355,7 +361,7 @@ class Calibration {
 	addColor() 
 	{
     this.eyeDropperInit()
-    
+
     this.addStickActive = false
     this.colorsHitbox.style.cursor = 'no-drop'
 

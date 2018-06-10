@@ -5,7 +5,7 @@ class Rooter
         // Set next button
         this.viewsController = new ViewsController()
         
-        this.currentPageName = 'dashboard'
+        this.currentPageName = 'home'
         this.viewsController.initNewDOM(this.currentPageName)
 
         this.tryCatchNewViewButton()

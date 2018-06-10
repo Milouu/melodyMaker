@@ -108,14 +108,23 @@ class Calibration {
 		 * Event Listeners
 		*/
 
+    // Click event on add stick button
 		this.addStick.addEventListener('click', () => {
 			this.fillBar.classList.add('explanations__fillBar--step2')
 			this.addStickActive ? this.musicalCanvas.activateEyedropper() : false
 			this.addStickActive ? this.flash(this.addStick) : false
-			this.addStickActive ? this.addColor() : false
+      this.addStickActive ? this.addColor() : false
+      
+      if(this.calibrationSuccessful === true) 
+      {
+        this.calibrationSuccessful = false
+
+        this.calibrationSuccessTL.timeScale(2)
+        this.calibrationSuccessTL.reverse()
+      }
 		})
 
-		// Trashcan events
+		// Click events on trashcans in color cards
 		for (const trashcan of this.trashcans) {
 			// Launch removeColor() on click
 			trashcan.addEventListener('click', () => { 
@@ -142,8 +151,40 @@ class Calibration {
 				!this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
 				!this.eyeDropperActive ? this.eyeDropperInit() : false
 				!this.eyeDropperActive ? this.colors[i].style.background = '#ccc' : false
-				!this.eyeDropperActive ? this.colors[i].classList.add('pickedColors__color--undropped') : false			})
+        !this.eyeDropperActive ? this.colors[i].classList.add('pickedColors__color--undropped') : false			
+      })
 		}
+
+    // Color dropped in video with click event
+    this.videoContainer.addEventListener('click', () => {
+      if (!this.addStickActive) {
+        this.step = 3
+        this.fillBar.classList.add('explanations__fillBar--step3')
+
+        this.explanations[1].classList.remove('explanations__explanation--current')
+        this.explanations[2].classList.add('explanations__explanation--current')
+        
+        this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
+        this.eyeDropper.classList.add('eyeDropper--dropped')
+        
+
+        if(this.colors[0].classList.contains('pickedColors__color--undropped'))
+        {
+          this.colors[0].classList.remove('pickedColors__color--undropped')
+          this.colors[0].classList.add('pickedColors__color--dropped')
+        }
+        else if(this.colors[1].classList.contains('pickedColors__color--undropped'))
+        {
+          this.colors[1].classList.remove('pickedColors__color--undropped')
+          this.colors[1].classList.add('pickedColors__color--dropped')
+        } 
+        
+        this.eyeDropperActive = false
+        setTimeout(() => { this.body.classList.remove('cursor--undisplay') }, 300)
+
+        this.activateCalibrationRings()
+      }
+    })
 
 		// Delete eyeDropper style between colors
 		this.colorsHitbox.addEventListener('mouseenter', () => {
@@ -163,29 +204,6 @@ class Calibration {
 		})
 
 
-		// Color dropped
-		this.videoContainer.addEventListener('click', () => {
-			if (!this.addStickActive) {
-				this.fillBar.classList.add('explanations__fillBar--step3')
-        
-				this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
-				this.eyeDropper.classList.add('eyeDropper--dropped')
-        
-				setTimeout(() => { this.body.classList.remove('cursor--undisplay') }, 300)
-        
-				this.colors[0].classList.remove('pickedColors__color--undropped')
-				this.colors[0].classList.add('pickedColors__color--dropped')
-        
-				this.explanations[1].classList.remove('explanations__explanation--current')
-				this.explanations[2].classList.add('explanations__explanation--current')
-        
-				this.step = 3
-        
-				this.eyeDropperActive = false
-
-				this.activateCalibrationRings()
-			}
-		})
 
 		/**
 		 * Methods launched
@@ -193,7 +211,10 @@ class Calibration {
 
 		this.setMouse()
 	}
-	
+  
+  /**
+   * Monitors calibration once calibration rings are displayed and stops when calibration is successful
+   */
 	calibrate()
 	{
 		if(this.ringsDisplay === true)
@@ -229,8 +250,12 @@ class Calibration {
 			}
 			else 
 			{
-				this.deactivateCalibrationRings()
+        this.deactivateCalibrationRings()
+        this.calibrationSuccessTL.timeScale(1)
         this.calibrationSuccessTL.play()
+
+        this.addStick.classList.remove('pickedColors__addStick--disabled')
+        this.addStickActive = true
         
         if(this.colors[0].classList.contains('pickedColors__color--dropped'))
         {
@@ -248,6 +273,10 @@ class Calibration {
 		}
 	}
 
+  /**
+   * Creates GSAP timelines for each calibration ring
+   * @param {Number of the calibration ring} index 
+   */
 	calibrationCalculationTLGenerator(index)
 	{
 		let calibrationCalculationTL = new TimelineLite({paused: true, onComplete : this.validateCalibration, onCompleteParams: [index], onCompleteScope: this})
@@ -260,6 +289,10 @@ class Calibration {
 		return calibrationCalculationTL
 	}
 
+  /**
+   * Monitors which rings has been successfully calibrated
+   * @param {Number of the calibration ring} ringIndex 
+   */
 	validateCalibration(ringIndex)
 	{
 		this.calibratedRings[ringIndex] = true
@@ -282,6 +315,9 @@ class Calibration {
 		}
 	}
   
+  /**
+   * Makes calibration rings appear
+   */
 	activateCalibrationRings()
 	{
 		this.calibrationTL.timeScale(1)
@@ -290,14 +326,15 @@ class Calibration {
 		this.calibrate()
 	}
 
+  /**
+   * Makes calibration rings disappear
+   */
 	deactivateCalibrationRings()
 	{
 		this.calibrationTL.timeScale(2)
 		this.calibrationTL.reverse()
 		for(const calibrationCalculationTL of this.calibrationCalculationTLs)
 		{
-			// calibrationCalculationTL.timeScale(2)
-			// calibrationCalculationTL.reverse()
 			calibrationCalculationTL.pause(0, true)
 		}
 		// this.calibrationSuccessful = false
@@ -305,6 +342,9 @@ class Calibration {
     this.calibratedRings = [false, false, false, false]
 	}
 
+  /**
+   * Add a color card
+   */
 	addColor() 
 	{
 		this.eyeDropperInit()
@@ -314,7 +354,7 @@ class Calibration {
 			this.addStick.classList.add('pickedColors__addStick--disabled')
 
 			this.colorsHitbox.style.cursor = 'no-drop'
-			this.addStickActive = false
+      this.addStickActive = false
 
 			// Display step2 on click to addStick
 			this.step < 2 ? this.explanations[0].classList.remove('explanations__explanation--current') : false
@@ -330,6 +370,10 @@ class Calibration {
 		}
 	}
 
+  /**
+   * Removes color card when its trashcan is clicked
+   * @param {The trashcan's color card number} trashcan 
+   */
 	removeColor(trashcan) 
 	{
 		this.deactivateCalibrationRings()
@@ -389,6 +433,9 @@ class Calibration {
 		}
 	}
 
+  /**
+   * Records mouse position for the eyedropper movements
+   */
 	setMouse() 
 	{
 		window.addEventListener('mousemove', (event) => {
@@ -399,6 +446,9 @@ class Calibration {
 		})
 	}
 
+  /**
+   * Initialiazes eyeDropper
+   */
 	eyeDropperInit() 
 	{
 		const body = document.querySelector('body')
@@ -421,16 +471,26 @@ class Calibration {
 		})
 	}
 
+  /**
+   * Controls eyedropper movements
+   */
 	eyeDropperMove() 
 	{
 		this.eyeDropper.style.transform = `translate(${this.mouse.x - (this.eyeDropper.offsetWidth / 2)}px, ${this.mouse.y - (this.eyeDropper.offsetHeight / 2)}px) scale(1)`
 	}
 
+  /**
+   * Removes the eyedropper
+   */
 	eyeDropperRemove() 
 	{
 		eyeDropper.style.opacity = 0
 	}
 
+  /**
+   * Makes color flash appear in a DOM element
+   * @param {Element of DOM} container 
+   */
 	flash(container) 
 	{
 		const $expenders = []
@@ -444,11 +504,17 @@ class Calibration {
 		for (const $expender of $expenders) { setTimeout(() => { $expender.remove() }, 500) }
 	}
 
+  /**
+   * Simulates a click on the whitecircle button appearing at the end of calibration
+   */
 	goToDashboard()
 	{
 		this.whiteCircle.click()
 	}
 
+  /**
+   * Monitors stick position relative to the button to go to the dashboard page
+   */
 	checkGoToDashboardWithStick()
 	{
 		const ringLeftInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.whiteCircle.offsetLeft) / this.musicalCanvas.video.offsetWidth

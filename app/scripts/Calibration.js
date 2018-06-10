@@ -50,8 +50,9 @@ class Calibration {
 		this.successTicks1 = this.videoContainer.querySelectorAll('.calibration__successTick1')
 		this.successTicks2 = this.videoContainer.querySelectorAll('.calibration__successTick2')
 		this.successTxt = this.videoContainer.querySelector('.calibration__successTxt')
-		this.whiteCircle = this.videoContainer.querySelector('.calibration__whiteCircle')
+    this.whiteCircle = this.videoContainer.querySelector('.calibration__whiteCircle')
 		this.transitionRing = this.whiteCircle.querySelector('.calibration__transitionRing')
+    this.newViewButton = document.querySelector('.newViewButton')
 
 		/**
 		 * TweenMax Timelines
@@ -550,7 +551,7 @@ class Calibration {
    */
 	goToDashboard()
 	{
-		this.whiteCircle.click()
+		this.newViewButton.click()
 	}
 
   /**

@@ -18,7 +18,7 @@ class Calibration {
 
 		this.colors = this.body.querySelectorAll('.pickedColors__color')
 		this.stickNumbers = this.body.querySelectorAll('.pickedColors__stickNumber>p')
-		this.colorsHitbox = this.body.querySelector('.pickedColors__hitbox')
+    this.colorsHitbox = this.body.querySelector('.pickedColors__hitbox')
 		this.trashcans = this.body.querySelectorAll('.pickedColors__trashcan')
 		this.explanations = this.body.querySelectorAll('.explanations__explanation')
 		this.fillBar = this.body.querySelector('.explanations__fillBar')
@@ -157,6 +157,7 @@ class Calibration {
 
     // Color dropped in video with click event
     this.videoContainer.addEventListener('click', () => {
+      console.log(this.addStickActive)
       if (!this.addStickActive) {
         this.step = 3
         this.fillBar.classList.add('explanations__fillBar--step3')
@@ -167,14 +168,19 @@ class Calibration {
         this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
         this.eyeDropper.classList.add('eyeDropper--dropped')
         
-
+        console.log('pleaseeee')
         if(this.colors[0].classList.contains('pickedColors__color--undropped'))
         {
+          this.musicalCanvas.pickColorFromDisplay(event.clientX - this.videoContainer.offsetLeft - this.musicalCanvas.video.offsetLeft, event.clientY - this.videoContainer.offsetTop - this.musicalCanvas.video.offsetTop, this.colors[0])
+         
           this.colors[0].classList.remove('pickedColors__color--undropped')
           this.colors[0].classList.add('pickedColors__color--dropped')
         }
         else if(this.colors[1].classList.contains('pickedColors__color--undropped'))
         {
+          console.log('enter')
+          this.musicalCanvas.pickColorFromDisplay(event.clientX - this.videoContainer.offsetLeft - this.musicalCanvas.video.offsetLeft, event.clientY - this.videoContainer.offsetTop - this.musicalCanvas.video.offsetTop, this.colors[1])
+
           this.colors[1].classList.remove('pickedColors__color--undropped')
           this.colors[1].classList.add('pickedColors__color--dropped')
         } 
@@ -183,6 +189,7 @@ class Calibration {
         setTimeout(() => { this.body.classList.remove('cursor--undisplay') }, 300)
 
         this.activateCalibrationRings()
+
       }
     })
 
@@ -347,14 +354,15 @@ class Calibration {
    */
 	addColor() 
 	{
-		this.eyeDropperInit()
+    this.eyeDropperInit()
+    
+    this.addStickActive = false
+    this.colorsHitbox.style.cursor = 'no-drop'
+
 		if (!this.addStick.classList.contains('pickedColors__addStick--oneColor')) {
 			this.colors[0].classList.add('pickedColors__color--undropped')
 			this.addStick.classList.add('pickedColors__addStick--oneColor')
 			this.addStick.classList.add('pickedColors__addStick--disabled')
-
-			this.colorsHitbox.style.cursor = 'no-drop'
-      this.addStickActive = false
 
 			// Display step2 on click to addStick
 			this.step < 2 ? this.explanations[0].classList.remove('explanations__explanation--current') : false

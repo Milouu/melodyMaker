@@ -407,15 +407,16 @@ class Calibration {
       this.firstColorCalibrated = false
 		
 
-      if (this.colors[1].classList.contains('pickedColors__color--undropped') && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
+      if ((this.colors[1].classList.contains('pickedColors__color--undropped') || this.colors[1].classList.contains('pickedColors__color--calibrated')) && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
       {
+        console.log('WE ARE HERE BOIS')
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 				this.colors[0].classList.add('pickedColors__color--firstIsSecond')
 				this.colors[1].classList.add('pickedColors__color--secondIsFirst')
 				this.stickNumbers[0].innerHTML = 'Drum Stick 2'
 				this.stickNumbers[1].innerHTML = 'Drum Stick 1'
 			}
-      else if (this.colors[1].classList.contains('pickedColors__color--undropped') && this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
+      else if ((this.colors[1].classList.contains('pickedColors__color--undropped') || this.colors[1].classList.contains('pickedColors__color--calibrated')) && this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
       {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 			}
@@ -436,7 +437,7 @@ class Calibration {
       // this.colors[1].style.background = '#ccc'
       this.secondColorCalibrated = false
 
-      if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !this.colors[0].classList.contains('pickedColors__color--undropped')) 
+      if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !(this.colors[0].classList.contains('pickedColors__color--undropped') || this.colors[0].classList.contains('pickedColors__color--calibrated'))) 
       {
 				this.addStick.classList.remove('pickedColors__addStick--oneColor')
 				this.colors[0].classList.remove('pickedColors__color--firstIsSecond')
@@ -445,7 +446,7 @@ class Calibration {
 				this.stickNumbers[1].innerHTML = 'Drum Stick 2'
 				this.colorsHitbox.style.cursor = 'pointer'
 			}
-      else if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && this.colors[0].classList.contains('pickedColors__color--undropped')) 
+      else if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && (this.colors[0].classList.contains('pickedColors__color--undropped') || this.colors[0].classList.contains('pickedColors__color--calibrated'))) 
       {
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 				this.colors[0].classList.remove('pickedColors__color--firstIsSecond')

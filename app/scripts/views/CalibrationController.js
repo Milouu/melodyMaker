@@ -35,7 +35,7 @@ class CalibrationController
     }
     ending()
     {
-
+        console.log('calibration ending')
         this.end = true
     }
     endRemove()

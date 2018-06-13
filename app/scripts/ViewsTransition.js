@@ -5,6 +5,7 @@ class ViewsController
 		this.home = new HomeController()
 		this.calibration = new CalibrationController()
 		this.dashboard = new DashboardController()
+		this.recordingDrum = new RecordingDrum()
         
 		this.newPageName = null
 		this.oldDOMView = null
@@ -22,6 +23,7 @@ class ViewsController
 		if(currentPageName == 'home') this.currentPage = this.home
 		if(currentPageName == 'calibration') this.currentPage = this.calibration
 		if(currentPageName == 'dashboard') this.currentPage = this.dashboard
+		if(currentPageName == 'recordingDrum') this.currentPage = this.recordingDrum
 
 		console.log(this.currentPage)
 		console.log(currentPageName)
@@ -84,6 +86,7 @@ class ViewsController
 		this.newPageName == 'home' ? this.home.add() : false
 		this.newPageName == 'calibration' ? this.calibration.add() : false
 		this.newPageName == 'dashboard' ? this.dashboard.add() : false   
+		this.newPageName == 'recordingDrum' ? this.recordingDrum.add() : false   
 
 		this.end = true
 	}

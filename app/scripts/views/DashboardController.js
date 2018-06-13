@@ -67,10 +67,13 @@ class DashboardController
     }
     remove()
     {
-        // const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
+        const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
         
-        // timeline
-        // .to('.content', 2, {opacity: 0, scale: 4, x: 600, ease:Elastic.easeOut}, 0.1)
+        timeline
+            .to('.dashboard', 0.3, {scale: 1, x: '60%', rotationY:'-65', opacity: 0, transformOrigin:'center'})
+            .to('.instruments', 0.3, {y: '-50%', x: '-50%', rotationY: 45, scale: 0.8, opacity: 0, transformOrigin:'center'}, '-=0.3')
+            .to('.header', 0.3, {y: '-120%'}, '-=0.3')
+            // .to('.dashboard', 0.3, {scale: 1.2, opacity: 0, transformOrigin:'center'}, '-=0.3')
     }
     instances()
     {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="330px" height="208px" viewBox="0 0 330 208" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>snare</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy-30" transform="translate(-200.000000, -514.000000)">
+            <g id="snare" transform="translate(200.000000, 514.000000)">
+                <path d="M0.179292121,37.7007869 C1.38918307,16.8313475 74.7517196,0 165.074146,0 C255.396573,0 328.759109,16.8313475 329.969,37.7007869 L330,37.7007869 L328.660525,141.909055 C329.361112,184.67964 280.510463,206.709955 182.108578,208 C73.7913652,208 13.0885058,189.559559 0,152.678676 L0,37.7007869 L0.179292121,37.7007869 Z" id="Combined-Shape" fill="#E9E9E9"></path>
+                <ellipse id="Oval-4" fill="#D9D9D9" cx="164.5" cy="39" rx="160.5" ry="35"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

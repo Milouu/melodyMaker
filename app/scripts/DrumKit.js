@@ -26,10 +26,6 @@ class DrumKit extends MusicalCanvas
 		this.delta2
 
 		
-		// DOM Variables
-		this._snare = document.querySelector('.snare')
-		this._hiHat = document.querySelector('.hi-hat')
-
 		// Position of the snare zone 
 		this.snarePos = {
 			x: this.canvas.offsetWidth / 2,
@@ -41,7 +37,21 @@ class DrumKit extends MusicalCanvas
 			x: this.canvas.offsetWidth / 2,
 			y: (this.canvas.offsetHeight / 3) * 2
 		}
-        
+
+		// DOM Variables
+		this._snare = document.querySelector('.snare')
+		this._hiHat = document.querySelector('.hi-hat')
+
+		this.recordButton = document.querySelector('.dashboard__reset')
+
+		/**
+		 * Event Listeners
+		 */
+		this.recordButton.addEventListener('click', this.recordSound)
+		
+		/**
+		 * Launched methods
+		 */
 		this.run()
 	}
 	
@@ -186,7 +196,20 @@ class DrumKit extends MusicalCanvas
 	// Plays the sound passed in the parameters
 	playSound(sound)
 	{
+		console.log('sound')
+		console.log(sound)
 		sound.currentTime = 0
 		sound.play()
+	}
+
+	recordSound()
+	{
+		console.log('testos')
+		const beginning = Date.now
+	}
+
+	setPickedColor(pickedColor)
+	{
+		this.pickedColor = pickedColor
 	}
 }

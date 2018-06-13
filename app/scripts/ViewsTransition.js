@@ -85,8 +85,13 @@ class ViewsController
 		// Check which instance to do
 		this.newPageName == 'home' ? this.home.add() : false
 		this.newPageName == 'calibration' ? this.calibration.add() : false
-		this.newPageName == 'dashboard' ? this.dashboard.add() : false   
-		this.newPageName == 'recordingDrum' ? this.recordingDrum.add() : false   
+		this.newPageName == 'dashboard' ? this.dashboard.add() : false  
+		
+		if(this.newPageName == 'recordingDrum')
+		{
+			this.recordingDrum.add()
+			this.recordingDrum.setPickedColor(this.getPickedColor())
+		}   
 
 		this.end = true
 	}
@@ -96,6 +101,7 @@ class ViewsController
 	}
 	getPage(url, from, to)
 	{
+		// Cache commented for dev
 		// const cached = sessionStorage[url]
 		if(!from){from="body"} // Default to grabbing body tag
 		if(to && to.split){to = document.querySelector(to)} // A string TO turns into an element
@@ -112,5 +118,10 @@ class ViewsController
 	ending()
 	{
 		return this.end
+	}
+
+	getPickedColor()
+	{
+		return this.calibration.getPickedColor()
 	}
 }

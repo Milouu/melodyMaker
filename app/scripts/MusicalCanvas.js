@@ -191,6 +191,7 @@ class MusicalCanvas
 			l : hslPickedColor[2]
 		}
 		
+		console.log(this.pickedColor)
 		// Update color card with the color picked during calibration
     color.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
 	}

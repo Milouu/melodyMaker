@@ -19,6 +19,17 @@ class DrumKit extends MusicalCanvas
 		// this.oldMainPos = this.mainHitboxPosition
 		this.oldMainPos = {x: 0, y: 0}
 
+		//Record Variables
+		this.recordBegun = false
+		this.recordBeginning = undefined
+		this.record = {
+			sounds : {
+				sound1 : [],
+				sound2 : []
+			},
+			bpm : 120,
+			instrument: 'drumkit'
+		}
 		// Variables to control requestAnimation Frame Speed
 		this.now2
 		this.then2 = Date.now()
@@ -104,6 +115,11 @@ class DrumKit extends MusicalCanvas
 			{
 				this.playSound(this._snare)
 				this.snareReady = false
+
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound1.push(Date.now - this.recordBeginning)
+				}
 			}
 		}
 		else if ((hitboxPos.y >= this.oldMainPos.y + soundInterval) && (hitboxPos.x <= this.hiHatPos.x))
@@ -112,6 +128,11 @@ class DrumKit extends MusicalCanvas
 			{
 				this.playSound(this._hiHat)
 				this.hiHatReady = false
+
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound2.push(Date.now - this.recordBeginning)
+				} 
 			}
 		}
 		else if(hitboxPos.y < this.oldMainPos.y && hitboxPos.y < this.snarePos.y)
@@ -152,6 +173,11 @@ class DrumKit extends MusicalCanvas
 				this.snareReady = false
 	
 				this.playSound(this._snare)
+
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound1.push(Date.now - this.recordBeginning)
+				} 
 			}
 		}
 		else if(hitboxPosition.x <= this.hiHatPos.x && hitboxPosition.y >= this.hiHatPos.y)
@@ -161,6 +187,11 @@ class DrumKit extends MusicalCanvas
 				this.hiHatReady = false
 				
 				this.playSound(this._hiHat)
+
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound2.push(Date.now - this.recordBeginning)
+				} 
 			}
 		}
 	}
@@ -196,7 +227,6 @@ class DrumKit extends MusicalCanvas
 	// Plays the sound passed in the parameters
 	playSound(sound)
 	{
-		console.log('sound')
 		console.log(sound)
 		sound.currentTime = 0
 		sound.play()
@@ -204,8 +234,11 @@ class DrumKit extends MusicalCanvas
 
 	recordSound()
 	{
-		console.log('testos')
-		const beginning = Date.now
+		this.recordBegun = true
+		this.recordBeginning = Date.now
+
+		this.record.sounds.sound1 = []
+		this.record.sounds.sound2 = []
 	}
 
 	setPickedColor(pickedColor)

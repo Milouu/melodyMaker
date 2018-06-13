@@ -40,23 +40,17 @@ class MusicalCanvas
 		this.secondHitboxPosition = {}
 
 		// Calibration variables
-		this.calibrationContainer = document.querySelector('.calibration')
-		this.eyeDropperRing = document.querySelector('.eyeDropper__coloredRing')
-		this.eyeDropperSquare = document.querySelector('.eyeDropper__square')
-		this.eyeDropperStatus = false
-		this.videoHover = false
+    this.videoHover = false
+		this.videoContainer = undefined
+		this.eyeDropperRing = undefined
+		this.eyeDropperSquare = undefined
 
 		// Event Listeners
 		document.addEventListener('mousemove', (event) => this.saveMousePos(event.clientX, event.clientY))
 
 		this.video.addEventListener('play', this.draw())
 
-		// this.video.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColorFromDisplay(event.clientX - this.calibrationContainer.offsetLeft - this.video.offsetLeft, event.clientY - this.calibrationContainer.offsetTop - this.video.offsetTop) : false)
-		this.canvas.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop) : false)
-
-
-		this.video.addEventListener('mousemove', () => { this.videoHover = true })
-		this.video.addEventListener('mouseleave', () => { this.videoHover = false })
+		// this.canvas.addEventListener('click', (event) => this.eyeDropperStatus === true ? this.pickColor(event.clientX - this.canvas.offsetLeft, event.clientY - this.canvas.offsetTop) : false)
 
 		// window.addEventListener('resize', this.canvasResize())
 	}
@@ -65,7 +59,7 @@ class MusicalCanvas
 	setWebcam() 
 	{
 		// Set variables
-		const $calibrationVideo = document.querySelector('.calibration')
+		const $calibrationVideo = document.querySelector('.videoContainer')
 		console.log($calibrationVideo)
 		const $video = document.createElement('video')
     
@@ -138,8 +132,7 @@ class MusicalCanvas
 			
 			if(this.videoHover === true)
 			{
-				
-				this.eyeDropperColorUpdate(this.mousePos.x - this.video.offsetLeft - this.calibrationContainer.offsetLeft, this.mousePos.y - this.video.offsetTop - this.calibrationContainer.offsetTop)
+				this.eyeDropperColorUpdate(this.mousePos.x - this.video.offsetLeft - this.videoContainer.offsetLeft, this.mousePos.y - this.video.offsetTop - this.videoContainer.offsetTop)
 			}
 			
 			if(this.pickedColor)
@@ -166,18 +159,6 @@ class MusicalCanvas
 	getImageData()
 	{
 		return this.context.getImageData(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight).data
-	}
-
-	// activate the eyedropper
-	activateEyedropper()
-	{
-		this.eyeDropperStatus = true
-	}
-	
-	// deactivate the eyedropper
-	deactivateEyedropper()
-	{
-		this.eyeDropperStatus = false
 	}
 	
 	// Picks a color by clicking on canvas 
@@ -211,33 +192,29 @@ class MusicalCanvas
 		}
 		
 		// Update color card with the color picked during calibration
-		// const $colors = document.querySelectorAll('.pickedColors__color')
-
-		// if($colors[0] !== undefined)
-		// {
-		// 	$colors[0].style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
-    // }
-    console.log(color)
     color.style.background = 'hsl(' + hslPickedColor[0]*360 + ', ' + hslPickedColor[1]*100 + '%, ' + hslPickedColor[2]*100 + '%)'
-
-		this.deactivateEyedropper()
-
-		console.log(this.pickedColor)
 	}
 
 	// Updates eyedropper color depending on the pixel hovered
 	eyeDropperColorUpdate(x, y)
 	{
-		const data = this.getImageData()
-		const hoverX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
-		const hoverY = Math.floor(y/(this.video.offsetHeight / this.canvas.offsetHeight))
-		const hoveredPixelIndex = ((this.canvas.offsetWidth * 4) * hoverY) + (hoverX * 4)
-		
-		const hslHoveredColor = this.rgbToHsl(data[hoveredPixelIndex], data[hoveredPixelIndex + 1], data[hoveredPixelIndex + 2])
-		
-		this.eyeDropperRing.style.borderColor = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
-		this.eyeDropperSquare.style.background = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
-	}
+    const data = this.getImageData()
+    const hoverX = Math.floor(x/(this.video.offsetWidth / this.canvas.offsetWidth))
+    const hoverY = Math.floor(y/(this.video.offsetHeight / this.canvas.offsetHeight))
+    const hoveredPixelIndex = ((this.canvas.offsetWidth * 4) * hoverY) + (hoverX * 4)
+    
+    const hslHoveredColor = this.rgbToHsl(data[hoveredPixelIndex], data[hoveredPixelIndex + 1], data[hoveredPixelIndex + 2])
+    
+    this.eyeDropperRing.style.borderColor = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)'
+    this.eyeDropperSquare.style.background = 'hsl(' + hslHoveredColor[0]*360 + ', ' + hslHoveredColor[1]*100 + '%, ' + hslHoveredColor[2]*100 + '%)' 
+  }
+  
+  setEyedropperVariables(container, ring, square)
+  {
+    this.videoContainer = container
+    this.eyeDropperRing = ring
+		this.eyeDropperSquare = square
+  }
 	
 	// Converts rgb color to hsl
 	rgbToHsl(r, g, b)

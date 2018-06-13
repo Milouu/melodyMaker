@@ -14,7 +14,8 @@ class Calibration {
 
 		this.eyeDropper = this.body.querySelector('.eyeDropper')
 		this.eyeDropperCursor = this.eyeDropper.querySelector('.eyeDropper__greyRing')
-		this.eyeDropperColored = this.eyeDropperCursor.querySelector('.eyeDropper__coloredRing')
+    this.eyeDropperColored = this.eyeDropperCursor.querySelector('.eyeDropper__coloredRing')
+    this.eyeDropperSquare = this.eyeDropperColored.querySelector('.eyeDropper__square')
 
 		this.colors = this.body.querySelectorAll('.pickedColors__color')
 		this.stickNumbers = this.body.querySelectorAll('.pickedColors__stickNumber>p')
@@ -115,7 +116,6 @@ class Calibration {
     // Click event on add stick button
 		this.addStick.addEventListener('click', () => {
 			this.fillBar.classList.add('explanations__fillBar--step2')
-			this.addStickActive ? this.musicalCanvas.activateEyedropper() : false
 			this.addStickActive ? this.flash(this.addStick) : false
       this.addStickActive ? this.addColor() : false
       
@@ -157,16 +157,13 @@ class Calibration {
         this.addStickActive = false
         this.addStick.classList.add('pickedColors__addStick--disabled')
 
-				!this.eyeDropperActive ? this.musicalCanvas.activateEyedropper() : false
 				!this.eyeDropperActive ? this.eyeDropperInit() : false
-				// !this.eyeDropperActive ? this.colors[i].style.background = '#ccc' : false
         !this.eyeDropperActive ? this.colors[i].classList.add('pickedColors__color--undropped') : false			
       })
 		}
 
     // Color dropped in video with click event
     this.videoContainer.addEventListener('click', () => {
-      console.log(this.addStickActive)
       if (!this.addStickActive) {
         this.step = 3
         this.fillBar.classList.add('explanations__fillBar--step3')
@@ -177,7 +174,7 @@ class Calibration {
         this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
         this.eyeDropper.classList.add('eyeDropper--dropped')
         
-        console.log('pleaseeee')
+       
         if(this.colors[0].classList.contains('pickedColors__color--undropped'))
         {
           this.musicalCanvas.pickColorFromDisplay(event.clientX - this.videoContainer.offsetLeft - this.musicalCanvas.video.offsetLeft, event.clientY - this.videoContainer.offsetTop - this.musicalCanvas.video.offsetTop, this.colors[0])
@@ -187,7 +184,6 @@ class Calibration {
         }
         else if(this.colors[1].classList.contains('pickedColors__color--undropped'))
         {
-          console.log('enter')
           this.musicalCanvas.pickColorFromDisplay(event.clientX - this.videoContainer.offsetLeft - this.musicalCanvas.video.offsetLeft, event.clientY - this.videoContainer.offsetTop - this.musicalCanvas.video.offsetTop, this.colors[1])
 
           this.colors[1].classList.remove('pickedColors__color--undropped')
@@ -200,6 +196,13 @@ class Calibration {
         this.activateCalibrationRings()
 
       }
+    })
+
+    this.videoContainer.addEventListener('mouseenter', () => {
+     this.musicalCanvas.videoHover = true
+    })
+    this.videoContainer.addEventListener('mouseleave', () => {
+      this.musicalCanvas.videoHover = false
     })
 
 		// Delete eyeDropper style between colors
@@ -225,7 +228,9 @@ class Calibration {
 		 * Methods launched
 		 */
 
-		this.setMouse()
+    this.setMouse()
+    
+    this.musicalCanvas.setEyedropperVariables(this.videoContainer, this.eyeDropperColored, this.eyeDropperSquare)
 	}
   
   /**
@@ -407,7 +412,6 @@ class Calibration {
 			this.colors[0].classList.remove('pickedColors__color--undropped')
 			this.colors[0].classList.remove('pickedColors__color--dropped')
       this.colors[0].classList.remove('pickedColors__color--calibrated')
-      // this.colors[0].style.background = '#ccc'
       this.firstColorCalibrated = false
 		
 
@@ -438,7 +442,6 @@ class Calibration {
 			this.colors[1].classList.remove('pickedColors__color--undropped')
 			this.colors[1].classList.remove('pickedColors__color--dropped')
       this.colors[1].classList.remove('pickedColors__color--calibrated')
-      // this.colors[1].style.background = '#ccc'
       this.secondColorCalibrated = false
 
       if (this.colors[1].classList.contains('pickedColors__color--secondIsFirst') && !(this.colors[0].classList.contains('pickedColors__color--undropped') || this.colors[0].classList.contains('pickedColors__color--calibrated'))) 
@@ -522,14 +525,6 @@ class Calibration {
 	eyeDropperMove() 
 	{
 		this.eyeDropper.style.transform = `translate(${this.mouse.x - (this.eyeDropper.offsetWidth / 2)}px, ${this.mouse.y - (this.eyeDropper.offsetHeight / 2)}px) scale(1)`
-	}
-
-  /**
-   * Removes the eyedropper
-   */
-	eyeDropperRemove() 
-	{
-		eyeDropper.style.opacity = 0
 	}
 
   /**

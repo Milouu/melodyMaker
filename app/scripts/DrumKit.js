@@ -196,8 +196,6 @@ class DrumKit extends MusicalCanvas
 	// Plays the sound passed in the parameters
 	playSound(sound)
 	{
-		console.log('sound')
-		console.log(sound)
 		sound.currentTime = 0
 		sound.play()
 	}

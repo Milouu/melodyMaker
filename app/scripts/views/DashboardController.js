@@ -3,6 +3,34 @@ class DashboardController
     constructor()
     {   
         this.end = false 
+        this.trackController = null
+
+        this.tracks = 
+        [
+            {
+                instrument: 'drum',
+                delays: 
+                {
+                    delay1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250],
+                    delay2: [500, 1500, 2500, 3500],
+                    delay3: [],
+                    delay4: [],
+                },
+                bpm: 120
+            }, 
+            {
+                instrument: 'guitar',
+                delays: 
+                {
+                    delay1: [0, 2500],
+                    delay2: [1000, 3000],
+                    delay3: [],
+                    delay4: [],
+                },
+                bpm: 120
+            }, 
+        ]
+
         // this.addi = document.querySelector('.dashboard__add')
     }
     add()
@@ -10,6 +38,7 @@ class DashboardController
         const addButton = document.querySelector('.dashboard__add')
         const instruments = document.querySelector('.instruments')
         const dashboard = document.querySelector('.dashboard')
+        const playButton = document.querySelector('.dashboard__play')
 
         let navMenu = false
 
@@ -64,6 +93,10 @@ class DashboardController
         // {
         //     TweenMax.to('.dashboard', 0.3, {scale: 1, x: '0%', transformOrigin:'center'})
         // })
+        playButton.addEventListener('click', () => 
+        {
+            this.trackController.playTrack(this.trackController.initInstrument(this.tracks[0].instrument), this.tracks[0], 100, this.trackController.initCount(2))
+        })
     }
     remove()
     {
@@ -77,6 +110,9 @@ class DashboardController
     }
     instances()
     {
+        this.trackController = new PlaySound()
+        console.log(this.trackController)
+
     }
     ending()
     {

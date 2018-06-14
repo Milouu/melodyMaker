@@ -22,16 +22,27 @@ class PlaySound
         this.tracks = 
         [
             {
-            instrument: 'drum',
-            sounds: 
+                instrument: 'drum',
+                sounds: 
+                {
+                    sound1: [0, 500, 1500, 2000, 2500],
+                    sound2: [1000, 3000],
+                    sound3: [],
+                    sound4: [],
+                },
+                bpm: 120
+            }, 
             {
-                sound1: [0, 500, 1500, 2000, 2500],
-                sound2: [1000, 3000],
-                sound3: [],
-                sound4: [],
-            },
-            bpm: 120
-        } 
+                instrument: 'drum',
+                sounds: 
+                {
+                    sound1: [],
+                    sound2: [0, 500, 1000, 1500, 2000, 2500, 3000],
+                    sound3: [],
+                    sound4: [],
+                },
+                bpm: 120
+            }, 
         ]
 
         this.sounds = {}
@@ -41,6 +52,8 @@ class PlaySound
         const path = 'assets/sounds/'
 
         this.init(this.track.instrument, path)
+        this.playTrack(this.tracks[0], 200, this.initCount(2))
+        this.playTrack(this.tracks[1], 200, this.initCount(2))
     }
     init(instrument, path)
     {
@@ -53,28 +66,50 @@ class PlaySound
             }
         }
     }
-    play(bpm)
-    {      
-        const sound1Delay = (this.track.sounds.sound1[this.count1] * this.track.bpm) / bpm 
-        const sound2Delay = (this.track.sounds.sound2[this.count2] * this.track.bpm) / bpm
+    play()
+    {
 
-        console.log(bpm)
+    }
+    initCount(countNumber)
+    {
+        const counts = []
+
+        for(let i = 0; i < countNumber; i++)
+        {
+            const count = 0
+            counts.push(count)
+        }
+        return counts
+    }
+    playTrack(track, bpm, counts)
+    {      
+        const sound1Delay = (track.sounds.sound1[counts[0]] * track.bpm) / bpm 
+        const sound2Delay = (track.sounds.sound2[counts[1]] * track.bpm) / bpm
+
         if(this.date + sound1Delay <= Date.now())
         {
             this.sounds.sound1.currentTime = 0
             this.sounds.sound1.play()
-            this.count1++
+            counts[0]++
         }
         else if(this.date + sound2Delay <= Date.now())
         {
             this.sounds.sound2.currentTime = 0
             this.sounds.sound2.play()
-            this.count2++
+            counts[1]++
         }
 
-        const animationFrame = window.requestAnimationFrame(this.play.bind(this, bpm))
+        const animationFrame = window.requestAnimationFrame(this.playTrack.bind(this,track, bpm, counts))
 
-        if(this.count1 + this.count2 == this.track.sounds.sound1.length + this.track.sounds.sound2.length)
+        let totalCount = 0
+
+        for(let count of counts)
+        {
+            totalCount += count
+        }
+
+        console.log(totalCount)
+        if(totalCount == track.sounds.sound1.length + track.sounds.sound2.length)
         {
             window.cancelAnimationFrame(animationFrame)
         }

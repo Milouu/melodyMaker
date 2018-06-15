@@ -11,8 +11,8 @@ class DashboardController
                 instrument: 'drum',
                 delays: 
                 {
-                    delay1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250],
-                    delay2: [500, 1500, 2500, 3500],
+                    delay1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250, 4000, 4250, 4750, 5000, 5250, 6000, 6250, 6750, 7000, 7250],
+                    delay2: [500, 1500, 2500, 3500, 4500, 5500, 6500, 7500],
                     delay3: [],
                     delay4: [],
                 },
@@ -29,8 +29,13 @@ class DashboardController
                 },
                 bpm: 120
             }, 
-        ]
 
+        ]
+        this.bpm = 120
+
+        this.loop = true
+
+        this.cursorTimeline = new TimelineMax({ paused: true })
         // this.addi = document.querySelector('.dashboard__add')
     }
     add()
@@ -39,10 +44,16 @@ class DashboardController
         const instruments = document.querySelector('.instruments')
         const dashboard = document.querySelector('.dashboard')
         const playButton = document.querySelector('.dashboard__play')
+        const track = document.querySelector('.dashboard__track')
+        console.log(track)
+        console.log('WIDTH ' + track.offsetWidth)
+        const cursor = document.querySelector('.dashboard__cursor')
+
+        let play = false
 
         let navMenu = false
 
-        const timeline = new TimelineMax({onComplete: this.instances, onCompleteScope: this})
+        const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
 
         timeline 
             .from('.dashboard', 0.5, {scale: 0, ease: Power3.easeOut})
@@ -89,14 +100,30 @@ class DashboardController
                 }
             })
         })
-        // window.addEventListener('click', () => 
-        // {
-        //     TweenMax.to('.dashboard', 0.3, {scale: 1, x: '0%', transformOrigin:'center'})
-        // })
+
+        this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
+        
         playButton.addEventListener('click', () => 
         {
-            this.trackController.playTrack(this.trackController.initInstrument(this.tracks[0].instrument), this.tracks[0], 100, this.trackController.initCount(2))
+            
+            this.cursorTimeline.paused(!this.cursorTimeline.paused())
+            
+            if(!this.cursorTimeline.paused())
+            {
+                console.log('coucou')
+                this.trackController.updateDate()
+                this.trackController.playTrack(this.trackController.initInstrument(this.tracks[0].instrument), this.tracks[0], this.bpm)
+            }
+            else
+            {
+                this.trackController.pause()
+            }
         })
+    }
+    cursorReset(cursor, track)
+    {
+            this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
+            this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
     }
     remove()
     {
@@ -110,7 +137,7 @@ class DashboardController
     }
     instances()
     {
-        this.trackController = new PlaySound()
+        this.trackController = new PlaySound() 
         console.log(this.trackController)
 
     }

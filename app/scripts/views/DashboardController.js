@@ -19,7 +19,7 @@ class DashboardController
                 bpm: 120
             }, 
             {
-                instrument: 'guitar',
+                instrument: 'drum',
                 delays: 
                 {
                     delay1: [0, 2500, 3500, 6000],
@@ -29,6 +29,18 @@ class DashboardController
                 },
                 bpm: 120
             }, 
+            {
+                instrument: 'drum',
+                delays: 
+                {
+                    delay1: [0, 2500, 3500, 6000],
+                    delay2: [1000, 3000, 5000, 7000],
+                    delay3: [],
+                    delay4: [],
+                },
+                bpm: 120
+            }, 
+            
         ]
         this.bpm = 100
 
@@ -132,16 +144,30 @@ class DashboardController
     }
     craftTracks()
     {
-        const tracks = document.querySelector('container')
+        const dashboard = document.querySelector('.dashboard__container')
+        dashboard.style.opacity = 0
 
         for(const track of this.tracks)
         {
-            setTimeout(() => 
-            {
-                console.log('WOW')
+            if(track.instrument == 'drum') { this.getTrack('modules/track--drum.html', 'container', '.tracks') }
+            else if(track.instrument == 'guitar') { this.getTrack('modules/track--guitar.html', 'container', '.tracks') }
+        }
+        this.tryCatchTracks(dashboard)
+    }
+    tryCatchTracks(dashboard)
+    {
 
-                this.getTrack('modules/track.html', 'container', '.tracks')
-            }, 0)
+        const track = document.querySelector('.dashboard__trackContainer')
+        console.log(track)
+
+        if(track == null)
+        {
+            setTimeout(() => { this.tryCatchTracks(dashboard) }, 50)
+        }
+        else
+        {
+            this.add()
+            dashboard.style.opacity = 1
         }
     }
     remove()
@@ -161,8 +187,6 @@ class DashboardController
         {
             this.tracksControllers.push(new PlaySound())
         }
-
-        this.craftTracks()
     }
     ending()
     {

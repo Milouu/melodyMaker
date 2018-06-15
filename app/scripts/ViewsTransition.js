@@ -85,7 +85,7 @@ class ViewsController
 		// Check which instance to do
 		this.newPageName == 'home' ? this.home.add() : false
 		this.newPageName == 'calibration' ? this.calibration.add() : false
-		this.newPageName == 'dashboard' ? this.dashboard.add() : false  // ICICI
+		this.newPageName == 'dashboard' ? this.dashboard.craftTracks() : false
 		
 		if(this.newPageName == 'recordingDrum')
 		{

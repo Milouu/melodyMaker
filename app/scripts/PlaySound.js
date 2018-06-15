@@ -10,7 +10,7 @@ class PlaySound
         this.count1 = 0
         this.count2 = 0
 
-        this.path = 'assets/sounds/'
+        this.path = 'assets/sounds/drumKit/'
         this.once = true
 
         this.animationFrame = null
@@ -30,8 +30,30 @@ class PlaySound
         {
             sounds = 
             {
-                sound1: new Audio(this.path + 'blueBirdSnare.mp3'), 
-                sound2: new Audio(this.path + 'blueBirdHiHat.mp3'), 
+                sound1: 
+                [
+                    new Audio(this.path + 'bass/bass-1.mp3'),
+                    new Audio(this.path + 'bass/bass-2.mp3'),
+                    new Audio(this.path + 'bass/bass-3.mp3'),
+                    new Audio(this.path + 'bass/bass-4.mp3'),
+                    new Audio(this.path + 'bass/bass-5.mp3'),
+                ], 
+                sound2: 
+                [
+                    new Audio(this.path + 'snare/snare-1.mp3'),
+                    new Audio(this.path + 'snare/snare-2.mp3'),
+                    new Audio(this.path + 'snare/snare-3.mp3'),
+                    new Audio(this.path + 'snare/snare-4.mp3'),
+                    new Audio(this.path + 'snare/snare-5.mp3'),
+                ], 
+                sound3: 
+                [
+                    new Audio(this.path + 'hiHat/hiHat-1.mp3'),
+                    new Audio(this.path + 'hiHat/hiHat-2.mp3'),
+                    new Audio(this.path + 'hiHat/hiHat-3.mp3'),
+                    new Audio(this.path + 'hiHat/hiHat-4.mp3'),
+                    new Audio(this.path + 'hiHat/hiHat-5.mp3'),
+                ], 
             }
         }
         else if(instrument == 'guitar')
@@ -64,19 +86,31 @@ class PlaySound
     {   
         const sound1Delay = (track.delays.delay1[this.counts[0]] * track.bpm) / bpm 
         const sound2Delay = (track.delays.delay2[this.counts[1]] * track.bpm) / bpm
+        const sound3Delay = (track.delays.delay3[this.counts[2]] * track.bpm) / bpm
 
         if(this.beginDate - this.timeSpent + sound1Delay <= Date.now())
         {
-            sounds.sound1.currentTime = 0
-            sounds.sound1.play()
+            const random = Math.floor(Math.random() * sounds.sound1.length)
+            console.log(random)
+
+            sounds.sound1[random].currentTime = 0
+            sounds.sound1[random].play()
             console.log(this.counts)
             this.counts[0]++
         }
         else if(this.beginDate - this.timeSpent + sound2Delay <= Date.now())
         {
-            sounds.sound2.currentTime = 0
-            sounds.sound2.play()
+            const random = Math.floor(Math.random() * sounds.sound2.length)
+            sounds.sound2[random].currentTime = 0
+            sounds.sound2[random].play()
             this.counts[1]++
+        }
+        else if(this.beginDate - this.timeSpent + sound3Delay <= Date.now())
+        {
+            const random = Math.floor(Math.random() * sounds.sound3.length)
+            sounds.sound3[random].currentTime = 0
+            sounds.sound3[random].play()
+            this.counts[2]++
         }
 
         this.animationFrame = window.requestAnimationFrame(this.playTrack.bind(this, sounds, track, bpm, this.counts))

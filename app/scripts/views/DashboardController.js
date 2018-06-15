@@ -13,7 +13,7 @@ class DashboardController
                 {
                     delay1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250, 4000, 4250, 4750, 5000, 5250, 6000, 6250, 6750, 7000, 7250],
                     delay2: [500, 1500, 2500, 3500, 4500, 5500, 6500, 7500],
-                    delay3: [],
+                    delay3: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500],
                     delay4: [],
                 },
                 bpm: 120
@@ -31,7 +31,7 @@ class DashboardController
             }, 
 
         ]
-        this.bpm = 120
+        this.bpm = 60
 
         this.loop = true
 
@@ -103,22 +103,23 @@ class DashboardController
 
         this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
         
-        playButton.addEventListener('click', () => 
+        playButton.addEventListener('click', () => { this.playPaused() })
+        window.addEventListener('keydown', (event) => { if(event.keyCode == 32) { this.playPaused() } })
+    }
+    playPaused()
+    {
+        this.cursorTimeline.paused(!this.cursorTimeline.paused())
+            
+        if(!this.cursorTimeline.paused())
         {
-            
-            this.cursorTimeline.paused(!this.cursorTimeline.paused())
-            
-            if(!this.cursorTimeline.paused())
-            {
-                console.log('coucou')
-                this.trackController.updateDate()
-                this.trackController.playTrack(this.trackController.initInstrument(this.tracks[0].instrument), this.tracks[0], this.bpm)
-            }
-            else
-            {
-                this.trackController.pause()
-            }
-        })
+            console.log('coucou')
+            this.trackController.updateDate()
+            this.trackController.playTrack(this.trackController.initInstrument(this.tracks[0].instrument), this.tracks[0], this.bpm)
+        }
+        else
+        {
+            this.trackController.pause()
+        }
     }
     cursorReset(cursor, track)
     {

@@ -10,7 +10,7 @@ class PlaySound
         this.count1 = 0
         this.count2 = 0
 
-        this.path = 'assets/sounds/drumKit/'
+        this.path = 'assets/sounds/'
         this.once = true
 
         this.animationFrame = null
@@ -32,27 +32,27 @@ class PlaySound
             {
                 sound1: 
                 [
-                    new Audio(this.path + 'bass/bass-1.mp3'),
-                    new Audio(this.path + 'bass/bass-2.mp3'),
-                    new Audio(this.path + 'bass/bass-3.mp3'),
-                    new Audio(this.path + 'bass/bass-4.mp3'),
-                    new Audio(this.path + 'bass/bass-5.mp3'),
+                    new Audio(this.path + 'drumKit/bass/bass-2.mp3'),
+                    new Audio(this.path + 'drumKit/bass/bass-1.mp3'),
+                    new Audio(this.path + 'drumKit/bass/bass-3.mp3'),
+                    new Audio(this.path + 'drumKit/bass/bass-4.mp3'),
+                    new Audio(this.path + 'drumKit/bass/bass-5.mp3'),
                 ], 
                 sound2: 
                 [
-                    new Audio(this.path + 'snare/snare-1.mp3'),
-                    new Audio(this.path + 'snare/snare-2.mp3'),
-                    new Audio(this.path + 'snare/snare-3.mp3'),
-                    new Audio(this.path + 'snare/snare-4.mp3'),
-                    new Audio(this.path + 'snare/snare-5.mp3'),
+                    new Audio(this.path + 'drumKit/snare/snare-2.mp3'),
+                    new Audio(this.path + 'drumKit/snare/snare-1.mp3'),
+                    new Audio(this.path + 'drumKit/snare/snare-3.mp3'),
+                    new Audio(this.path + 'drumKit/snare/snare-4.mp3'),
+                    new Audio(this.path + 'drumKit/snare/snare-5.mp3'),
                 ], 
                 sound3: 
                 [
-                    new Audio(this.path + 'hiHat/hiHat-1.mp3'),
-                    new Audio(this.path + 'hiHat/hiHat-2.mp3'),
-                    new Audio(this.path + 'hiHat/hiHat-3.mp3'),
-                    new Audio(this.path + 'hiHat/hiHat-4.mp3'),
-                    new Audio(this.path + 'hiHat/hiHat-5.mp3'),
+                    new Audio(this.path + 'drumKit/hiHat/hiHat-1.mp3'),
+                    new Audio(this.path + 'drumKit/hiHat/hiHat-2.mp3'),
+                    new Audio(this.path + 'drumKit/hiHat/hiHat-3.mp3'),
+                    new Audio(this.path + 'drumKit/hiHat/hiHat-4.mp3'),
+                    new Audio(this.path + 'drumKit/hiHat/hiHat-5.mp3'),
                 ], 
             }
         }
@@ -60,8 +60,22 @@ class PlaySound
         {
             sounds = 
             {
-                sound1: new Audio(this.path + 'do-majeur.m4a'), 
-                sound2: new Audio(this.path + 're-majeur.m4a'), 
+                sound1: 
+                [
+                    new Audio(this.path + 'do-majeur.m4a'),
+                    new Audio(this.path + 'do-majeur.m4a'),
+                    new Audio(this.path + 'do-majeur.m4a'),
+                    new Audio(this.path + 'do-majeur.m4a'),
+                    new Audio(this.path + 'do-majeur.m4a'),
+                ], 
+                sound2: 
+                [
+                    new Audio(this.path + 're-majeur.m4a'),
+                    new Audio(this.path + 're-majeur.m4a'),
+                    new Audio(this.path + 're-majeur.m4a'),
+                    new Audio(this.path + 're-majeur.m4a'),
+                    new Audio(this.path + 're-majeur.m4a'),
+                ], 
             }
         }
 

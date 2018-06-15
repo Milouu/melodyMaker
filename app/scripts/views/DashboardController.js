@@ -22,18 +22,19 @@ class DashboardController
                 instrument: 'guitar',
                 delays: 
                 {
-                    delay1: [0, 2500],
-                    delay2: [1000, 3000],
+                    delay1: [0, 2500, 3500, 6000],
+                    delay2: [1000, 3000, 5000, 7000],
                     delay3: [],
                     delay4: [],
                 },
                 bpm: 120
             }, 
-
         ]
-        this.bpm = 60
+        this.bpm = 100
 
         this.loop = true
+
+        this.tracksControllers = []
 
         this.cursorTimeline = new TimelineMax({ paused: true })
         // this.addi = document.querySelector('.dashboard__add')
@@ -110,21 +111,38 @@ class DashboardController
     {
         this.cursorTimeline.paused(!this.cursorTimeline.paused())
             
-        if(!this.cursorTimeline.paused())
+        for(const [index, track] of this.tracksControllers.entries())
         {
-            console.log('coucou')
-            this.trackController.updateDate()
-            this.trackController.playTrack(this.trackController.initInstrument(this.tracks[0].instrument), this.tracks[0], this.bpm)
-        }
-        else
-        {
-            this.trackController.pause()
+            if(!this.cursorTimeline.paused())
+            {
+                console.log(track)
+                track.updateDate()
+                track.playTrack(track.initInstrument(this.tracks[index].instrument), this.tracks[index], this.bpm)
+            }
+            else
+            {
+                track.pause()
+            }
         }
     }
     cursorReset(cursor, track)
     {
             this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
             this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
+    }
+    craftTracks()
+    {
+        const tracks = document.querySelector('container')
+
+        for(const track of this.tracks)
+        {
+            setTimeout(() => 
+            {
+                console.log('WOW')
+
+                this.getTrack('modules/track.html', 'container', '.tracks')
+            }, 0)
+        }
     }
     remove()
     {
@@ -138,9 +156,13 @@ class DashboardController
     }
     instances()
     {
-        this.trackController = new PlaySound() 
-        console.log(this.trackController)
+        console.log('intstanceeeee')
+        for(let index of this.tracks.keys())
+        {
+            this.tracksControllers.push(new PlaySound())
+        }
 
+        this.craftTracks()
     }
     ending()
     {
@@ -150,4 +172,20 @@ class DashboardController
     {
         return this.end
     }
+    getTrack(url, from, to)
+	{
+		// Cache commented for dev
+		// const cached = sessionStorage[url]
+		if(!from){from="body"} // Default to grabbing body tag
+		if(to && to.split){to = document.querySelector(to)} // A string TO turns into an element
+		if(!to){to = document.querySelector(from)} // Default re-using the source elm as the target elm
+		// if(cached){return to.innerHTML = cached} // Cache responses for instant re-use re-use
+
+		const XHRt = new XMLHttpRequest // New ajax
+		XHRt.responseType = 'document'  // Ajax2 context and onload() event
+		XHRt.onload = () => { sessionStorage[url] = to.innerHTML += XHRt.response.querySelector(from).innerHTML}
+		XHRt.open("GET", url, true)
+		XHRt.send()
+		return XHRt
+	}
 }

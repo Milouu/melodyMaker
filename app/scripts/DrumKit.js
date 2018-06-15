@@ -41,6 +41,11 @@ class DrumKit extends MusicalCanvas
 
 		// Variable for record countdown
 		this.countdown = 3
+
+		//Position of cursor following stick
+		this.posStickX = 0
+		this.posStickY = 0
+		
 		
 		// Position of the snare zone 
 		this.snarePos = {
@@ -62,6 +67,9 @@ class DrumKit extends MusicalCanvas
 		this.metrics = document.querySelector('.dashboard__metrics')
 		this.cursor = document.querySelector('.dashboard__cursor')
 		this.recordCountdown = document.querySelector('.drumkit__recordCountdown')
+
+		this.stickCursor = document.querySelector('.stickCursor')
+		this.stickCursor.style.opacity = 0.5
 
 		/**
 		 * Event Listeners
@@ -95,6 +103,7 @@ class DrumKit extends MusicalCanvas
 		 * Launched methods
 		 */
 		this.run()
+		this.stickPosUpdate()
 	}
 	
 	// Launches the correct functions for the sound activation based on the number of hitboxes calculated
@@ -124,16 +133,6 @@ class DrumKit extends MusicalCanvas
 				this.logs()
 			}
 		}
-	}
-
-	// console logs
-	logs()
-	{
-		// console.log('Mainpos:' + JSON.stringify(this.mainHitboxPosition))
-		// console.log('Secondpos:' + JSON.stringify(this.secondHitboxPosition))
-		console.log('snareReady : ' + this.snareReady)
-		// console.log('hiHatReady : ' + this.hiHatReady)
-		console.log('')
 	}
 
 	// Launch sounds based on the deplacements of the hitbox
@@ -324,6 +323,25 @@ class DrumKit extends MusicalCanvas
 			this.countdown = 3
 			this.recordSound()
 		}
+	}
+
+	stickPosUpdate()
+	{
+		setTimeout(() =>
+		{
+			if(this.mainHitboxPosition.x !== undefined && this.mainHitboxPosition.y !== undefined)
+			{
+				const distanceX = ((this.mainHitboxPosition.x * window.innerWidth) / this.canvas.offsetWidth) - this.stickCursor.offsetLeft
+				const distanceY = ((this.mainHitboxPosition.y * window.innerHeight) / this.canvas.offsetHeight) - this.stickCursor.offsetTop
+				this.posStickX += (distanceX / 3) 
+				this.posStickY += (distanceY / 3)
+
+				this.stickCursor.style.left = this.posStickX + 'px'
+				this.stickCursor.style.top = this.posStickY + 'px'
+			}
+
+			this.stickPosUpdate()
+		}, 25)
 	}
 
 	setPickedColor(pickedColor)

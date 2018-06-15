@@ -10,6 +10,9 @@ class DrumKit extends MusicalCanvas
 		// Interval the stick has travel from a zone to be able to launch a sound again in the same zone
 		this.playInterval = 5
 
+		// Number of beat in a loop
+		this.beatInLoop = 16
+
 		// Variables used to control if the sound in a zone can be launched again
 		this.isUp = [true]
 		// this.mainIsUp = [true]
@@ -56,6 +59,8 @@ class DrumKit extends MusicalCanvas
 		this._hiHat = document.querySelector('.hi-hat')
 
 		this.recordButton = document.querySelector('.dashboard__reset')
+		this.metrics = document.querySelector('.dashboard__metrics')
+		this.cursor = document.querySelector('.dashboard__cursor')
 		this.recordCountdown = document.querySelector('.drumkit__recordCountdown')
 
 		/**
@@ -65,20 +70,25 @@ class DrumKit extends MusicalCanvas
 
 		// For dev
 		document.addEventListener('keydown', () =>
-		{
-			if(this.recordBegun === true)
+		{	
+			if(event.keyCode === 32)
 			{
-				if(event.keyCode === 32)
-				{
-					this.playSound(this._snare)
+				this.playSound('snare')
+
+				if(this.recordBegun === true)
+				{	
 					this.record.sounds.sound1.push(Date.now() - this.recordBeginning)
-				}
-				else if(event.keyCode === 70)
-				{
-					this.playSound(this._hiHat)
+				}	
+			}
+			else if(event.keyCode === 70)
+			{
+				this.playSound('hiHat')
+
+				if(this.recordBegun === true)
+				{	
 					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
 				}
-			}
+			}	
 		})
 		
 		/**
@@ -134,7 +144,7 @@ class DrumKit extends MusicalCanvas
 		{
 			if(this.snareReady === true)
 			{
-				this.playSound(this._snare)
+				this.playSound('snare')
 				this.snareReady = false
 
 				if(this.recordBegun === true)
@@ -147,7 +157,7 @@ class DrumKit extends MusicalCanvas
 		{
 			if(this.hiHatReady === true)
 			{
-				this.playSound(this._hiHat)
+				this.playSound('hiHat')
 				this.hiHatReady = false
 
 				if(this.recordBegun === true)
@@ -193,7 +203,7 @@ class DrumKit extends MusicalCanvas
 			{
 				this.snareReady = false
 	
-				this.playSound(this._snare)
+				this.playSound('snare')
 
 				if(this.recordBegun === true)
 				{
@@ -207,7 +217,7 @@ class DrumKit extends MusicalCanvas
 			{
 				this.hiHatReady = false
 				
-				this.playSound(this._hiHat)
+				this.playSound('hiHat')
 
 				if(this.recordBegun === true)
 				{
@@ -227,7 +237,7 @@ class DrumKit extends MusicalCanvas
 			{
 				isUp[0] = false
 	
-				this.playSound(this._snare)
+				this.playSound('snare')
 			}
 		}
 		else if(hitboxPosition.x <= this.hiHatPos.x && hitboxPosition.y >= this.hiHatPos.y)
@@ -236,7 +246,7 @@ class DrumKit extends MusicalCanvas
 			{
 				isUp[0] = false
 				
-				this.playSound(this._hiHat)
+				this.playSound('hiHat')
 			}
 		}
 		else if(hitboxPosition.y <= this.snarePos.y - this.playInterval)
@@ -246,11 +256,22 @@ class DrumKit extends MusicalCanvas
 	}
 
 	// Plays the sound passed in the parameters
-	playSound(sound)
+	playSound(soundName)
 	{
-		console.log(sound)
+		
+		const sound = eval('this._' + soundName)
+	
+		const drumkit = '.drumkit__' + soundName + '>.drumkit__img'
+
 		sound.currentTime = 0
 		sound.play()
+
+		// Animate the drumkit img
+		const drumkitTL = new TimelineMax()
+		drumkitTL
+			.set(drumkit, {scale: 1})
+			.to(drumkit, 0.15, {scale: 1.1})
+			.to(drumkit, 0.15, {scale: 1})
 	}
 
 	recordSound()
@@ -258,13 +279,24 @@ class DrumKit extends MusicalCanvas
 		this.recordBegun = true
 		this.recordBeginning = Date.now()
 
-		console.log(this.recordBeginning)
 		this.record.sounds.sound1 = []
 		this.record.sounds.sound2 = []
 
+		// const cursorMovement = new TimelineMax()
+		// cursorMovement
+		// 	.to(this.cursor, 3, {x: 100})
+
+		const movement = this.metrics.offsetWidth - (this.cursor.offsetWidth / 2)
+
+		// Calculate how long is a loop (in seconds) depending on bpm
+		const loopTime = (this.beatInLoop * 60) / this.record.bpm
+
+		TweenMax.set(this.cursor, { x: 0 })
+		TweenMax.to(this.cursor, loopTime, {x: movement, ease: Power0.easeNone})
+
 		setTimeout(()=> {
 			this.stopRecord()
-		}, 3000)
+		}, loopTime * 1000)
 	}
 
 	stopRecord()
@@ -281,7 +313,7 @@ class DrumKit extends MusicalCanvas
 			const appearingDigit = new TimelineMax({onComplete : this.launchCountdown, onCompleteScope: this})
 			appearingDigit 
 				.set(this.recordCountdown, {opacity : 0, scale : 1})
-				.to(this.recordCountdown, 1, {opacity : 1, scale: 1.5})
+				.to(this.recordCountdown, 0.5, {opacity : 1, scale: 1.5})
 				.to(this.recordCountdown, 0.5, {opacity : 0})
 			this.countdown--
 			

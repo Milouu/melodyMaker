@@ -49,6 +49,10 @@ class CalibrationController
 
     getPickedColor()
     {
-        return this.calibration.getPickedColor()
+		// If only for dev purposes
+		if(this.calibration !== undefined)
+		{
+			return this.calibration.getPickedColor()
+		}
     }
 }

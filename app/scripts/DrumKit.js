@@ -36,6 +36,8 @@ class DrumKit extends MusicalCanvas
 		this.interval2 = 1000/this.fps
 		this.delta2
 
+		// Variable for record countdown
+		this.countdown = 3
 		
 		// Position of the snare zone 
 		this.snarePos = {
@@ -54,11 +56,30 @@ class DrumKit extends MusicalCanvas
 		this._hiHat = document.querySelector('.hi-hat')
 
 		this.recordButton = document.querySelector('.dashboard__reset')
+		this.recordCountdown = document.querySelector('.drumkit__recordCountdown')
 
 		/**
 		 * Event Listeners
 		 */
-		this.recordButton.addEventListener('click', this.recordSound)
+		this.recordButton.addEventListener('click', () => { this.launchCountdown() })
+
+		// For dev
+		document.addEventListener('keydown', () =>
+		{
+			if(this.recordBegun === true)
+			{
+				if(event.keyCode === 32)
+				{
+					this.playSound(this._snare)
+					this.record.sounds.sound1.push(Date.now() - this.recordBeginning)
+				}
+				else if(event.keyCode === 70)
+				{
+					this.playSound(this._hiHat)
+					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
+				}
+			}
+		})
 		
 		/**
 		 * Launched methods
@@ -235,10 +256,42 @@ class DrumKit extends MusicalCanvas
 	recordSound()
 	{
 		this.recordBegun = true
-		this.recordBeginning = Date.now
+		this.recordBeginning = Date.now()
 
+		console.log(this.recordBeginning)
 		this.record.sounds.sound1 = []
 		this.record.sounds.sound2 = []
+
+		setTimeout(()=> {
+			this.stopRecord()
+		}, 3000)
+	}
+
+	stopRecord()
+	{
+		console.log(this.record.sounds)
+		this.recordBegun = false
+	}
+
+	launchCountdown()
+	{	
+		if(this.countdown > 0)
+		{
+			this.recordCountdown.innerHTML = this.countdown
+			const appearingDigit = new TimelineMax({onComplete : this.launchCountdown, onCompleteScope: this})
+			appearingDigit 
+				.set(this.recordCountdown, {opacity : 0, scale : 1})
+				.to(this.recordCountdown, 1, {opacity : 1, scale: 1.5})
+				.to(this.recordCountdown, 0.5, {opacity : 0})
+			this.countdown--
+			
+		}
+		else
+		{
+			TweenMax.to(this.recordCountdown, 0.5, {opacity : 0})
+			this.countdown = 3
+			this.recordSound()
+		}
 	}
 
 	setPickedColor(pickedColor)

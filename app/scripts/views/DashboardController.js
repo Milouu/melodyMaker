@@ -14,7 +14,7 @@ class DashboardController
                     delay1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250, 4000, 4250, 4750, 5000, 5250, 6000, 6250, 6750, 7000, 7250],
                     delay2: [500, 1500, 2500, 3500, 4500, 5500, 6500, 7500],
                     delay3: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500],
-                    delay4: [],
+                    delay4: [0, 4000],
                 },
                 bpm: 120
             }, 
@@ -28,21 +28,9 @@ class DashboardController
                     delay4: [],
                 },
                 bpm: 120
-            }, 
-            {
-                instrument: 'drum',
-                delays: 
-                {
-                    delay1: [0, 2500, 3500, 6000],
-                    delay2: [1000, 3000, 5000, 7000],
-                    delay3: [],
-                    delay4: [],
-                },
-                bpm: 120
-            }, 
-            
+            },             
         ]
-        this.bpm = 100
+        this.bpm = 80
 
         this.loop = true
 
@@ -154,18 +142,82 @@ class DashboardController
         }
         this.tryCatchTracks(dashboard)
     }
+    craftNotes(tracks, tracksDOM)
+    {
+        console.log(tracks)
+        for(const [index, track] of tracks.entries())
+        {
+            console.log('i')
+            for(const delay of track.delays.delay1)
+            {
+                console.log(index)
+                const note1 = document.querySelectorAll('.note--1')
+                const note = document.createElement('div')
+                
+                note.classList.add('note', 'note--delay1')
+                note1[index].appendChild(note)
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+
+                window.addEventListener('resize', () => 
+                {
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                })
+            }
+            for(const delay of track.delays.delay2)
+            {
+                const note2 = document.querySelectorAll('.note--2')
+                const note = document.createElement('div')
+
+                note.classList.add('note', 'note--delay2')
+                note2[index].appendChild(note)
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+
+                window.addEventListener('resize', () => 
+                {
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                })
+            }
+            for(const delay of track.delays.delay3)
+            {
+                const note3 = document.querySelectorAll('.note--3')
+                const note = document.createElement('div')
+
+                note.classList.add('note', 'note--delay3')
+                note3[index].appendChild(note)
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+
+                window.addEventListener('resize', () => 
+                {
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                })
+            }
+            for(const delay of track.delays.delay4)
+            {
+                const note4 = document.querySelectorAll('.note--4')
+                const note = document.createElement('div')
+
+                note.classList.add('note', 'note--delay4')
+                note4[index].appendChild(note)
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+
+                window.addEventListener('resize', () => 
+                {
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                })
+            }
+        }
+    }
     tryCatchTracks(dashboard)
     {
+        const tracks = document.querySelectorAll('.dashboard__track')
 
-        const track = document.querySelector('.dashboard__trackContainer')
-        console.log(track)
-
-        if(track == null)
+        if(tracks.length < this.tracks.length)
         {
             setTimeout(() => { this.tryCatchTracks(dashboard) }, 50)
         }
         else
         {
+            this.craftNotes(this.tracks, tracks)
             this.add()
             dashboard.style.opacity = 1
         }

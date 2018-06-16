@@ -124,4 +124,14 @@ class ViewsController
 	{
 		return this.calibration.getPickedColor()
 	}
+
+	getRecord()
+	{
+		return this.recordingDrum.getRecord()
+	}
+
+	setRecord()
+	{
+		this.dashboard.setRecord(this.getRecord())
+	}
 }

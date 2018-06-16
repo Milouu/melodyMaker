@@ -86,4 +86,10 @@ class DashboardController
     {
         return this.end
     }
+
+    setRecord(record)
+    {
+        // To change when merging
+        this.track = record
+    }
 }

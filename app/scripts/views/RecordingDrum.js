@@ -48,4 +48,9 @@ class RecordingDrum
 	{
 		this.drumkit.setPickedColor(pickedColor)
 	}
+
+	getRecord()
+	{
+		return this.drumkit.record
+	}
 }

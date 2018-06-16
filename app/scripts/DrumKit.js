@@ -97,6 +97,13 @@ class DrumKit extends MusicalCanvas
 					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
 				}
 			}	
+			else if(event.keyCode === 82)
+			{
+				if(localStorage.getItem('record'))
+				{
+					console.log(this.retrieveRecord())
+				}
+			}
 		})
 		
 		/**
@@ -301,6 +308,7 @@ class DrumKit extends MusicalCanvas
 	stopRecord()
 	{
 		this.recordBegun = false
+		this.storeRecord()
 	}
 
 	launchCountdown()
@@ -346,5 +354,18 @@ class DrumKit extends MusicalCanvas
 	setPickedColor(pickedColor)
 	{
 		this.pickedColor = pickedColor
+	}
+
+	storeRecord()
+	{
+		localStorage.setItem('record', JSON.stringify(this.record))
+		console.log('store')
+	}
+
+	// TO COPY/PASTE IN DASHBOARDCONTROLLER AFTER MERGE
+	retrieveRecord()
+	{
+		console.log('retrieve')
+		return JSON.parse(localStorage.getItem('record'))
 	}
 }

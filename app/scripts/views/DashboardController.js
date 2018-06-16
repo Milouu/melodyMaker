@@ -327,6 +327,7 @@ class DashboardController
             let records = []
     
             records.push(this.defaultTrack)
+            records.push(this.defaultTrack)
             localStorage.setItem('records', JSON.stringify(records))
         }
     }
@@ -406,9 +407,22 @@ class DashboardController
         const records = this.retrieveRecords()
         records.splice(index, 1)
         localStorage.setItem('records', JSON.stringify(records))
-
-        tracks[index].style.display = 'none'
-        tracks[index].style.display = 'none'
+        
+        tracks[index].style.transformOrigin = 'left'
+        TweenMax.to(tracks[index], 0.3, {y: '-100%', ease: Power1.easeOut})
+        TweenMax.to(tracks[index], 0.3, {opacity: 0})
+        
+        if(tracks.length > index + 1)
+        {
+            const testTL = new TimelineMax()
+            testTL
+                .to(tracks[index + 1], 0.3, {y: '-100%', ease: Power1.easeOut})
+                .to(tracks[index + 1], 0, {y: '0%'})
+        }
+        setTimeout(() => 
+        {
+            tracks[index].style.display = 'none'
+        }, 300)
         
         this.instances()
     }

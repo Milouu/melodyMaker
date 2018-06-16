@@ -300,7 +300,6 @@ class DrumKit extends MusicalCanvas
 
 	stopRecord()
 	{
-		console.log(this.record.sounds)
 		this.recordBegun = false
 	}
 

@@ -109,7 +109,7 @@ class Calibration {
 			else if(i == 4) i = 0
 
 			if(event.keyCode == 69){
-				this.toDashboardTL.play({onComplete: console.log('lol')})
+				this.toDashboardTL.play()
 			}
 		})
 
@@ -346,7 +346,6 @@ class Calibration {
 		if(countRings === 4)
 		{
 			this.calibrationSuccessful = true
-			console.log(this.calibrationSuccessful)
 		}
 	}
   
@@ -430,7 +429,6 @@ class Calibration {
 
 			if ((this.colors[1].classList.contains('pickedColors__color--undropped') || this.colors[1].classList.contains('pickedColors__color--calibrated')) && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
 			{
-				console.log('WE ARE HERE BOIS')
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 				this.colors[0].classList.add('pickedColors__color--firstIsSecond')
 				this.colors[1].classList.add('pickedColors__color--secondIsFirst')

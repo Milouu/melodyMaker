@@ -25,8 +25,6 @@ class ViewsController
 		if(currentPageName == 'dashboard') this.currentPage = this.dashboard
 		if(currentPageName == 'recordingDrum') this.currentPage = this.recordingDrum
 
-		console.log(this.currentPage)
-		console.log(currentPageName)
 		// Animate removing elements
 		this.currentPage.remove()
 

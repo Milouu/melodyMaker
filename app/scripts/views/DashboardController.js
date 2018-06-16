@@ -91,7 +91,7 @@ class DashboardController
 
         for(const muteButton of muteButtons) { mute.push(false) }
 
-        const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
+        const timeline = new TimelineMax({onStart: this.instances, onStartScope: this, onComplete: this.tracksHover, onCompleteScope: this, onCompleteParams: [ muteButtons, trackContainers, trashcans, mute ]})
 
         timeline 
             .from('.dashboard', 0.5, {scale: 0, ease: Power3.easeOut})
@@ -147,7 +147,7 @@ class DashboardController
             this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
         })
         
-        playButton.addEventListener('click', () => { this.playPaused() })
+        playButton.addEventListener('click', () => { this.playPaused(mute) })
 
         resetButton.addEventListener('click', () => { 
 
@@ -183,7 +183,10 @@ class DashboardController
                 this.playPaused() 
             } 
         })
+    }
 
+    tracksHover(muteButtons, trackContainers, trashcans, mute)
+    {
         for(const [index, muteButton] of muteButtons.entries())
         {
             const muteImg = muteButton.querySelector('.dashboard__muteImg')
@@ -192,6 +195,8 @@ class DashboardController
             muteButton.addEventListener('click', () => 
             {
                 mute[index] ? mute[index] = false : mute[index] = true
+
+                mute[index] ? this.tracksControllers[index].mute() : this.tracksControllers[index].unMute()
     
                 if(mute[index])
                 {
@@ -226,8 +231,9 @@ class DashboardController
         console.log(this.trackDOM.offsetWidth)
     }
 
-    playPaused()
+    playPaused(mute)
     {
+        console.log(mute)
         if(this.cursorTimeline.paused() == true)
         {
             TweenMax.set('.dashboard__pause', { opacity: 1 })
@@ -249,7 +255,8 @@ class DashboardController
             {
                 console.log('play')
                 track.updateDate()
-                track.playTrack(track.initInstrument(this.tracks[index].instrument), this.tracks[index], this.bpm)
+                track.initInstrument(this.tracks[index].instrument)
+                track.playTrack(this.tracks[index], this.bpm)
             }
             else
             {

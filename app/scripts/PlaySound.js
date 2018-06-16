@@ -76,7 +76,7 @@ class PlaySound
             }
         }
 
-        return sounds
+        this.sounds = sounds
     }
     updateDate()
     {
@@ -93,7 +93,7 @@ class PlaySound
         }
         return counts
     }
-    playTrack(sounds, track, bpm)
+    playTrack(track, bpm)
     {   
         const sound1Delay = (track.sounds.sound1[this.counts[0]] * track.bpm) / bpm 
         const sound2Delay = (track.sounds.sound2[this.counts[1]] * track.bpm) / bpm
@@ -101,29 +101,29 @@ class PlaySound
 
         if(this.beginDate - this.timeSpent + sound1Delay <= Date.now())
         {
-            const random = Math.floor(Math.random() * sounds.sound1.length)
+            const random = Math.floor(Math.random() * this.sounds.sound1.length)
 
-            sounds.sound1[random].currentTime = 0
-            sounds.sound1[random].play()
+            this.sounds.sound1[random].currentTime = 0
+            this.sounds.sound1[random].play()
             console.log(this.counts)
             this.counts[0]++
         }
         else if(this.beginDate - this.timeSpent + sound2Delay <= Date.now())
         {
-            const random = Math.floor(Math.random() * sounds.sound2.length)
-            sounds.sound2[random].currentTime = 0
-            sounds.sound2[random].play()
+            const random = Math.floor(Math.random() * this.sounds.sound2.length)
+            this.sounds.sound2[random].currentTime = 0
+            this.sounds.sound2[random].play()
             this.counts[1]++
         }
         else if(this.beginDate - this.timeSpent + sound3Delay <= Date.now())
         {
-            const random = Math.floor(Math.random() * sounds.sound3.length)
-            sounds.sound3[random].currentTime = 0
-            sounds.sound3[random].play()
+            const random = Math.floor(Math.random() * this.sounds.sound3.length)
+            this.sounds.sound3[random].currentTime = 0
+            this.sounds.sound3[random].play()
             this.counts[2]++
         }
 
-        this.animationFrame = window.requestAnimationFrame(this.playTrack.bind(this, sounds, track, bpm, this.counts))
+        this.animationFrame = window.requestAnimationFrame(this.playTrack.bind(this, track, bpm, this.counts))
 
         if(Date.now() - (this.beginDate - this.timeSpent) >= (16 * 60000 / bpm )) 
         {
@@ -133,6 +133,27 @@ class PlaySound
             for(let count of this.counts.keys())
             {
                 this.counts[count] = 0
+            }
+        }
+    }
+    mute()
+    {
+        for(const sound in this.sounds)
+        {
+            for(const audio of this.sounds[sound])
+            {
+                audio.volume = 0
+            }
+
+        }
+    }
+    unMute()
+    {
+        for(const sound in this.sounds)
+        {
+            for(const audio of this.sounds[sound])
+            {
+                audio.volume = 1
             }
         }
     }

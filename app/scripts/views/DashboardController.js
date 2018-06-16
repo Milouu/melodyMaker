@@ -79,6 +79,7 @@ class DashboardController
         const muteButtons = document.querySelectorAll('.dashboard__mute')
         const trackContainers = document.querySelectorAll('.dashboard__trackContainer')
         const trashcans = document.querySelectorAll('.dashboard__trashcan')
+        const inputBpm = document.querySelector('.inputBpm')
 
         this.trackDOM.element = document.querySelector('.dashboard__track')
         this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
@@ -121,6 +122,8 @@ class DashboardController
             }
             else {
                 // Clicked outside buttonToDisplay and window
+                this.bpm = inputBpm.value
+                
                 navMenu = false
                 dashboard.style.boxShadow = '0px 10px 30px 0px rgba(0, 0, 0, 0.06)'
                 TweenMax.to('.dashboard', 0.3, {scale: 1, x: '0%', rotationY:'0', opacity: 1, transformOrigin:'center'})
@@ -188,6 +191,10 @@ class DashboardController
 
                 this.playPaused() 
             } 
+            else if(event.keyCode == 13)
+            {
+                this.bpm = inputBpm.value
+            }
         })
     }
 

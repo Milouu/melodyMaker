@@ -73,6 +73,8 @@ class DrumKit extends MusicalCanvas
 		this.stickCursor = document.querySelector('.stickCursor')
 		this.stickCursor.style.opacity = 0.5
 
+		this.inputBpm = document.querySelector('.inputBpm')
+
 		/**
 		 * Event Listeners
 		 */
@@ -106,6 +108,19 @@ class DrumKit extends MusicalCanvas
 					console.log(this.retrieveRecords())
 				}
 			}
+		})
+
+		document.addEventListener('keydown', () =>
+		{
+			if(event.keyCode == 13)
+			{
+				this.record.bpm = this.inputBpm.value
+			}
+		})
+
+		document.addEventListener('click', () =>
+		{
+			this.record.bpm = this.inputBpm.value
 		})
 		
 		/**

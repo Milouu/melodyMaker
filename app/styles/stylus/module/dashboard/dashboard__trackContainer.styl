@@ -32,6 +32,9 @@ $seperatorGrey = #D8D8D8
 .dashboard__userPicture
     height 9vw
     min-height 72px
+    display flex
+    justify-content center
+    align-items center
 
     transform-origin left
     overflow hidden
@@ -68,3 +71,16 @@ $seperatorGrey = #D8D8D8
     background-color $white
     opacity 0.2
 
+.dashboard__trashCan
+    width 40px
+    height 40px
+    position absolute
+
+    background-color orange
+    opacity 0
+
+.dashboard__trackContainer:hover
+    opacity 0.4
+
+.dashboard__trackContainer:hover + dashboard__trashCan
+    opacity 1

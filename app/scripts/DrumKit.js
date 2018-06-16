@@ -99,9 +99,9 @@ class DrumKit extends MusicalCanvas
 			}	
 			else if(event.keyCode === 82)
 			{
-				if(localStorage.getItem('record'))
+				if(localStorage.getItem('records'))
 				{
-					console.log(this.retrieveRecord())
+					console.log(this.retrieveRecords())
 				}
 			}
 		})
@@ -358,14 +358,25 @@ class DrumKit extends MusicalCanvas
 
 	storeRecord()
 	{
-		localStorage.setItem('record', JSON.stringify(this.record))
+		let records = undefined
+
+		if(localStorage.getItem('records'))
+		{
+		 	records = this.retrieveRecords()
+		}
+		else
+		{
+			records = []
+		}
+		records.push(this.record)
+		localStorage.setItem('records', JSON.stringify(records))
+	
 		console.log('store')
 	}
 
-	// TO COPY/PASTE IN DASHBOARDCONTROLLER AFTER MERGE
-	retrieveRecord()
+	retrieveRecords()
 	{
 		console.log('retrieve')
-		return JSON.parse(localStorage.getItem('record'))
+		return JSON.parse(localStorage.getItem('records'))
 	}
 }

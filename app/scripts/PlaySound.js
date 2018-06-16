@@ -105,7 +105,6 @@ class PlaySound
         if(this.beginDate - this.timeSpent + sound1Delay <= Date.now())
         {
             const random = Math.floor(Math.random() * sounds.sound1.length)
-            console.log(random)
 
             sounds.sound1[random].currentTime = 0
             sounds.sound1[random].play()
@@ -129,44 +128,31 @@ class PlaySound
 
         this.animationFrame = window.requestAnimationFrame(this.playTrack.bind(this, sounds, track, bpm, this.counts))
 
-        // let totalCount = 0
-
-        // for(let count of counts)
-        // {
-        //     totalCount += count
-        // }
-        // console.log((Date.now() - (this.beginDate - this.timeSpent)))
         if(Date.now() - (this.beginDate - this.timeSpent) >= (16 * 60000 / bpm )) 
         {
             this.timeSpent = 0
             this.beginDate = Date.now()
-            // window.cancelAnimationFrame(animationFrame)
-            console.log('END')
-            // this.beginDate = Date.now()
 
             for(let count of this.counts.keys())
             {
                 this.counts[count] = 0
             }
         }
-
-        // if(totalCount == track.delays.delay1.length + track.delays.delay2.length)
-        // {
-        //     window.cancelAnimationFrame(animationFrame)
-        //     this.once = true
-        // }
     }
     pause()
     {
         window.cancelAnimationFrame(this.animationFrame)
 
-        // this.currentTimeSpent += Date.now() - this.beginDate
         this.timeSpent += Date.now() - (this.beginDate)
-        console.log('TIMESPENT ' + this.timeSpent)
-
     }
     reset()
     {
-        this.currentTimeSpent = 0
+        console.log('reset')
+        this.timeSpent = 0
+
+        for(let count of this.counts.keys())
+        {
+            this.counts[count] = 0
+        }
     }
 }

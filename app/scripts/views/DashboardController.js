@@ -19,10 +19,10 @@ class DashboardController
                 bpm: 120
             }, 
             {
-                instrument: 'drum',
+                instrument: 'guitar',
                 delays: 
                 {
-                    delay1: [0, 2500, 3500, 6000],
+                    delay1: [0, 2500, 6000],
                     delay2: [1000, 3000, 5000, 7000],
                     delay3: [],
                     delay4: [],
@@ -30,7 +30,7 @@ class DashboardController
                 bpm: 120
             },             
         ]
-        this.bpm = 80
+        this.bpm = 60
 
         this.loop = true
 
@@ -45,9 +45,8 @@ class DashboardController
         const instruments = document.querySelector('.instruments')
         const dashboard = document.querySelector('.dashboard')
         const playButton = document.querySelector('.dashboard__play')
-        const track = document.querySelector('.dashboard__track')
-        console.log(track)
-        console.log('WIDTH ' + track.offsetWidth)
+        const resetButton = document.querySelector('.dashboard__reset')
+        const trackDOM = document.querySelector('.dashboard__track')
         const cursor = document.querySelector('.dashboard__cursor')
 
         let play = false
@@ -102,20 +101,59 @@ class DashboardController
             })
         })
 
-        this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
+        this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, trackDOM] })
         
         playButton.addEventListener('click', () => { this.playPaused() })
+
+        resetButton.addEventListener('click', () => { 
+            console.log('couco')
+            this.cursorTimeline.paused(!this.cursorTimeline.paused())
+            for(const track of this.tracksControllers)
+            {
+                if(this.cursorTimeline.paused() == false)
+                {
+                    TweenMax.set('.dashboard__pause', { opacity: 1 })
+                    TweenMax.from('.dashboard__pause', 0.3, { opacity: 0, rotation: 0 })
+                    TweenMax.to('.dashboard__playTriangle', 0.3, { rotation: 90, opacity: 0 })
+                }
+                else
+                {
+                    TweenMax.to('.dashboard__pause', 0.3, { opacity: 0, rotation: 0 })
+                    TweenMax.to('.dashboard__playTriangle', 0.3, { opacity: 1, rotation: 0})
+                }
+
+                console.log(track)
+                track.pause()
+                track.reset()
+                this.cursorReverse()
+
+                // this.cursorReset(cursor, trackDOM)
+            }
+        })
         window.addEventListener('keydown', (event) => { if(event.keyCode == 32) { this.playPaused() } })
     }
     playPaused()
     {
+        if(this.cursorTimeline.paused() == true)
+        {
+            TweenMax.set('.dashboard__pause', { opacity: 1 })
+            TweenMax.from('.dashboard__pause', 0.3, { opacity: 0, rotation: -90 })
+            // TweenMax.from('.dashboard__pauseBar', 0.3, { rotation: 90 })
+            TweenMax.to('.dashboard__playTriangle', 0.3, { rotation: 90, opacity: 0 })
+        }
+        else
+        {
+            TweenMax.to('.dashboard__pause', 0.3, { opacity: 0 })
+            TweenMax.to('.dashboard__playTriangle', 0.3, { opacity: 1, rotation: 0})
+        }
+        
         this.cursorTimeline.paused(!this.cursorTimeline.paused())
             
         for(const [index, track] of this.tracksControllers.entries())
         {
             if(!this.cursorTimeline.paused())
             {
-                console.log(track)
+                console.log('play')
                 track.updateDate()
                 track.playTrack(track.initInstrument(this.tracks[index].instrument), this.tracks[index], this.bpm)
             }
@@ -127,8 +165,12 @@ class DashboardController
     }
     cursorReset(cursor, track)
     {
-            this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
-            this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
+        this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
+        this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
+    }
+    cursorReverse()
+    {
+        this.cursorTimeline.pause(0, true)
     }
     craftTracks()
     {
@@ -144,7 +186,6 @@ class DashboardController
     }
     craftNotes(tracks, tracksDOM)
     {
-        console.log(tracks)
         for(const [index, track] of tracks.entries())
         {
             console.log('i')

@@ -99,7 +99,23 @@ $seperatorGrey = #D8D8D8
 .dashboard__playTriangle
     width 24px
     height 24px
+    margin-left 2px
     clip-path polygon(10% 0, 10% 100%, 90% 50%)
+    background-color $white
+
+.dashboard__pause
+    width 22px
+    height 22px
+    position absolute
+    opacity 0
+
+    display flex
+    justify-content space-between
+
+.dashboard__pauseBar
+    width 8px
+    height 100%
+
     background-color $white
 
 .dashboard__bpm

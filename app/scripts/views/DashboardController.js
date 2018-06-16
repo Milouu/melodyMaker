@@ -5,32 +5,59 @@ class DashboardController
         this.end = false 
         this.trackController = null
 
-        this.tracks = 
-        [
+        
+        this.defaultTrack = 
             {
                 instrument: 'drum',
-                delays: 
+                sounds: 
                 {
-                    delay1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250, 4000, 4250, 4750, 5000, 5250, 6000, 6250, 6750, 7000, 7250],
-                    delay2: [500, 1500, 2500, 3500, 4500, 5500, 6500, 7500],
-                    delay3: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500],
-                    delay4: [0, 4000],
+                    sound1: [],
+                    sound2: [],
+                    sound3: [],
+                    sound4: [],
                 },
                 bpm: 120
-            }, 
-            {
-                instrument: 'guitar',
-                delays: 
-                {
-                    delay1: [0, 2500, 6000],
-                    delay2: [1000, 3000, 5000, 7000],
-                    delay3: [],
-                    delay4: [],
-                },
-                bpm: 120
-            },             
-        ]
-        this.bpm = 60
+            }
+            // {
+            //     instrument: 'drum',
+            //     sounds: 
+            //     {
+            //         sound1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250, 4000, 4250, 4750, 5000, 5250, 6000, 6250, 6750, 7000, 7250],
+            //         sound2: [500, 1500, 2500, 3500, 4500, 5500, 6500, 7500],
+            //         sound3: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500],
+            //         sound4: [0, 4000],
+            //     },
+            //     bpm: 120
+            // }
+            
+        this.craftDefaultTrack()
+
+        this.tracks = null
+        
+            // {
+            //     instrument: 'drum',
+            //     sounds: 
+            //     {
+            //         sound1: [0, 250, 750, 1000, 1250, 2000, 2250, 2750, 3000, 3250, 4000, 4250, 4750, 5000, 5250, 6000, 6250, 6750, 7000, 7250],
+            //         sound2: [500, 1500, 2500, 3500, 4500, 5500, 6500, 7500],
+            //         sound3: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500],
+            //         sound4: [0, 4000],
+            //     },
+            //     bpm: 120
+            // }, 
+            // {
+            //     instrument: 'guitar',
+            //     sounds: 
+            //     {
+            //         sound1: [0, 2500, 6000],
+            //         sound2: [1000, 3000, 5000, 7000],
+            //         sound3: [],
+            //         sound4: [],
+            //     },
+            //     bpm: 120
+            // },             
+        
+        this.bpm = 140
 
         this.loop = true
 
@@ -41,8 +68,8 @@ class DashboardController
         this.trackDOM = { element: null, offsetWidth: 0 }
 
         this.animation = null
-        // this.addi = document.querySelector('.dashboard__add')
     }
+
     add()
     {
         const addButton = document.querySelector('.dashboard__add')
@@ -55,7 +82,7 @@ class DashboardController
         this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
 
         const cursor = document.querySelector('.dashboard__cursor')
-        
+
         let navMenu = false
 
         const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
@@ -75,6 +102,7 @@ class DashboardController
             .staggerFrom('.dashboard__metric', 0.2, {scaleY: 0}, 0.1)
 
         window.addEventListener('click', (event) => {
+
             if (addButton.contains(event.target)) {
                 // Clicked in buttonToDisplay
                 navMenu = true
@@ -139,11 +167,22 @@ class DashboardController
                 this.cursorReverse()
             }
         })
-        window.addEventListener('keydown', (event) => { if(event.keyCode == 32) { this.playPaused() } })
+        window.addEventListener('keydown', (event) => 
+        { 
+            
+            if(event.keyCode == 32) 
+            { 
+                event.preventDefault()
+                
+                this.playPaused() 
+            } 
+        })
     }
+
     updateCallback() {
         console.log(this.trackDOM.offsetWidth)
     }
+
     playPaused()
     {
         if(this.cursorTimeline.paused() == true)
@@ -175,17 +214,23 @@ class DashboardController
             }
         }
     }
+
     cursorReset(cursor, track)
     {
         this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
         this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
     }
+
     cursorReverse()
     {
         this.cursorTimeline.pause(0, true)
     }
+
     craftTracks()
     {
+        this.tracks = this.retrieveRecords()
+        console.log(this.tracks)
+
         const dashboard = document.querySelector('.dashboard__container')
         dashboard.style.opacity = 0
 
@@ -196,70 +241,88 @@ class DashboardController
         }
         this.tryCatchTracks(dashboard)
     }
+
     craftNotes(tracks, tracksDOM)
     {
         for(const [index, track] of tracks.entries())
         {
             console.log('i')
-            for(const delay of track.delays.delay1)
+            for(const sound of track.sounds.sound1)
             {
                 console.log(index)
                 const note1 = document.querySelectorAll('.note--1')
                 const note = document.createElement('div')
                 
-                note.classList.add('note', 'note--delay1')
+                note.classList.add('note', 'note--sound1')
                 note1[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
                 })
             }
-            for(const delay of track.delays.delay2)
+            for(const sound of track.sounds.sound2)
             {
                 const note2 = document.querySelectorAll('.note--2')
                 const note = document.createElement('div')
 
-                note.classList.add('note', 'note--delay2')
+                note.classList.add('note', 'note--sound2')
                 note2[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
                 })
             }
-            for(const delay of track.delays.delay3)
+            for(const sound of track.sounds.sound3)
             {
                 const note3 = document.querySelectorAll('.note--3')
                 const note = document.createElement('div')
 
-                note.classList.add('note', 'note--delay3')
+                note.classList.add('note', 'note--sound3')
                 note3[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
                 })
             }
-            for(const delay of track.delays.delay4)
+            for(const sound of track.sounds.sound4)
             {
                 const note4 = document.querySelectorAll('.note--4')
                 const note = document.createElement('div')
 
-                note.classList.add('note', 'note--delay4')
+                note.classList.add('note', 'note--sound4')
                 note4[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((delay * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
                 })
             }
         }
     }
+    craftDefaultTrack()
+    {
+        if(localStorage.getItem('records'))
+        {
+            console.log('in if')
+            // localStorage.removeItem('records')
+        }
+        else
+        {
+            console.log('in else')
+            let records = []
+    
+            records.push(this.defaultTrack)
+            localStorage.setItem('records', JSON.stringify(records))
+        }
+    }
+
     tryCatchTracks(dashboard)
     {
         const tracks = document.querySelectorAll('.dashboard__track')
@@ -275,6 +338,7 @@ class DashboardController
             dashboard.style.opacity = 1
         }
     }
+
     remove()
     {
         const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
@@ -285,6 +349,7 @@ class DashboardController
             .to('.header', 0.3, {y: '-120%'}, '-=0.3')
             // .to('.dashboard', 0.3, {scale: 1.2, opacity: 0, transformOrigin:'center'}, '-=0.3')
     }
+
     instances()
     {
         console.log('intstanceeeee')
@@ -293,14 +358,17 @@ class DashboardController
             this.tracksControllers.push(new PlaySound())
         }
     }
+
     ending()
     {
         this.end = true
     }
+
     endRemove()
     {
         return this.end
     }
+
     getTrack(url, from, to)
 	{
 		// Cache commented for dev
@@ -316,11 +384,9 @@ class DashboardController
 		XHRt.open("GET", url, true)
 		XHRt.send()
 		return XHRt
-	}
-
-    setRecord(record)
-    {
-        // To change when merging
-        this.track = record
     }
+    retrieveRecords()
+	{
+		return JSON.parse(localStorage.getItem('records'))
+	}
 }

@@ -18,9 +18,6 @@ class PlaySound
         this.timeSpent = 0
 
         this.counts = this.initCount(4)
-        
-        // this.playTrack(this.initInstrument(this.tracks[0].instrument), this.tracks[0], 100, this.initCount(2))
-        // this.playTrack(this.initInstrument(this.tracks[1].instrument), this.tracks[1], 100, this.initCount(2))
     }
     initInstrument(instrument)
     {
@@ -98,9 +95,9 @@ class PlaySound
     }
     playTrack(sounds, track, bpm)
     {   
-        const sound1Delay = (track.delays.delay1[this.counts[0]] * track.bpm) / bpm 
-        const sound2Delay = (track.delays.delay2[this.counts[1]] * track.bpm) / bpm
-        const sound3Delay = (track.delays.delay3[this.counts[2]] * track.bpm) / bpm
+        const sound1Delay = (track.sounds.sound1[this.counts[0]] * track.bpm) / bpm 
+        const sound2Delay = (track.sounds.sound2[this.counts[1]] * track.bpm) / bpm
+        const sound3Delay = (track.sounds.sound3[this.counts[2]] * track.bpm) / bpm
 
         if(this.beginDate - this.timeSpent + sound1Delay <= Date.now())
         {

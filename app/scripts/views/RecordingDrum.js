@@ -3,7 +3,9 @@ class RecordingDrum
     constructor()
     {   
         this.end = false 
-        // this.addi = document.querySelector('.dashboard__add')
+		// this.addi = document.querySelector('.dashboard__add')
+		
+		this.drumkit = undefined
     }
     add()
     {
@@ -17,7 +19,9 @@ class RecordingDrum
             .from('.header', 0.5, {y: '-120%', ease: Power3.easeOut}, 0.5)
             .from('.toolBar__timeline', 0.8, {scaleX: 0, transformOrigin: 'left', ease: Power1.easeOut}, 0.5)
             .from('.dashboard__cursor', 0.5, {x: 400, transformOrigin: 'bottom', ease: Power2.easeOut}, '-=0.7')
-            .staggerFrom('.toolBar__metric', 0.2, {scaleY: 0, transformOrigin: 'bottom', ease: Power1.easeOut}, 0.1)
+			.staggerFrom('.toolBar__metric', 0.2, {scaleY: 0, transformOrigin: 'bottom', ease: Power1.easeOut}, 0.1)
+			
+		this.drumkit = new DrumKit()
     }
     remove()
     {

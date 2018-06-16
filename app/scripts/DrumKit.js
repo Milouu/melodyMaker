@@ -28,10 +28,12 @@ class DrumKit extends MusicalCanvas
 		this.record = {
 			sounds : {
 				sound1 : [],
-				sound2 : []
+				sound2 : [],
+				sound3 : [],
+				sound4 : []
 			},
 			bpm : 120,
-			instrument: 'drumkit'
+			instrument: 'drum'
 		}
 		// Variables to control requestAnimation Frame Speed
 		this.now2
@@ -79,9 +81,9 @@ class DrumKit extends MusicalCanvas
 		// For dev
 		document.addEventListener('keydown', () =>
 		{	
-			if(event.keyCode === 32)
+			if(event.keyCode === 71)
 			{
-				this.playSound('snare')
+				this.playSound('hiHat')
 
 				if(this.recordBegun === true)
 				{	
@@ -90,7 +92,7 @@ class DrumKit extends MusicalCanvas
 			}
 			else if(event.keyCode === 70)
 			{
-				this.playSound('hiHat')
+				this.playSound('snare')
 
 				if(this.recordBegun === true)
 				{	
@@ -155,7 +157,7 @@ class DrumKit extends MusicalCanvas
 
 				if(this.recordBegun === true)
 				{
-					this.record.sounds.sound1.push(Date.now - this.recordBeginning)
+					this.record.sounds.sound1.push(Date.now() - this.recordBeginning)
 				}
 			}
 		}
@@ -168,7 +170,7 @@ class DrumKit extends MusicalCanvas
 
 				if(this.recordBegun === true)
 				{
-					this.record.sounds.sound2.push(Date.now - this.recordBeginning)
+					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
 				} 
 			}
 		}

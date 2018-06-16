@@ -76,8 +76,9 @@ class DashboardController
         const dashboard = document.querySelector('.dashboard')
         const playButton = document.querySelector('.dashboard__play')
         const resetButton = document.querySelector('.dashboard__reset')
+        const muteButtons = document.querySelectorAll('.dashboard__mute')
+        const trackContainers = document.querySelectorAll('.dashboard__trackContainer')
         const trashcans = document.querySelectorAll('.dashboard__trashcan')
-        const tracks = document.querySelectorAll('.dashboard__trackContainer')
 
         this.trackDOM.element = document.querySelector('.dashboard__track')
         this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
@@ -85,6 +86,9 @@ class DashboardController
         const cursor = document.querySelector('.dashboard__cursor')
 
         let navMenu = false
+        let mute = []
+
+        for(const muteButton of muteButtons) { mute.push(false) }
 
         const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
 
@@ -137,13 +141,8 @@ class DashboardController
 
         for(const [index, trashcan] of trashcans.entries())
         {
-            trashcan.style.width = '50px'
-            trashcan.style.height = '50px'
-            trashcan.style.backgroundColor = '#ff0000'
-
             trashcan.addEventListener('click', () => { 
-                this.deleteTrack(index, tracks) 
-                trashcan.style.display = 'none'
+                this.deleteTrack(index, trackContainers) 
             })
         }
 
@@ -186,10 +185,47 @@ class DashboardController
             if(event.keyCode == 32) 
             { 
                 event.preventDefault()
-                
+
                 this.playPaused() 
             } 
         })
+
+        for(const [index, muteButton] of muteButtons.entries())
+        {
+            const muteImg = muteButton.querySelector('.dashboard__muteImg')
+            const unMuteImg = muteButton.querySelector('.dashboard__unMuteImg')
+            
+            muteButton.addEventListener('click', () => 
+            {
+                mute[index] ? mute[index] = false : mute[index] = true
+    
+                if(mute[index])
+                {
+                    TweenMax.to(muteImg, 0, { opacity: 1 })
+                    TweenMax.to(unMuteImg, 0, { opacity: 0 })
+                    TweenMax.to(trackContainers[index], 0, { filter: 'grayscale(100%)' })
+                }
+                else
+                {
+                    TweenMax.to(muteImg, 0, { opacity: 0 })
+                    TweenMax.to(unMuteImg, 0, { opacity: 0 })
+                    TweenMax.to(trackContainers[index], 0, { filter: 'grayscale(0%)' })
+                }
+            })
+            trackContainers[index].addEventListener('mouseenter', () => 
+            {
+                TweenMax.to(trackContainers[index], 0.15, { opacity: 0.8, scale: 1.01, boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.1)' })
+                TweenMax.to(trashcans[index], 0, { opacity: 1 })
+                TweenMax.to(unMuteImg, 0, { opacity: 1 })
+
+                trackContainers[index].addEventListener('mouseleave', () => 
+                {
+                    TweenMax.to(trackContainers[index], 0.15, { opacity: 1, scale: 1, boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0)' })
+                    TweenMax.to(trashcans[index], 0, { opacity: 0 })
+                    TweenMax.to(unMuteImg, 0, { opacity: 0 })
+                })
+            })
+        }
     }
 
     updateCallback() {
@@ -327,7 +363,6 @@ class DashboardController
             let records = []
     
             records.push(this.defaultTrack)
-            records.push(this.defaultTrack)
             localStorage.setItem('records', JSON.stringify(records))
         }
     }
@@ -409,16 +444,24 @@ class DashboardController
         localStorage.setItem('records', JSON.stringify(records))
         
         tracks[index].style.transformOrigin = 'left'
-        TweenMax.to(tracks[index], 0.3, {y: '-100%', ease: Power1.easeOut})
+        TweenMax.to(tracks[index], 0, {scale: 1.01})
+        TweenMax.to(tracks[index], 0.3, {y: '-100%', scale: 1.01, ease: Power1.easeOut})
         TweenMax.to(tracks[index], 0.3, {opacity: 0})
         
-        if(tracks.length > index + 1)
+        for(let next = index + 1; next < tracks.length; next++)
         {
-            const testTL = new TimelineMax()
-            testTL
-                .to(tracks[index + 1], 0.3, {y: '-100%', ease: Power1.easeOut})
-                .to(tracks[index + 1], 0, {y: '0%'})
+            const fadeUp = new TimelineMax()
+            fadeUp
+                .to(tracks[next], 0.3, {y: '-100%', ease: Power1.easeOut})
+                .to(tracks[next], 0, {y: '0%'})
         }
+        // if(tracks.length > index + 1)
+        // {
+        //     const testTL = new TimelineMax()
+        //     testTL
+        //         .to(tracks[index + 1], 0.3, {y: '-100%', ease: Power1.easeOut})
+        //         .to(tracks[index + 1], 0, {y: '0%'})
+        // }
         setTimeout(() => 
         {
             tracks[index].style.display = 'none'

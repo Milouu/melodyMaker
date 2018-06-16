@@ -188,7 +188,7 @@ class DashboardController
             { 
                 event.preventDefault()
 
-                this.playPaused() 
+                this.playPaused(mute) 
             } 
         })
 

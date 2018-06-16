@@ -110,16 +110,7 @@ class DrumKit extends MusicalCanvas
 			}
 		})
 
-		document.addEventListener('keydown', () =>
-		{
-			if(event.keyCode == 13)
-			{
-				this.record.bpm = this.inputBpm.value
-			}
-		})
-
-		document.addEventListener('click', () =>
-		{
+		this.inputBpm.addEventListener('change', () => {
 			this.record.bpm = this.inputBpm.value
 		})
 		

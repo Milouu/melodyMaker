@@ -122,7 +122,6 @@ class DashboardController
             }
             else {
                 // Clicked outside buttonToDisplay and window
-                this.bpm = inputBpm.value
                 
                 navMenu = false
                 dashboard.style.boxShadow = '0px 10px 30px 0px rgba(0, 0, 0, 0.06)'
@@ -191,10 +190,11 @@ class DashboardController
 
                 this.playPaused() 
             } 
-            else if(event.keyCode == 13)
-            {
-                this.bpm = inputBpm.value
-            }
+        })
+
+        inputBpm.addEventListener('change', () =>
+        {
+            this.bpm = inputBpm.value
         })
     }
 

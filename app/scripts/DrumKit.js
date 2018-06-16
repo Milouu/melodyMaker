@@ -76,7 +76,12 @@ class DrumKit extends MusicalCanvas
 		/**
 		 * Event Listeners
 		 */
-		this.recordButton.addEventListener('click', () => { this.launchCountdown() })
+		this.recordButton.addEventListener('click', () => 
+		{ 
+			this.launchCountdown() 
+			this.metronomeUpdateDate()
+			this.playMetronome(this.record.bpm)
+		})
 
 		// For dev
 		document.addEventListener('keydown', () =>
@@ -107,6 +112,15 @@ class DrumKit extends MusicalCanvas
 				}
 			}
 		})
+
+		this.metronome = 
+		{
+			strong: new Audio('assets/sounds/metronome/metronomeStrong.mp3'),
+			weak: new Audio('assets/sounds/metronome/metronomeWeak.mp3'),
+			count: 0,
+			dateNow: 0,
+			animationFrame: null
+		}
 		
 		/**
 		 * Launched methods
@@ -310,6 +324,7 @@ class DrumKit extends MusicalCanvas
 	{
 		this.recordBegun = false
 		this.storeRecord()
+		this.stopMetronome()
 	}
 
 	launchCountdown()
@@ -363,7 +378,7 @@ class DrumKit extends MusicalCanvas
 
 		if(localStorage.getItem('records'))
 		{
-		 	records = this.retrieveRecords()
+			records = this.retrieveRecords()
 		}
 		else
 		{
@@ -376,5 +391,38 @@ class DrumKit extends MusicalCanvas
 	retrieveRecords()
 	{
 		return JSON.parse(localStorage.getItem('records'))
+	}
+	metronomeUpdateDate()
+	{
+		this.metronome.dateNow = Date.now()
+	}
+
+	playMetronome(bpm)
+	{
+		if(this.metronome.dateNow + (60000 / bpm) <= Date.now())
+		{
+			console.log(this.metronome.count)
+			if(this.metronome.count % 4 == 0) 
+			{
+				this.metronome.strong.currentTime = 0
+				this.metronome.strong.play()
+				this.metronome.count = 0
+			
+			}
+			else
+			{
+				this.metronome.weak.currentTime = 0
+				this.metronome.weak.play()
+			}
+			this.metronomeUpdateDate()
+			this.metronome.count++
+		}
+
+		this.metronome.animationFrame = window.requestAnimationFrame(this.playMetronome.bind(this, bpm))
+	}
+
+	stopMetronome()
+	{
+		window.cancelAnimationFrame(this.metronome.animationFrame)
 	}
 }

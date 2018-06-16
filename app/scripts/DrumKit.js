@@ -371,13 +371,10 @@ class DrumKit extends MusicalCanvas
 		}
 		records.push(this.record)
 		localStorage.setItem('records', JSON.stringify(records))
-	
-		console.log('store')
 	}
 
 	retrieveRecords()
 	{
-		console.log('retrieve')
 		return JSON.parse(localStorage.getItem('records'))
 	}
 }

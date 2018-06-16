@@ -3,7 +3,6 @@ class DashboardController
     constructor()
     {   
         this.end = false 
-        this.trackController = null
 
         
         this.defaultTrack = 
@@ -139,6 +138,13 @@ class DashboardController
                 }
             })
         })
+
+        for(const [index, trashcan] of trashcans.entries())
+        {
+            trashcan.addEventListener('click', () => { 
+                this.deleteTrack(index, trackContainers) 
+            })
+        }
 
         this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
 
@@ -356,16 +362,11 @@ class DashboardController
             }
         }
     }
+
     craftDefaultTrack()
     {
-        if(localStorage.getItem('records'))
+        if(this.retrieveRecords().length == 0 || this.retrieveRecords() == null)
         {
-            console.log('in if')
-            // localStorage.removeItem('records')
-        }
-        else
-        {
-            console.log('in else')
             let records = []
     
             records.push(this.defaultTrack)
@@ -403,6 +404,8 @@ class DashboardController
     instances()
     {
         console.log('intstanceeeee')
+        this.tracksControllers = []
+        this.tracks = this.retrieveRecords()
         for(let index of this.tracks.keys())
         {
             this.tracksControllers.push(new PlaySound())
@@ -435,8 +438,47 @@ class DashboardController
 		XHRt.send()
 		return XHRt
     }
+
     retrieveRecords()
 	{
 		return JSON.parse(localStorage.getItem('records'))
-	}
+    }
+    
+    deleteTrack(index, tracks)
+    {
+        const records = this.retrieveRecords()
+        records.splice(index, 1)
+        localStorage.setItem('records', JSON.stringify(records))
+        
+        tracks[index].style.transformOrigin = 'left'
+        TweenMax.to(tracks[index], 0, {scale: 1.01})
+        TweenMax.to(tracks[index], 0.3, {y: '-100%', scale: 1.01, ease: Power1.easeOut})
+        TweenMax.to(tracks[index], 0.3, {opacity: 0})
+        
+        for(let next = index + 1; next < tracks.length; next++)
+        {
+            const fadeUp = new TimelineMax()
+            fadeUp
+                .to(tracks[next], 0.3, {y: '-100%', ease: Power1.easeOut})
+                .to(tracks[next], 0, {y: '0%'})
+        }
+        // if(tracks.length > index + 1)
+        // {
+        //     const testTL = new TimelineMax()
+        //     testTL
+        //         .to(tracks[index + 1], 0.3, {y: '-100%', ease: Power1.easeOut})
+        //         .to(tracks[index + 1], 0, {y: '0%'})
+        // }
+        setTimeout(() => 
+        {
+            tracks[index].style.display = 'none'
+        }, 300)
+        
+        this.instances()
+    }
+
+    deleteAllTracks()
+    {
+        localStorage.removeItem('records')
+    }
 }

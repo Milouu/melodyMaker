@@ -37,6 +37,10 @@ class DashboardController
         this.tracksControllers = []
 
         this.cursorTimeline = new TimelineMax({ paused: true })
+
+        this.trackDOM = { element: null, offsetWidth: 0 }
+
+        this.animation = null
         // this.addi = document.querySelector('.dashboard__add')
     }
     add()
@@ -46,11 +50,12 @@ class DashboardController
         const dashboard = document.querySelector('.dashboard')
         const playButton = document.querySelector('.dashboard__play')
         const resetButton = document.querySelector('.dashboard__reset')
-        const trackDOM = document.querySelector('.dashboard__track')
+
+        this.trackDOM.element = document.querySelector('.dashboard__track')
+        this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
+
         const cursor = document.querySelector('.dashboard__cursor')
-
-        let play = false
-
+        
         let navMenu = false
 
         const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
@@ -101,13 +106,19 @@ class DashboardController
             })
         })
 
-        this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, trackDOM] })
+        this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
+
+        window.addEventListener('resize', () => 
+        {
+            this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
+        })
         
         playButton.addEventListener('click', () => { this.playPaused() })
 
         resetButton.addEventListener('click', () => { 
-            console.log('couco')
+
             this.cursorTimeline.paused(!this.cursorTimeline.paused())
+
             for(const track of this.tracksControllers)
             {
                 if(this.cursorTimeline.paused() == false)
@@ -122,15 +133,16 @@ class DashboardController
                     TweenMax.to('.dashboard__playTriangle', 0.3, { opacity: 1, rotation: 0})
                 }
 
-                console.log(track)
                 track.pause()
                 track.reset()
-                this.cursorReverse()
 
-                // this.cursorReset(cursor, trackDOM)
+                this.cursorReverse()
             }
         })
         window.addEventListener('keydown', (event) => { if(event.keyCode == 32) { this.playPaused() } })
+    }
+    updateCallback() {
+        console.log(this.trackDOM.offsetWidth)
     }
     playPaused()
     {

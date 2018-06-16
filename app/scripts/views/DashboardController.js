@@ -3,7 +3,6 @@ class DashboardController
     constructor()
     {   
         this.end = false 
-        this.trackController = null
 
         
         this.defaultTrack = 
@@ -77,6 +76,8 @@ class DashboardController
         const dashboard = document.querySelector('.dashboard')
         const playButton = document.querySelector('.dashboard__play')
         const resetButton = document.querySelector('.dashboard__reset')
+        const trashcans = document.querySelectorAll('.dashboard__trashcan')
+        const tracks = document.querySelectorAll('.dashboard__trackContainer')
 
         this.trackDOM.element = document.querySelector('.dashboard__track')
         this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
@@ -133,6 +134,18 @@ class DashboardController
                 }
             })
         })
+
+        for(const [index, trashcan] of trashcans.entries())
+        {
+            trashcan.style.width = '50px'
+            trashcan.style.height = '50px'
+            trashcan.style.backgroundColor = '#ff0000'
+
+            trashcan.addEventListener('click', () => { 
+                this.deleteTrack(index, tracks) 
+                trashcan.style.display = 'none'
+            })
+        }
 
         this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
 
@@ -306,16 +319,11 @@ class DashboardController
             }
         }
     }
+
     craftDefaultTrack()
     {
-        if(localStorage.getItem('records'))
+        if(this.retrieveRecords().length == 0 || this.retrieveRecords() == null)
         {
-            console.log('in if')
-            // localStorage.removeItem('records')
-        }
-        else
-        {
-            console.log('in else')
             let records = []
     
             records.push(this.defaultTrack)
@@ -353,6 +361,8 @@ class DashboardController
     instances()
     {
         console.log('intstanceeeee')
+        this.tracksControllers = []
+        this.tracks = this.retrieveRecords()
         for(let index of this.tracks.keys())
         {
             this.tracksControllers.push(new PlaySound())
@@ -385,8 +395,26 @@ class DashboardController
 		XHRt.send()
 		return XHRt
     }
+
     retrieveRecords()
 	{
 		return JSON.parse(localStorage.getItem('records'))
-	}
+    }
+    
+    deleteTrack(index, tracks)
+    {
+        const records = this.retrieveRecords()
+        records.splice(index, 1)
+        localStorage.setItem('records', JSON.stringify(records))
+
+        tracks[index].style.display = 'none'
+        tracks[index].style.display = 'none'
+        
+        this.instances()
+    }
+
+    deleteAllTracks()
+    {
+        localStorage.removeItem('records')
+    }
 }

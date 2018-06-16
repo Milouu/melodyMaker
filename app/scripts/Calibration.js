@@ -55,6 +55,10 @@ class Calibration {
 		this.transitionRing = this.whiteCircle.querySelector('.calibration__transitionRing')
 		this.newViewButton = document.querySelector('.newViewButton')
 
+		this.posStickX = 0
+		this.posStickY = 0
+		this.stickCursor = document.querySelector('.stickCursor')
+
 		/**
 		 * TweenMax Timelines
 		 */
@@ -105,7 +109,7 @@ class Calibration {
 			else if(i == 4) i = 0
 
 			if(event.keyCode == 69){
-				this.toDashboardTL.play({onComplete: console.log('lol')})
+				this.toDashboardTL.play()
 			}
 		})
 
@@ -173,6 +177,8 @@ class Calibration {
         
 				this.eyeDropperColored.classList.add('eyeDropper__coloredRing--dropped')
 				this.eyeDropper.classList.add('eyeDropper--dropped')
+
+				this.stickCursor.style.opacity = 0.5
         
        
 				if(this.colors[0].classList.contains('pickedColors__color--undropped'))
@@ -231,6 +237,8 @@ class Calibration {
 		this.setMouse()
     
 		this.musicalCanvas.setEyedropperVariables(this.videoContainer, this.eyeDropperColored, this.eyeDropperSquare)
+
+		this.stickPosUpdate()
 	}
   
 	/**
@@ -337,7 +345,6 @@ class Calibration {
 		}
 		if(countRings === 4)
 		{
-			console.log(this.calibrationSuccessful)
 			this.calibrationSuccessful = true
 		}
 	}
@@ -422,7 +429,6 @@ class Calibration {
 
 			if ((this.colors[1].classList.contains('pickedColors__color--undropped') || this.colors[1].classList.contains('pickedColors__color--calibrated')) && !this.colors[1].classList.contains('pickedColors__color--secondIsFirst')) 
 			{
-				console.log('WE ARE HERE BOIS')
 				this.addStick.classList.remove('pickedColors__addStick--twoColor')
 				this.colors[0].classList.add('pickedColors__color--firstIsSecond')
 				this.colors[1].classList.add('pickedColors__color--secondIsFirst')
@@ -580,5 +586,24 @@ class Calibration {
 		}
 
 		setTimeout(this.checkGoToDashboardWithStick.bind(this), 50)
+	}
+
+	stickPosUpdate()
+	{
+		setTimeout(() =>
+		{
+			if(this.musicalCanvas.mainHitboxPosition.x !== undefined && this.musicalCanvas.mainHitboxPosition.y !== undefined)
+			{
+				const distanceX = ((this.musicalCanvas.mainHitboxPosition.x * this.videoContainer.offsetWidth) / this.musicalCanvas.canvas.offsetWidth) - (this.stickCursor.offsetLeft - this.videoContainer.offsetLeft)
+				const distanceY = ((this.musicalCanvas.mainHitboxPosition.y * this.videoContainer.offsetHeight) / this.musicalCanvas.canvas.offsetHeight) - (this.stickCursor.offsetTop - this.videoContainer.offsetTop)
+				this.posStickX += (distanceX / 3) 
+				this.posStickY += (distanceY / 3)
+
+				this.stickCursor.style.left = (this.posStickX - this.stickCursor.offsetWidth / 2) + 'px'
+				this.stickCursor.style.top = (this.posStickY - this.stickCursor.offsetHeight / 2) + 'px'
+			}
+
+			this.stickPosUpdate()
+		}, 25)
 	}
 }

@@ -8,6 +8,11 @@ class MusicalCanvas
 		// Canvas variables
 		this.canvas = this.setCanvasVideo(this.video, 120, 67.5)
 		this.context = this.canvas.getContext('2d')
+
+		// Invert canvas
+		this.context.translate(this.canvas.offsetWidth, 0)
+		this.context.scale(-1, 1)
+
 		// For dev
 		this.canvas.style.position = 'absolute'
 		this.canvas.style.top = 0
@@ -60,7 +65,6 @@ class MusicalCanvas
 	{
 		// Set variables
 		const $calibrationVideo = document.querySelector('.videoContainer')
-		console.log($calibrationVideo)
 		const $video = document.createElement('video')
     
 		// Place the video tag at the end of body
@@ -79,6 +83,9 @@ class MusicalCanvas
 					$video.srcObject = localMediaStream
 					$video.play()
 					$video.style.opacity = '1'
+
+					// Invert video to get mirrored image
+					$video.style.transform = `scaleX(${-1})`
 				})
 				.catch(error => 
 				{

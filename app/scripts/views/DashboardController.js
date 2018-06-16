@@ -317,4 +317,10 @@ class DashboardController
 		XHRt.send()
 		return XHRt
 	}
+
+    setRecord(record)
+    {
+        // To change when merging
+        this.track = record
+    }
 }

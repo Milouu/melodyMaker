@@ -25,8 +25,6 @@ class ViewsController
 		if(currentPageName == 'dashboard') this.currentPage = this.dashboard
 		if(currentPageName == 'recordingDrum') this.currentPage = this.recordingDrum
 
-		console.log(this.currentPage)
-		console.log(currentPageName)
 		// Animate removing elements
 		this.currentPage.remove()
 
@@ -123,5 +121,15 @@ class ViewsController
 	getPickedColor()
 	{
 		return this.calibration.getPickedColor()
+	}
+
+	getRecord()
+	{
+		return this.recordingDrum.getRecord()
+	}
+
+	setRecord()
+	{
+		this.dashboard.setRecord(this.getRecord())
 	}
 }

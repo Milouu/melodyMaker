@@ -49,6 +49,10 @@ class DrumKit extends MusicalCanvas
 		this.posStickY = 0
 		this.oldStickPosX = 0 
 		this.oldStickPosY = 0
+
+		// Window variables
+		this.windowHeight = window.innerHeight
+		this.windowWidth = window.innerWidth
 		
 		
 		// Position of the snare zone 
@@ -130,6 +134,8 @@ class DrumKit extends MusicalCanvas
 		this.inputBpm.addEventListener('change', () => {
 			this.record.bpm = this.inputBpm.value
 		})
+
+		window.addEventListener('resize', () => { this.updateWindowVariables() })
 		
 		/**
 		 * Launched methods
@@ -363,8 +369,8 @@ class DrumKit extends MusicalCanvas
 		{
 			if(this.mainHitboxPosition.x !== undefined && this.mainHitboxPosition.y !== undefined)
 			{
-				const distanceX = ((this.mainHitboxPosition.x * window.innerWidth) / this.canvas.offsetWidth) - this.oldStickPosX
-				const distanceY = ((this.mainHitboxPosition.y * window.innerHeight) / this.canvas.offsetHeight) - this.oldStickPosY
+				const distanceX = ((this.mainHitboxPosition.x * this.windowWidth) / this.canvas.offsetWidth) - this.oldStickPosX
+				const distanceY = ((this.mainHitboxPosition.y * this.windowHeight) / this.canvas.offsetHeight) - this.oldStickPosY
 				this.posStickX += (distanceX / 3) 
 				this.posStickY += (distanceY / 3)
 				this.oldStickPosX = this.posStickX
@@ -375,6 +381,13 @@ class DrumKit extends MusicalCanvas
 
 			this.stickPosUpdate()
 		}, 25)
+	}
+
+	// Update Window variables on resize
+	updateWindowVariables()
+	{
+		this.windowWidth = window.innerWidth
+		this.windowHeight = window.innerHeight
 	}
 
 	setPickedColor(pickedColor)

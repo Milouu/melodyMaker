@@ -160,8 +160,10 @@ class DashboardController
 
         resetButton.addEventListener('click', () => { 
 
-            this.cursorTimeline.paused(!this.cursorTimeline.paused())
-
+            // Toggle pause if pause == false
+            if(this.cursorTimeline.paused(false)){ this.cursorTimeline.paused(true) }
+            
+            // Toggle pause & play style
             for(const track of this.tracksControllers)
             {
                 if(this.cursorTimeline.paused() == false)
@@ -176,9 +178,11 @@ class DashboardController
                     TweenMax.to('.dashboard__playTriangle', 0.3, { opacity: 1, rotation: 0})
                 }
 
+                // pause and reset sound
                 track.pause()
                 track.reset()
 
+                // reset cursor
                 this.cursorReverse()
             }
         })
@@ -517,6 +521,7 @@ class DashboardController
             tracks[index].style.display = 'none'
         }, 300)
         this.tracksControllers[index].pause()
+        
         this.instances()
     }
 

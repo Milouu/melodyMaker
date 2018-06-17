@@ -1,12 +1,15 @@
 class DrumKit extends MusicalCanvas
 {
-	constructor()
+	constructor(instrument)
 	{
 		super()
 
 		/**
 		 * Variables
 		 */
+
+		 // Instrument used
+		 this.instrument = instrument
 
 		//Drumkit sounds
 		this.path = 'assets/sounds/'
@@ -76,7 +79,7 @@ class DrumKit extends MusicalCanvas
 				sound4 : []
 			},
 			bpm : 120,
-			instrument: 'drum'
+			instrument: this.instrument
 		}
 		// Variables to control requestAnimation Frame Speed
 		this.now2
@@ -227,9 +230,19 @@ class DrumKit extends MusicalCanvas
 			
 			if(this.hitboxNumber === 1)
 			{
-				// this.activateSoundSolo(this.mainHitboxPosition, this.isUp)
-				this.displacementSoundActivation(this.mainHitboxPosition)
-				// this.logs()
+				if(this.instrument === 'drum')
+				{
+					// this.activateSoundSolo(this.mainHitboxPosition, this.isUp)
+					this.displacementSoundActivation(this.mainHitboxPosition)
+				}
+				else if(this.instrument === 'violin')
+				{
+					console.log('violin')
+				}
+				else if(this.instrument === 'guitar')
+				{
+					console.log('guitar')
+				}
 			}
 			else if(this.hitboxNumber === 2)
 			{

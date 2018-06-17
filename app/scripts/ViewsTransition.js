@@ -87,7 +87,7 @@ class ViewsController
 		
 		if(this.newPageName == 'recordingDrum')
 		{
-			this.recordingDrum.add()
+			this.recordingDrum.add(this.dashboard.nextInstrument)
 			this.recordingDrum.setPickedColor(this.getPickedColor())
 		}   
 
@@ -95,7 +95,7 @@ class ViewsController
 	}
 	newViewButton()
 	{
-		return document.querySelector('.newViewButton')
+		return document.querySelectorAll('.newViewButton')
 	}
 	getPage(url, from, to)
 	{

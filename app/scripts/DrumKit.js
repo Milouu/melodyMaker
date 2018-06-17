@@ -734,8 +734,11 @@ class DrumKit extends MusicalCanvas
    */
 	checkGoToDashboardWithStick()
 	{
-		if((this.mainHitboxPosition.x  > this.whiteCircle.offsetLeft && this.mainHitboxPosition.x < this.whiteCircle.offsetLeft + this.whiteCircle.offsetWidth) &&
-					this.mainHitboxPosition.y > this.whiteCirlce.offsetTop && this.mainHitboxPosition.y < this.whiteCirlce.offsetTop + this.whiteCircle.offsetHeight)
+		const hitboxPosXInWindow = (this.mainHitboxPosition.x * this.windowWidth) / this.canvas.offsetWidth
+		const hitboxPosYInWindow = (this.mainHitboxPosition.y * this.windowHeight) / this.canvas.offsetHeight
+
+		if((hitboxPosXInWindow  > this.whiteCircle.offsetLeft && hitboxPosXInWindow < this.whiteCircle.offsetLeft + this.whiteCircle.offsetWidth) &&
+					hitboxPosYInWindow > this.whiteCircle.offsetTop && hitboxPosYInWindow < this.whiteCircle.offsetTop + this.whiteCircle.offsetHeight)
 		{
 			this.toDashboardTL.timeScale(1)
 			this.toDashboardTL.play()

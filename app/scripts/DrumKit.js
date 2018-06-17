@@ -430,7 +430,6 @@ class DrumKit extends MusicalCanvas
 	{
 		if(this.metronome.dateNow + (60000 / bpm) <= Date.now())
 		{
-			console.log(this.metronome.count)
 			if(this.metronome.count % 4 == 0) 
 			{
 				this.metronome.strong.currentTime = 0

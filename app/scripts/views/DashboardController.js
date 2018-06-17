@@ -144,7 +144,7 @@ class DashboardController
         for(const [index, trashcan] of trashcans.entries())
         {
             trashcan.addEventListener('click', () => { 
-                this.deleteTrack(index, trackContainers) 
+                this.deleteTrack(index, trackContainers)
             })
         }
 
@@ -520,9 +520,9 @@ class DashboardController
         {
             tracks[index].style.display = 'none'
         }, 300)
-        this.tracksControllers[index].pause()
+        this.tracksControllers[index].mute()
         
-        this.instances()
+        // this.instances()
     }
 
     deleteAllTracks()

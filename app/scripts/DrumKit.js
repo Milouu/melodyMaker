@@ -436,12 +436,12 @@ class DrumKit extends MusicalCanvas
 
 	magnet(sounds)
 	{
-		console.log(sounds)
-		const interval = 60000 / this.record.bpm
+		
+		const interval = (60000 / this.record.bpm) / 4
 		
 		for(const sound in sounds)
 		{
-			console.log(sounds[sound])
+		
 			for(const [index, note] of sounds[sound].entries())
 			{
 				const delay = note % interval
@@ -464,14 +464,17 @@ class DrumKit extends MusicalCanvas
 	{
 		for(const sound in sounds)
 		{
-			console.log(sounds[sound])
+			
 			for(const [index, note] of sounds[sound].entries())
 			{
-				for(let i = index + 1; i < sounds[sound].lenght; i++)
+				console.log(index)
+				for(let i = index + 1; i < sounds[sound].length; i++)
 				{
+					console.log(note)
+					console.log(sounds[sound][i])
 					if(note == sounds[sound][i])
 					{
-						sounds.splice(i, 0)
+						sounds[sound].splice(i, 1)
 					}
 				}
 			}

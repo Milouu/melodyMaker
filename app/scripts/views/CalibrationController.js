@@ -39,6 +39,10 @@ class CalibrationController
 	ending()
 	{
 		console.log('calibration ending')
+		const video = document.querySelector('.calibration__video')
+		console.log(video)
+		video.style.opacity = 0
+
 		this.end = true
     }
     

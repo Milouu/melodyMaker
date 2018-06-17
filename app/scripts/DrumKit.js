@@ -158,11 +158,6 @@ class DrumKit extends MusicalCanvas
 					console.log(this.retrieveRecords())
 				}
 			}
-			// K
-			else if(event.keyCode === 75)
-			{
-				this.goToDashboard()
-			}
 		})
 
 		this.inputBpm.addEventListener('change', () => {
@@ -172,7 +167,7 @@ class DrumKit extends MusicalCanvas
 		window.addEventListener('resize', () => { this.updateWindowVariables() })
 
 		// Tests
-		this.newViewButton.addEventListener('click', ()=> {console.log('clicked')})
+		this.newViewButton.addEventListener('click', ()=> { this.storeRecord() })
 		
 		/**
 		 * Launched methods
@@ -551,7 +546,6 @@ class DrumKit extends MusicalCanvas
    */
 	goToDashboard()
 	{
-		this.storeRecord()
 		this.newViewButton.click()
 	}
 

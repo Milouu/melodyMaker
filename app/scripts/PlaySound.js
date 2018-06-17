@@ -61,7 +61,7 @@ class PlaySound
                 ], 
             }
         }
-        else if(instrument == 'violon')
+        else if(instrument == 'violin')
         {
             sounds = 
             {

@@ -70,8 +70,14 @@ class RecordingDrum
     {
         const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
         
-		timeline
-		.to('.drumkit', 2, {opacity: 0})
+		timeline 
+				.staggerTo('.drumkit', 0.5, {opacity: 0})
+				.staggerTo('.drumkit__img', 0.5, {scale: 0, ease: Power3.easeOut}, 0.1, '-=0.5')
+				.to('.toolBar', 0.5, {y: '100%', ease: Power3.easeOut, onComplete: this.instances, onCompleteScope: this}, 0.5)
+				.to('.header', 0.5, {y: '-120%', ease: Power3.easeOut}, 0.5)
+				.to('.toolBar__timeline', 0.8, {scaleX: 0, transformOrigin: 'left', ease: Power1.easeOut}, 0.5)
+				.to('.dashboard__cursor', 0.5, {x: 400, transformOrigin: 'bottom', ease: Power2.easeOut}, '-=0.7')
+				.staggerTo('.toolBar__metric', 0.2, {scaleY: 0, transformOrigin: 'bottom', ease: Power1.easeOut}, 0.1)
 	}
     
 	instances()

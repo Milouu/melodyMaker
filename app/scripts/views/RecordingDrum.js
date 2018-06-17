@@ -11,8 +11,10 @@ class RecordingDrum
 		this.cursorTimeline = new TimelineMax({ paused: true })
 		this.bpm = 120
     }
-    add()
+    add(instrument)
     {
+			this.drumkit = new DrumKit(instrument)
+			
 			const timeline = new TimelineMax()
 			const playButton = document.querySelector('.dashboard__play')
 			const recordButton = document.querySelector('.dashboard__reset')
@@ -31,7 +33,7 @@ class RecordingDrum
 				.from('.dashboard__cursor', 0.5, {x: 400, transformOrigin: 'bottom', ease: Power2.easeOut}, '-=0.7')
 				.staggerFrom('.toolBar__metric', 0.2, {scaleY: 0, transformOrigin: 'bottom', ease: Power1.easeOut}, 0.1)
 		
-			this.drumkit = new DrumKit()
+			
 
 			playButton.addEventListener('click', () => 
 			{

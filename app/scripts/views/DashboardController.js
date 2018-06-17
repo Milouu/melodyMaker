@@ -67,6 +67,8 @@ class DashboardController
         this.trackDOM = { element: null, offsetWidth: 0 }
 
         this.animation = null
+
+        this.nextInstrument = null
     }
     
     add()
@@ -82,6 +84,7 @@ class DashboardController
         const trackContainers = document.querySelectorAll('.dashboard__trackContainer')
         const trashcans = document.querySelectorAll('.dashboard__trashcan')
         const inputBpm = document.querySelector('.inputBpm')
+        const newViewButtons = document.querySelectorAll('.newViewButton')
 
         this.trackDOM.element = document.querySelector('.dashboard__track')
         this.trackDOM.offsetWidth = this.trackDOM.element.offsetWidth
@@ -144,6 +147,14 @@ class DashboardController
                 }
             })
         })
+
+        for(const newViewButton of newViewButtons)
+        {
+            newViewButton.addEventListener('click', () =>
+            {
+                this.nextInstrument = newViewButton.dataset.instrument
+            })
+        }
 
         for(const [index, trashcan] of trashcans.entries())
         {

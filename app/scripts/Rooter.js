@@ -5,16 +5,17 @@ class Rooter
         // Set next button
         this.viewsController = new ViewsController()
         
-        this.currentPageName = 'dashboard'
+        this.currentPageName = 'calibration'
         this.viewsController.initNewDOM(this.currentPageName)
 
         this.tryCatchNewViewButton()
     }
     tryCatchNewViewButton()
     {
-        const newViewButton = this.viewsController.newViewButton()
+        const newViewButtons = this.viewsController.newViewButton()
 
-        if(newViewButton == undefined)
+    
+        if(newViewButtons[0] == undefined)
         {
             setTimeout(() => 
             {
@@ -23,22 +24,26 @@ class Rooter
         }
         else
         {
-            this.events(newViewButton)
+            this.events(newViewButtons)
         }
+        
+
     }
-    events(newViewButton)
+    events(newViewButtons)
     {
-
-        newViewButton.addEventListener('click', () => 
+        for(const newViewButton of newViewButtons)
         {
-            const newPageName = newViewButton.dataset.name
-
-            this.viewsController.removeOldDOM(this.currentPageName, newPageName)
-
-            this.currentPageName = newPageName
-
-            this.isEnding()
-        })
+            newViewButton.addEventListener('click', () => 
+            {
+                const newPageName = newViewButton.dataset.name
+    
+                this.viewsController.removeOldDOM(this.currentPageName, newPageName)
+    
+                this.currentPageName = newPageName
+    
+                this.isEnding()
+            })
+        }
 
     }
     isEnding()

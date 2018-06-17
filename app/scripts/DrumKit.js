@@ -1,12 +1,15 @@
 class DrumKit extends MusicalCanvas
 {
-	constructor()
+	constructor(instrument)
 	{
 		super()
 
 		/**
 		 * Variables
 		 */
+
+		 // Instrument used
+		 this.instrument = instrument
 
 		//Drumkit sounds
 		this.path = 'assets/sounds/'
@@ -45,6 +48,13 @@ class DrumKit extends MusicalCanvas
 		], 
 		}
 
+		this.violinSounds = {
+			note1 : new Audio(this.path + 'violin/violin-1.wav'),
+			note2 : new Audio(this.path + 'violin/violin-2.wav'),
+			note3 : new Audio(this.path + 'violin/violin-3.wav'),
+			note4 : new Audio(this.path + 'violin/violin-4.wav'),
+		}
+
 		// Number of hitboxes being tracked
 		this.hitboxNumber = 1
 
@@ -62,8 +72,12 @@ class DrumKit extends MusicalCanvas
 		this.hiHatReady = true
 		this.cymbalReady = true
 		this.bassDrumReady = true
-		// this.oldMainPos = this.mainHitboxPosition
 		this.oldMainPos = {x: 0, y: 0}
+
+		this.note1Ready = true
+		this.note2Ready = true
+		this.note3Ready = true
+		this.note4Ready = true
 
 		//Record Variables
 		this.recordBegun = false
@@ -76,7 +90,7 @@ class DrumKit extends MusicalCanvas
 				sound4 : []
 			},
 			bpm : 120,
-			instrument: 'drum'
+			instrument: this.instrument
 		}
 		// Variables to control requestAnimation Frame Speed
 		this.now2
@@ -97,17 +111,9 @@ class DrumKit extends MusicalCanvas
 		this.windowHeight = window.innerHeight
 		this.windowWidth = window.innerWidth
 		
-		// Position of the snare zone 
-		this.snarePos = {
+		// Position of the sounds zones
+		this.soundsPos = {
 			x: this.canvas.offsetWidth / 2,
-			// y: (this.canvas.offsetHeight / 3) * 2
-			y: this.canvas.offsetHeight / 2
-		}
-
-		// Position of the hi-hat zone
-		this.hiHatPos = {
-			x: this.canvas.offsetWidth / 2,
-			// y: (this.canvas.offsetHeight / 3) * 2
 			y: this.canvas.offsetHeight / 2
 		}
 
@@ -227,9 +233,19 @@ class DrumKit extends MusicalCanvas
 			
 			if(this.hitboxNumber === 1)
 			{
-				// this.activateSoundSolo(this.mainHitboxPosition, this.isUp)
-				this.displacementSoundActivation(this.mainHitboxPosition)
-				// this.logs()
+				if(this.instrument === 'drum')
+				{
+					// this.activateSoundSolo(this.mainHitboxPosition, this.isUp)
+					this.displacementSoundActivation(this.mainHitboxPosition)
+				}
+				else if(this.instrument === 'violin')
+				{
+					this.hoverSoundActivation(this.mainHitboxPosition)
+				}
+				else if(this.instrument === 'guitar')
+				{
+					console.log('guitar')
+				}
 			}
 			else if(this.hitboxNumber === 2)
 			{
@@ -247,7 +263,7 @@ class DrumKit extends MusicalCanvas
 		const soundInterval = 5
 		if((hitboxPos.y >= this.oldMainPos.y + soundInterval))
 		{	
-			if((hitboxPos.y >= this.snarePos.y) &&(hitboxPos.x >= this.hiHatPos.x))
+			if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x >= this.soundsPos.x))
 			{
 				if(this.snareReady === true)
 				{
@@ -260,7 +276,7 @@ class DrumKit extends MusicalCanvas
 					}
 				}
 			}
-			else if((hitboxPos.y >= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
+			else if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x <= this.soundsPos.x))
 			{
 				if(this.snareReady === true)
 				{
@@ -273,7 +289,7 @@ class DrumKit extends MusicalCanvas
 					}
 				}
 			}
-			else if((hitboxPos.y <= this.snarePos.y) && (hitboxPos.x >= this.snarePos.x))
+			else if((hitboxPos.y <= this.soundsPos.y) && (hitboxPos.x >= this.soundsPos.x))
 			{
 				if(this.hiHatReady === true)
 				{
@@ -286,7 +302,7 @@ class DrumKit extends MusicalCanvas
 					} 
 				}
 			}
-			else if ((hitboxPos.y <= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
+			else if ((hitboxPos.y <= this.soundsPos.y) &&(hitboxPos.x <= this.soundsPos.x))
 			{
 				if(this.cymbalReady === true)
 				{
@@ -311,11 +327,85 @@ class DrumKit extends MusicalCanvas
 		this.oldMainPos.x = hitboxPos.x
 		this.oldMainPos.y = hitboxPos.y	
 	}
+
+	hoverSoundActivation(hitboxPos)
+	{
+		if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x >= this.soundsPos.x))
+		{	
+			if(this.note1Ready === true)
+			{
+				this.playSound('note1')
+
+				this.note1Ready = false
+				this.note2Ready = true
+				this.note3Ready = true
+				this.note4Ready = true
+	
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound1.push(Date.now() - this.recordBeginning)		
+				}	
+			}		
+		}
+		else if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x <= this.soundsPos.x))
+		{		
+			if(this.note2Ready === true)
+			{		
+				this.playSound('note2')
+
+				this.note1Ready = true
+				this.note2Ready = false
+				this.note3Ready = true
+				this.note4Ready = true
+	
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
+				}
+			}
+			
+		}
+		else if((hitboxPos.y <= this.soundsPos.y) && (hitboxPos.x >= this.soundsPos.x))
+		{	
+			if(this.note3Ready === true)
+			{		
+				this.playSound('note3')
+
+				this.note1Ready = true
+				this.note2Ready = true
+				this.note3Ready = false
+				this.note4Ready = true
+	
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound3.push(Date.now() - this.recordBeginning)
+				} 
+			}
+			
+		}
+		else if ((hitboxPos.y <= this.soundsPos.y) && (hitboxPos.x <= this.soundsPos.x))
+		{
+			if(this.note4Ready === true)
+			{
+				this.playSound('note4')
+
+				this.note1Ready = true
+				this.note2Ready = true
+				this.note3Ready = true
+				this.note4Ready = false
+	
+				if(this.recordBegun === true)
+				{
+					this.record.sounds.sound4.push(Date.now() - this.recordBeginning)
+				}
+			}
+		}
+	}
 	
 	// Checks that there is no hitbox in the snare zone
 	checkSnare()
 	{
-		if((this.mainHitboxPosition.x < this.snarePos.x - this.playInterval || this.mainHitboxPosition.y < this.snarePos.y - this.playInterval) && (this.secondHitboxPosition.x < this.snarePos.x - this.playInterval || this.secondHitboxPosition.y < this.snarePos.y - this.playInterval))
+		if((this.mainHitboxPosition.x < this.soundsPos.x - this.playInterval || this.mainHitboxPosition.y < this.soundsPos.y - this.playInterval) && (this.secondHitboxPosition.x < this.soundsPos.x - this.playInterval || this.secondHitboxPosition.y < this.soundsPos.y - this.playInterval))
 		{
 			this.snareReady = true
 		}
@@ -324,7 +414,7 @@ class DrumKit extends MusicalCanvas
 	// Checks that there is no hitbox in the hi-hat zone
 	checkHiHat()
 	{
-		if((this.mainHitboxPosition.x > this.hiHatPos.x + this.playInterval || this.mainHitboxPosition.y < this.hiHatPos.y - this.playInterval) && (this.secondHitboxPosition.x > this.hiHatPos.x + this.playInterval || this.secondHitboxPosition.y < this.hiHatPos.y - this.playInterval))
+		if((this.mainHitboxPosition.x > this.soundsPos.x + this.playInterval || this.mainHitboxPosition.y < this.soundsPos.y - this.playInterval) && (this.secondHitboxPosition.x > this.soundsPos.x + this.playInterval || this.secondHitboxPosition.y < this.soundsPos.y - this.playInterval))
 		{
 			this.hiHatReady = true
 		}
@@ -333,7 +423,7 @@ class DrumKit extends MusicalCanvas
 	// Launch sounds based on the position of the hitbox 
 	activateSound(hitboxPosition)
 	{
-		if(hitboxPosition.x >= this.snarePos.x && hitboxPosition.y >= this.snarePos.y)
+		if(hitboxPosition.x >= this.soundsPos.x && hitboxPosition.y >= this.soundsPos.y)
 		{
 			if(this.snareReady === true)
 			{
@@ -347,7 +437,7 @@ class DrumKit extends MusicalCanvas
 				} 
 			}
 		}
-		else if(hitboxPosition.x <= this.hiHatPos.x && hitboxPosition.y >= this.hiHatPos.y)
+		else if(hitboxPosition.x <= this.soundsPos.x && hitboxPosition.y >= this.soundsPos.y)
 		{
 			if(this.hiHatReady === true)
 			{
@@ -367,7 +457,7 @@ class DrumKit extends MusicalCanvas
 	// Works only with one hitbox 
 	activateSoundSolo(hitboxPosition, isUp)
 	{
-		if(hitboxPosition.x >= this.snarePos.x && hitboxPosition.y >= this.snarePos.y)
+		if(hitboxPosition.x >= this.soundsPos.x && hitboxPosition.y >= this.soundsPos.y)
 		{
 			if(isUp[0] === true)
 			{
@@ -376,7 +466,7 @@ class DrumKit extends MusicalCanvas
 				this.playSound('snare')
 			}
 		}
-		else if(hitboxPosition.x <= this.hiHatPos.x && hitboxPosition.y >= this.hiHatPos.y)
+		else if(hitboxPosition.x <= this.soundsPos.x && hitboxPosition.y >= this.soundsPos.y)
 		{
 			if(isUp[0] === true)
 			{
@@ -385,7 +475,7 @@ class DrumKit extends MusicalCanvas
 				this.playSound('hiHat')
 			}
 		}
-		else if(hitboxPosition.y <= this.snarePos.y - this.playInterval)
+		else if(hitboxPosition.y <= this.soundsPos.y - this.playInterval)
 		{
 			isUp[0] = true
 		}
@@ -394,20 +484,29 @@ class DrumKit extends MusicalCanvas
 	// Plays the sound passed in the parameters
 	playSound(soundName)
 	{	
-		const sound = eval('this.drumkitSounds.' + soundName)
-	
-		const drumkit = '.drumkit__' + soundName + '>.drumkit__img'
+		const sound = undefined
+		const visual = undefined
+		if(this.instrument == 'drum')
+		{
+			sound = eval('this.drumkitSounds.' + soundName)
+			visual = '.drumkit__' + soundName + '>.drumkit__img'
+		}
+		else if(this.instrument == 'violin')
+		{
+			sound= eval('this.violinSounds.' + soundName)
+			visual = '.violin__' + soundName + '>.drumkit__img'
+		}
 
 		const random = Math.floor(Math.random() * sound.length)
 		sound[random].currentTime = 0
 		sound[random].play()
 
 		// Animate the drumkit img
-		const drumkitTL = new TimelineMax()
-		drumkitTL
-			.set(drumkit, {scale: 1})
-			.to(drumkit, 0.15, {scale: 1.1})
-			.to(drumkit, 0.15, {scale: 1})
+		const visualTL = new TimelineMax()
+		visualTL
+			.set(visual, {scale: 1})
+			.to(visual, 0.15, {scale: 1.1})
+			.to(visual, 0.15, {scale: 1})
 	}
 
 	// Init variables & launch animations of sound recording

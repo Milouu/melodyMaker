@@ -213,7 +213,6 @@ class DashboardController
         inputBpm.addEventListener('change', () =>
         {
             this.bpm = inputBpm.value
-            console.log(this.bpm)
 
             for(const [index, track] of this.tracksControllers.entries())
             {
@@ -274,13 +273,8 @@ class DashboardController
         }
     }
 
-    updateCallback() {
-        console.log(this.trackDOM.offsetWidth)
-    }
-
     playPaused(mute)
     {
-        console.log(mute)
         if(this.cursorTimeline.paused() == true)
         {
             TweenMax.set('.dashboard__pause', { opacity: 1 })
@@ -300,7 +294,6 @@ class DashboardController
         {
             if(!this.cursorTimeline.paused())
             {
-                console.log('play')
                 track.updateDate()
                 track.initInstrument(this.tracks[index].instrument)
                 track.playTrack(this.tracks[index], this.bpm)
@@ -331,7 +324,6 @@ class DashboardController
     craftTracks()
     {
         this.tracks = this.retrieveRecords()
-        console.log(this.tracks)
 
         const dashboard = document.querySelector('.dashboard__container')
         dashboard.style.opacity = 0
@@ -348,10 +340,8 @@ class DashboardController
     {
         for(const [index, track] of tracks.entries())
         {
-            console.log('i')
             for (const sound of track.sounds.sound1)
             {
-                console.log(index)
                 const note1 = document.querySelectorAll('.note--1')
                 const note = document.createElement('div')
                 
@@ -372,7 +362,6 @@ class DashboardController
 
                 note.classList.add('note', 'note--sound2')
                 note2[index].appendChild(note)
-                console.log(note.offsetWidth)
                 note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
 
                 window.addEventListener('resize', () => 

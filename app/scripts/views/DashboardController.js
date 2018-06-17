@@ -87,9 +87,11 @@ class DashboardController
         const cursor = document.querySelector('.dashboard__cursor')
 
         let navMenu = false
-        let mute = []
 
+        let mute = []
         for(const muteButton of muteButtons) { mute.push(false) }
+
+        const remainingTracks = trackContainers.length
 
         const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
 
@@ -144,7 +146,7 @@ class DashboardController
         for(const [index, trashcan] of trashcans.entries())
         {
             trashcan.addEventListener('click', () => { 
-                this.deleteTrack(index, trackContainers)
+                this.deleteTrack(index, trackContainers, remainingTracks)
             })
         }
 
@@ -512,7 +514,7 @@ class DashboardController
 		return JSON.parse(localStorage.getItem('records'))
     }
     
-    deleteTrack(index, tracks)
+    deleteTrack(index, tracks, remainingTracks)
     {
         const records = this.retrieveRecords()
         records.splice(index, 1)
@@ -542,6 +544,12 @@ class DashboardController
             tracks[index].style.display = 'none'
         }, 300)
         this.tracksControllers[index].mute()
+
+        if(--remainingTracks === 0)
+        {
+            this.cursorReverse()
+        }
+
         
         // this.instances()
     }

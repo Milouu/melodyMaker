@@ -56,7 +56,7 @@ class DashboardController
             //     bpm: 120
             // },             
         
-        this.bpm = 140
+        this.bpm = 120
 
         this.loop = true
 
@@ -91,7 +91,7 @@ class DashboardController
 
         for(const muteButton of muteButtons) { mute.push(false) }
 
-        const timeline = new TimelineMax({onStart: this.instances, onStartScope: this, onComplete: this.tracksHover, onCompleteScope: this, onCompleteParams: [ muteButtons, trackContainers, trashcans, mute ]})
+        const timeline = new TimelineMax({onStart: this.instances, onStartScope: this})
 
         timeline 
             .from('.dashboard', 0.5, {scale: 0, ease: Power3.easeOut})
@@ -102,7 +102,7 @@ class DashboardController
             .from('.dashboard__play', 0.2, {scale: 0})
             .from('.dashboard__trackInstrument', 0.3, {y: -100, opacity: 0}, '-=0')
             .from('.dashboard__track', 0.3, {scaleX: 0, ease: Power1.easeOut})
-            .from('.dashboard__userPictureImg', 0.2, {scaleX: 2}, '-=0.1')
+            .from('.dashboard__userPictureImg', 0.2, {scaleX: 2, onComplete: this.tracksHover, onCompleteScope: this, onCompleteParams: [ muteButtons, trackContainers, trashcans, mute ]}, '-=0.1')
             .from('.dashboard__userPicture', 0.2, {x: -100, scaleX: 0}, '-=0.2')
             .from('.dashboard__cursor', 0.3, {x: 600, opacity: 0})
             .staggerFrom('.dashboard__metric', 0.2, {scaleY: 0}, 0.1)
@@ -148,7 +148,8 @@ class DashboardController
             })
         }
 
-        this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
+        this.animationInit(cursor, this.trackDOM.element)
+        // this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
 
         window.addEventListener('resize', () => 
         {
@@ -206,6 +207,22 @@ class DashboardController
         inputBpm.addEventListener('change', () =>
         {
             this.bpm = inputBpm.value
+            console.log(this.bpm)
+
+            for(const [index, track] of this.tracksControllers.entries())
+            {
+                track.reset()
+                track.updateDate()
+                track.initInstrument(this.tracks[index].instrument)
+                track.playTrack(this.tracks[index], this.bpm)
+
+                // Reset cursor
+                this.cursorTimeline.pause(0, true)
+                this.cursorTimeline.play()
+
+                // Init animation
+                this.animationInit(cursor, this.trackDOM.element)
+            }
         })
     }
 
@@ -289,9 +306,14 @@ class DashboardController
         }
     }
 
-    cursorReset(cursor, track)
+    cursorReset()
     {
-        this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
+        // this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
+        this.cursorTimeline.pause(0, true)
+        this.cursorTimeline.play()
+    }
+    animationInit(cursor, track)
+    {
         this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
     }
 
@@ -321,7 +343,7 @@ class DashboardController
         for(const [index, track] of tracks.entries())
         {
             console.log('i')
-            for(const sound of track.sounds.sound1)
+            for (const sound of track.sounds.sound1)
             {
                 console.log(index)
                 const note1 = document.querySelectorAll('.note--1')
@@ -329,11 +351,12 @@ class DashboardController
                 
                 note.classList.add('note', 'note--sound1')
                 note1[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+        
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
                 })
             }
             for(const sound of track.sounds.sound2)
@@ -343,11 +366,12 @@ class DashboardController
 
                 note.classList.add('note', 'note--sound2')
                 note2[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                console.log(note.offsetWidth)
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
                 })
             }
             for(const sound of track.sounds.sound3)
@@ -357,11 +381,11 @@ class DashboardController
 
                 note.classList.add('note', 'note--sound3')
                 note3[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
                 })
             }
             for(const sound of track.sounds.sound4)
@@ -371,11 +395,11 @@ class DashboardController
 
                 note.classList.add('note', 'note--sound4')
                 note4[index].appendChild(note)
-                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
 
                 window.addEventListener('resize', () => 
                 {
-                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+                    note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
                 })
             }
         }
@@ -383,7 +407,7 @@ class DashboardController
 
     craftDefaultTrack()
     {
-        if(this.retrieveRecords().length == 0 || this.retrieveRecords() == null)
+        if(this.retrieveRecords() == null || this.retrieveRecords().length == 0)
         {
             let records = []
     

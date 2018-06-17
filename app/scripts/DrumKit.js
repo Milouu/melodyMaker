@@ -336,7 +336,8 @@ class DrumKit extends MusicalCanvas
 	stopRecord()
 	{
 		this.recordBegun = false
-		this.storeRecord()
+		this.magnet(this.record.sounds)
+		
 		this.stopMetronome()
 	}
 
@@ -454,5 +455,54 @@ class DrumKit extends MusicalCanvas
 	stopMetronome()
 	{
 		window.cancelAnimationFrame(this.metronome.animationFrame)
+	}
+
+	magnet(sounds)
+	{
+		
+		const interval = (60000 / this.record.bpm) / 4
+		
+		for(const sound in sounds)
+		{
+		
+			for(const [index, note] of sounds[sound].entries())
+			{
+				const delay = note % interval
+				if(delay > (interval / 2))
+				{
+					sounds[sound][index] = note - delay
+				}
+				else
+				{
+					sounds[sound][index] = note + (interval - delay)
+				}
+			}
+		}
+		
+		this.soundsRedundancy(sounds)
+		console.log(sounds)
+	}
+
+	soundsRedundancy(sounds)
+	{
+		for(const sound in sounds)
+		{
+			
+			for(const [index, note] of sounds[sound].entries())
+			{
+				console.log(index)
+				for(let i = index + 1; i < sounds[sound].length; i++)
+				{
+					console.log(note)
+					console.log(sounds[sound][i])
+					if(note == sounds[sound][i])
+					{
+						sounds[sound].splice(i, 1)
+					}
+				}
+			}
+		}
+		console.log(sounds)
+		this.storeRecord()
 	}
 }

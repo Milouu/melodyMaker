@@ -205,7 +205,6 @@ class DrumKit extends MusicalCanvas
 				this.checkHiHat()
 				this.activateSound(this.mainHitboxPosition)
 				this.activateSound(this.secondHitboxPosition)
-				this.logs()
 			}
 		}
 	}
@@ -561,23 +560,6 @@ class DrumKit extends MusicalCanvas
    */
 	checkGoToDashboardWithStick()
 	{
-		// const ringLeftInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.whiteCircle.offsetLeft) / this.musicalCanvas.video.offsetWidth
-		// const ringWidthInCanvas = (this.musicalCanvas.canvas.offsetWidth * this.whiteCircle.offsetWidth) / this.musicalCanvas.video.offsetWidth
-		// const ringTopInCanvas = (this.musicalCanvas.canvas.offsetHeight * this.whiteCircle.offsetTop) / this.musicalCanvas.video.offsetHeight
-		// const ringHeightInCanvas = (this.musicalCanvas.canvas.offsetHeight * this.whiteCircle.offsetHeight) / this.musicalCanvas.video.offsetHeight
-
-		// if((this.musicalCanvas.mainHitboxPosition.x  > ringLeftInCanvas && this.musicalCanvas.mainHitboxPosition.x < ringLeftInCanvas + ringWidthInCanvas) &&
-		// 			this.musicalCanvas.mainHitboxPosition.y > ringTopInCanvas && this.musicalCanvas.mainHitboxPosition.y < ringTopInCanvas + ringHeightInCanvas )
-		// {
-		// 	this.toDashboardTL.timeScale(1)
-		// 	this.toDashboardTL.play()
-		// }
-		// else
-		// {
-		// 	this.toDashboardTL.timeScale(2)
-		// 	this.toDashboardTL.reverse()	
-		// }
-
 		if((this.mainHitboxPosition.x  > this.whiteCircle.offsetLeft && this.mainHitboxPosition.x < this.whiteCircle.offsetLeft + this.whiteCircle.offsetWidth) &&
 					this.mainHitboxPosition.y > this.whiteCirlce.offsetTop && this.mainHitboxPosition.y < this.whiteCirlce.offsetTop + this.whiteCircle.offsetHeight)
 		{

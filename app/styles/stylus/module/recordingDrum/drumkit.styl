@@ -2,11 +2,16 @@
 .drumkit__hiHat
 .drumkit__snare
 .drumkit__bass
+.violin__note1
+.violin__note2
+.violin__note3
+.violin__note4
     width 50%
     height 50%
     display flex
     justify-content center
     align-items center
+    float left
 
 .drumkit__img
     width 50%
@@ -43,3 +48,25 @@
     opacity 0
     transform translateX(-50%) translateY(-50%)
     will-change opacity
+
+.violin__note1
+    border-right 1px solid #E6E6E6
+    float left
+
+.violin__note2
+    float left
+
+.violin__note3
+    border-right 1px solid #E6E6E6
+    border-top 1px solid #E6E6E6
+    float left
+
+.violin__note4
+    float left
+    border-top 1px solid #E6E6E6
+
+.violin__note1 > img
+.violin__note2 > img
+.violin__note3 > img
+.violin__note4 > img
+    width 40%

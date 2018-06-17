@@ -44,7 +44,7 @@ class RecordingDrum
 			})
 
 			inputBpm.addEventListener('change', () => {
-				const oldBpm = this.bpm
+				const oldBpm = 120
 				console.log('OLD BPM ' + oldBpm)
 				this.bpm = inputBpm.value
 				console.log('NEW BPM ' + this.bpm)
@@ -52,7 +52,6 @@ class RecordingDrum
 				this.resetSounds()
 				this.cursorReset()
 				this.cursorTimeline.timeScale(this.bpm / oldBpm)
-				console.log('TIMESCALE ' + this.bpm / oldBpm)
 			})
 
 			window.addEventListener('keydown', (event) => 
@@ -67,10 +66,10 @@ class RecordingDrum
     }
     remove()
     {
-        // const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
+        const timeline = new TimelineMax({onComplete: this.ending, onCompleteScope: this })
         
-		// timeline
-		// .to('.content', 2, {opacity: 0, scale: 4, x: 600, ease:Elastic.easeOut}, 0.1)
+		timeline
+		.to('.drumkit', 2, {opacity: 0})
 	}
     
 	instances()

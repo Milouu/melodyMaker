@@ -1,6 +1,6 @@
 <container>
     <div class="view">
-        <header class="header column--12 newViewButton" data-name="dashboard">
+        <header class="header column--12" data-name="dashboard">
             <div class="header__title column--2">
                 <h1 class="header__text">Melody Maker</h1>
             </div>
@@ -19,6 +19,14 @@
                 <img class="drumkit__img" src="../assets/images/recording/bass-drum.svg" alt="bass-drum">
             </div>
             <div class="drumkit__recordCountdown"></div>
+            <div class="calibration__whiteCircle calibration__toDashboardRing newViewButton newViewButton--delay" data-name="dashboard">
+                <svg class="calibration__transitionRing">
+                    <use xlink:href="assets/images/homepage/organicButtonRing.svg#buttonRing"></use>
+                </svg>
+            </div>
+            <div class="calibration__successTxtContainer">
+                <p class="calibration__successTxt">You've recorded a track ! Validate it and return to dashboard by hovering the button below or try again !</p>
+            </div>  
         </div>
         <div class="toolBar">
             <div class="dashboard__controls">

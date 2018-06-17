@@ -212,11 +212,29 @@ class DashboardController
         inputBpm.addEventListener('change', () => {
             const oldBpm = 120
             this.bpm = inputBpm.value
+<<<<<<< HEAD
             // this.playPaused()
             this.resetSounds()
             this.cursorReset()
             this.cursorTimeline.timeScale(this.bpm / oldBpm)
             console.log(this.bpm / oldBpm)
+=======
+
+            for(const [index, track] of this.tracksControllers.entries())
+            {
+                track.reset()
+                track.updateDate()
+                track.initInstrument(this.tracks[index].instrument)
+                track.playTrack(this.tracks[index], this.bpm)
+
+                // Reset cursor
+                this.cursorTimeline.pause(0, true)
+                this.cursorTimeline.play()
+
+                // Init animation
+                this.animationInit(cursor, this.trackDOM.element)
+            }
+>>>>>>> backToDashboard
         })
 
         // inputBpm.addEventListener('change', () =>
@@ -283,13 +301,8 @@ class DashboardController
         }
     }
 
-    updateCallback() {
-        console.log(this.trackDOM.offsetWidth)
-    }
-
     playPaused(mute)
     {
-        console.log(mute)
         if(this.cursorTimeline.paused() == true)
         {
             TweenMax.set('.dashboard__pause', { opacity: 1 })
@@ -309,7 +322,6 @@ class DashboardController
         {
             if(!this.cursorTimeline.paused())
             {
-                console.log('play')
                 track.updateDate()
                 track.initInstrument(this.tracks[index].instrument)
                 track.playTrack(this.tracks[index], this.bpm)
@@ -352,7 +364,6 @@ class DashboardController
     craftTracks()
     {
         this.tracks = this.retrieveRecords()
-        console.log(this.tracks)
 
         const dashboard = document.querySelector('.dashboard__container')
         dashboard.style.opacity = 0
@@ -369,10 +380,8 @@ class DashboardController
     {
         for(const [index, track] of tracks.entries())
         {
-            console.log('i')
             for (const sound of track.sounds.sound1)
             {
-                console.log(index)
                 const note1 = document.querySelectorAll('.note--1')
                 const note = document.createElement('div')
                 
@@ -393,8 +402,12 @@ class DashboardController
 
                 note.classList.add('note', 'note--sound2')
                 note2[index].appendChild(note)
+<<<<<<< HEAD
                 console.log(note.offsetWidth)
                 note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm)}px)`
+=======
+                note.style.transform = `translateX(${(tracksDOM[0].offsetWidth * ((sound * track.bpm) / this.bpm)) / (16 * 60000 / this.bpm) + note.offsetWidth}px)`
+>>>>>>> backToDashboard
 
                 window.addEventListener('resize', () => 
                 {

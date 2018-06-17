@@ -4,6 +4,10 @@ class DrumKit extends MusicalCanvas
 	{
 		super()
 
+		/**
+		 * Variables
+		 */
+
 		// Number of hitboxes being tracked
 		this.hitboxNumber = 1
 
@@ -91,6 +95,30 @@ class DrumKit extends MusicalCanvas
 
 		this.inputBpm = document.querySelector('.inputBpm')
 
+		this.successTxt = document.querySelector('.calibration__successTxt')
+		this.whiteCircle = document.querySelector('.calibration__whiteCircle')
+		this.transitionRing = this.whiteCircle.querySelector('.calibration__transitionRing')
+		this.newViewButton = document.querySelector('.newViewButton')
+
+		/**
+		 * GSAP Timelines
+		 */
+		// Animation timeline on record validation
+		this.recordValidationTL = new TimelineLite({paused: true, onComplete: this.checkGoToDashboardWithStick, onCompleteScope: this})
+		this.recordValidationTL
+			.to(this.successTxt, 0.3, {opacity: 1}, '+= 1')
+			.fromTo(this.whiteCircle, 0.3, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1}, '+=0.5')
+			.to(this.whiteCircle, 0.1, {scale: 1})
+			.fromTo(this.transitionRing, 0.3, {scale: 0, opacity: 0}, {scale: 1.2, opacity: 1})
+			.to(this.transitionRing, 0.1, {scale: 1})
+
+		// Animation timeline for the transition button leading to the dashboard page
+		this.toDashboardTL = new TimelineLite({paused: true})
+		this.toDashboardTL
+			.to(this.transitionRing, 0.3, {scale: 1.8})
+			.to(this.transitionRing, 1, {strokeDashoffset: 230, onComplete: this.goToDashboard, onCompleteScope: this}, '+=0.5')
+			.to(this.whiteCircle, 0.3, {backgroundColor: '#5469FE'})
+
 		/**
 		 * Event Listeners
 		 */
@@ -122,6 +150,7 @@ class DrumKit extends MusicalCanvas
 					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
 				}
 			}	
+			// R
 			else if(event.keyCode === 82)
 			{
 				if(localStorage.getItem('records'))
@@ -136,6 +165,9 @@ class DrumKit extends MusicalCanvas
 		})
 
 		window.addEventListener('resize', () => { this.updateWindowVariables() })
+
+		// Tests
+		this.newViewButton.addEventListener('click', ()=> { this.storeRecord() })
 		
 		/**
 		 * Launched methods
@@ -168,7 +200,6 @@ class DrumKit extends MusicalCanvas
 				this.checkHiHat()
 				this.activateSound(this.mainHitboxPosition)
 				this.activateSound(this.secondHitboxPosition)
-				this.logs()
 			}
 		}
 	}
@@ -344,6 +375,9 @@ class DrumKit extends MusicalCanvas
 	// Launches the countdown of sound recording
 	launchCountdown()
 	{	
+		this.recordValidationTL.timeScale(2)
+		this.recordValidationTL.reverse()
+
 		if(this.countdown > 0)
 		{
 			this.recordCountdown.innerHTML = this.countdown
@@ -480,7 +514,6 @@ class DrumKit extends MusicalCanvas
 		}
 		
 		this.soundsRedundancy(sounds)
-		console.log(sounds)
 	}
 
 	soundsRedundancy(sounds)
@@ -490,11 +523,8 @@ class DrumKit extends MusicalCanvas
 			
 			for(const [index, note] of sounds[sound].entries())
 			{
-				console.log(index)
 				for(let i = index + 1; i < sounds[sound].length; i++)
 				{
-					console.log(note)
-					console.log(sounds[sound][i])
 					if(note == sounds[sound][i])
 					{
 						sounds[sound].splice(i, 1)
@@ -502,7 +532,40 @@ class DrumKit extends MusicalCanvas
 				}
 			}
 		}
-		console.log(sounds)
-		this.storeRecord()
+		this.displayValidationScreen()
+	}
+
+	displayValidationScreen()
+	{
+		this.recordValidationTL.timeScale(1)
+		this.recordValidationTL.play()
+	}
+
+		/**
+   * Simulates a click on the whitecircle button appearing at the end of calibration
+   */
+	goToDashboard()
+	{
+		this.newViewButton.click()
+	}
+
+	/**
+   * Monitors stick position relative to the button to go to the dashboard page
+   */
+	checkGoToDashboardWithStick()
+	{
+		if((this.mainHitboxPosition.x  > this.whiteCircle.offsetLeft && this.mainHitboxPosition.x < this.whiteCircle.offsetLeft + this.whiteCircle.offsetWidth) &&
+					this.mainHitboxPosition.y > this.whiteCirlce.offsetTop && this.mainHitboxPosition.y < this.whiteCirlce.offsetTop + this.whiteCircle.offsetHeight)
+		{
+			this.toDashboardTL.timeScale(1)
+			this.toDashboardTL.play()
+		}
+		else
+		{
+			this.toDashboardTL.timeScale(2)
+			this.toDashboardTL.reverse()	
+		}
+
+		setTimeout(this.checkGoToDashboardWithStick.bind(this), 50)
 	}
 }

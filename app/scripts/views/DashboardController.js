@@ -148,7 +148,8 @@ class DashboardController
             })
         }
 
-        this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
+        this.animationInit(cursor, this.trackDOM.element)
+        // this.animation = this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: this.trackDOM.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, this.trackDOM] })
 
         window.addEventListener('resize', () => 
         {
@@ -195,6 +196,22 @@ class DashboardController
         inputBpm.addEventListener('change', () =>
         {
             this.bpm = inputBpm.value
+            console.log(this.bpm)
+
+            for(const [index, track] of this.tracksControllers.entries())
+            {
+                track.reset()
+                track.updateDate()
+                track.initInstrument(this.tracks[index].instrument)
+                track.playTrack(this.tracks[index], this.bpm)
+
+                // Reset cursor
+                this.cursorTimeline.pause(0, true)
+                this.cursorTimeline.play()
+
+                // Init animation
+                this.animationInit(cursor, this.trackDOM.element)
+            }
         })
     }
 
@@ -278,9 +295,14 @@ class DashboardController
         }
     }
 
-    cursorReset(cursor, track)
+    cursorReset()
     {
-        this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
+        // this.cursorTimeline.set('.dashboard__cursor', {x: - cursor.offsetWidth / 2})
+        this.cursorTimeline.pause(0, true)
+        this.cursorTimeline.play()
+    }
+    animationInit(cursor, track)
+    {
         this.cursorTimeline.to('.dashboard__cursor', 16 * 60 / this.bpm, {x: track.offsetWidth - cursor.offsetWidth / 2, ease: Power0.easeNone, onComplete: this.cursorReset, onCompleteScope: this, onCompleteParams: [cursor, track] })
     }
 

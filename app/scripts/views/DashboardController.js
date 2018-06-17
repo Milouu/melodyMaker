@@ -194,6 +194,13 @@ class DashboardController
             {
                 console.log(this.bpm)
             }
+            else if(event.keyCode == 82)
+            {
+                if(localStorage.getItem('records'))
+                {
+                    console.log(this.retrieveRecords())
+                }
+            }
         })
 
         inputBpm.addEventListener('change', () =>

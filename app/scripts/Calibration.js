@@ -57,6 +57,8 @@ class Calibration {
 
 		this.posStickX = 0
 		this.posStickY = 0
+		this.oldStickPosX = 0
+		this.oldStickPosY = 0
 		this.stickCursor = document.querySelector('.stickCursor')
 
 		/**
@@ -594,13 +596,14 @@ class Calibration {
 		{
 			if(this.musicalCanvas.mainHitboxPosition.x !== undefined && this.musicalCanvas.mainHitboxPosition.y !== undefined)
 			{
-				const distanceX = ((this.musicalCanvas.mainHitboxPosition.x * this.videoContainer.offsetWidth) / this.musicalCanvas.canvas.offsetWidth) - (this.stickCursor.offsetLeft - this.videoContainer.offsetLeft)
-				const distanceY = ((this.musicalCanvas.mainHitboxPosition.y * this.videoContainer.offsetHeight) / this.musicalCanvas.canvas.offsetHeight) - (this.stickCursor.offsetTop - this.videoContainer.offsetTop)
+				const distanceX = ((this.musicalCanvas.mainHitboxPosition.x * this.videoContainer.offsetWidth) / this.musicalCanvas.canvas.offsetWidth) - (this.oldStickPosX - this.videoContainer.offsetLeft)
+				const distanceY = ((this.musicalCanvas.mainHitboxPosition.y * this.videoContainer.offsetHeight) / this.musicalCanvas.canvas.offsetHeight) - (this.oldStickPosY - this.videoContainer.offsetTop)
 				this.posStickX += (distanceX / 3) 
 				this.posStickY += (distanceY / 3)
+				this.oldStickPosX = this.posStickX
+				this.oldStickPosY = this.posStickY
 
-				this.stickCursor.style.left = (this.posStickX - this.stickCursor.offsetWidth / 2) + 'px'
-				this.stickCursor.style.top = (this.posStickY - this.stickCursor.offsetHeight / 2) + 'px'
+				this.stickCursor.style.transform = `translateX(${this.posStickX - (this.stickCursor.offsetWidth / 2)}px) translateY(${this.posStickY - (this.stickCursor.offsetHeight / 2)}px)`
 			}
 
 			this.stickPosUpdate()

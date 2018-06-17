@@ -47,6 +47,8 @@ class DrumKit extends MusicalCanvas
 		//Position of cursor following stick
 		this.posStickX = 0
 		this.posStickY = 0
+		this.oldStickPosX = 0 
+		this.oldStickPosY = 0
 		
 		
 		// Position of the snare zone 
@@ -361,13 +363,14 @@ class DrumKit extends MusicalCanvas
 		{
 			if(this.mainHitboxPosition.x !== undefined && this.mainHitboxPosition.y !== undefined)
 			{
-				const distanceX = ((this.mainHitboxPosition.x * window.innerWidth) / this.canvas.offsetWidth) - this.stickCursor.offsetLeft
-				const distanceY = ((this.mainHitboxPosition.y * window.innerHeight) / this.canvas.offsetHeight) - this.stickCursor.offsetTop
+				const distanceX = ((this.mainHitboxPosition.x * window.innerWidth) / this.canvas.offsetWidth) - this.oldStickPosX
+				const distanceY = ((this.mainHitboxPosition.y * window.innerHeight) / this.canvas.offsetHeight) - this.oldStickPosY
 				this.posStickX += (distanceX / 3) 
 				this.posStickY += (distanceY / 3)
+				this.oldStickPosX = this.posStickX
+				this.oldStickPosY = this.posStickY
 
-				this.stickCursor.style.left = this.posStickX + 'px'
-				this.stickCursor.style.top = this.posStickY + 'px'
+				this.stickCursor.style.transform = `translateX(${this.posStickX - (this.stickCursor.offsetWidth / 2)}px) translateY(${this.posStickY - (this.stickCursor.offsetHeight / 2)}px)`
 			}
 
 			this.stickPosUpdate()

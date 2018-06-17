@@ -190,6 +190,10 @@ class DashboardController
 
                 this.playPaused(mute) 
             } 
+            else if(event.keyCode == 13)
+            {
+                console.log(this.bpm)
+            }
         })
 
         inputBpm.addEventListener('change', () =>

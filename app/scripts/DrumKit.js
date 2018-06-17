@@ -310,6 +310,7 @@ class DrumKit extends MusicalCanvas
 			.to(drumkit, 0.15, {scale: 1})
 	}
 
+	// Init variables & launch animations of sound recording
 	recordSound()
 	{
 		this.recordBegun = true
@@ -317,10 +318,6 @@ class DrumKit extends MusicalCanvas
 
 		this.record.sounds.sound1 = []
 		this.record.sounds.sound2 = []
-
-		// const cursorMovement = new TimelineMax()
-		// cursorMovement
-		// 	.to(this.cursor, 3, {x: 100})
 
 		const movement = this.metrics.offsetWidth - (this.cursor.offsetWidth / 2)
 
@@ -335,6 +332,7 @@ class DrumKit extends MusicalCanvas
 		}, loopTime * 1000)
 	}
 
+	// Stops sound recording
 	stopRecord()
 	{
 		this.recordBegun = false
@@ -342,6 +340,7 @@ class DrumKit extends MusicalCanvas
 		this.stopMetronome()
 	}
 
+	// Launches the countdown of sound recording
 	launchCountdown()
 	{	
 		if(this.countdown > 0)
@@ -363,6 +362,7 @@ class DrumKit extends MusicalCanvas
 		}
 	}
 
+	// Update the stickcursor position
 	stickPosUpdate()
 	{
 		setTimeout(() =>
@@ -390,11 +390,13 @@ class DrumKit extends MusicalCanvas
 		this.windowHeight = window.innerHeight
 	}
 
+	// Sets the tracked color
 	setPickedColor(pickedColor)
 	{
 		this.pickedColor = pickedColor
 	}
 
+	// Stores the sound that's been recorded in localstorage
 	storeRecord()
 	{
 		let records = undefined
@@ -411,15 +413,19 @@ class DrumKit extends MusicalCanvas
 		localStorage.setItem('records', JSON.stringify(records))
 	}
 
+	// Gets the list of tracks that have been recorded from localstorage
 	retrieveRecords()
 	{
 		return JSON.parse(localStorage.getItem('records'))
 	}
+
+	//Updates metronome date property
 	metronomeUpdateDate()
 	{
 		this.metronome.dateNow = Date.now()
 	}
 
+	// Launches metronomes at a given bpm
 	playMetronome(bpm)
 	{
 		if(this.metronome.dateNow + (60000 / bpm) <= Date.now())
@@ -444,6 +450,8 @@ class DrumKit extends MusicalCanvas
 		this.metronome.animationFrame = window.requestAnimationFrame(this.playMetronome.bind(this, bpm))
 	}
 
+
+	// Stops metronome
 	stopMetronome()
 	{
 		window.cancelAnimationFrame(this.metronome.animationFrame)

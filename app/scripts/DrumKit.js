@@ -49,10 +49,10 @@ class DrumKit extends MusicalCanvas
 		}
 
 		this.violinSounds = {
-			note1 : new Audio(this.path + 'violin/violin-1.wav'),
-			note2 : new Audio(this.path + 'violin/violin-2.wav'),
-			note3 : new Audio(this.path + 'violin/violin-3.wav'),
-			note4 : new Audio(this.path + 'violin/violin-4.wav'),
+			note1 : [new Audio(this.path + 'violin/violin-1.wav')],
+			note2 : [new Audio(this.path + 'violin/violin-2.wav')],
+			note3 : [new Audio(this.path + 'violin/violin-3.wav')],
+			note4 : [new Audio(this.path + 'violin/violin-4.wav')],
 		}
 
 		// Number of hitboxes being tracked
@@ -484,8 +484,8 @@ class DrumKit extends MusicalCanvas
 	// Plays the sound passed in the parameters
 	playSound(soundName)
 	{	
-		const sound = undefined
-		const visual = undefined
+		let sound = undefined
+		let visual = undefined
 		if(this.instrument == 'drum')
 		{
 			sound = eval('this.drumkitSounds.' + soundName)

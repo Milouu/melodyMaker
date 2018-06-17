@@ -9,6 +9,7 @@ class DrumKit extends MusicalCanvas
 		 */
 
 		//Drumkit sounds
+		this.path = 'assets/sounds/'
 		this.drumkitSounds = {
 			bass: 
 			[
@@ -246,7 +247,7 @@ class DrumKit extends MusicalCanvas
 		const soundInterval = 5
 		if((hitboxPos.y >= this.oldMainPos.y + soundInterval))
 		{	
-			if((hitbox.y >= this.snarePos.y) &&(hitboxPos.x >= this.hiHatPos.x))
+			if((hitboxPos.y >= this.snarePos.y) &&(hitboxPos.x >= this.hiHatPos.x))
 			{
 				if(this.snareReady === true)
 				{
@@ -259,7 +260,7 @@ class DrumKit extends MusicalCanvas
 					}
 				}
 			}
-			else if((hitbox.y >= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
+			else if((hitboxPos.y >= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
 			{
 				if(this.snareReady === true)
 				{
@@ -272,7 +273,7 @@ class DrumKit extends MusicalCanvas
 					}
 				}
 			}
-			else if((hitbox.y <= this.snarePos.y) && (hitboxPos.x >= this.snarePos.x))
+			else if((hitboxPos.y <= this.snarePos.y) && (hitboxPos.x >= this.snarePos.x))
 			{
 				if(this.hiHatReady === true)
 				{
@@ -285,7 +286,7 @@ class DrumKit extends MusicalCanvas
 					} 
 				}
 			}
-			else if ((hitbox.y <= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
+			else if ((hitboxPos.y <= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
 			{
 				if(this.cymbalReady === true)
 				{

@@ -445,9 +445,10 @@ class DashboardController
 
     instances()
     {
-        console.log('intstanceeeee')
         this.tracksControllers = []
+        
         this.tracks = this.retrieveRecords()
+
         for(let index of this.tracks.keys())
         {
             this.tracksControllers.push(new PlaySound())
@@ -515,7 +516,7 @@ class DashboardController
         {
             tracks[index].style.display = 'none'
         }, 300)
-        
+        this.tracksControllers[index].pause()
         this.instances()
     }
 

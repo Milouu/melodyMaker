@@ -1,0 +1,84 @@
+<container>
+    <div class="view">
+        <header class="header column--12" data-name="dashboard">
+            <div class="header__title column--2">
+                <h1 class="header__text">Melody Maker</h1>
+            </div>
+        </header>
+        <div class="drumkit">
+            <div class="violin__note1">
+                <img class="drumkit__img" src="../assets/images/recording/violinArc.svg" alt="arc">
+            </div>
+            <div class="violin__note2">
+                <img class="drumkit__img" src="../assets/images/recording/violinArc.svg" alt="arc">
+            </div>
+            <div class="violin__note3">
+                <img class="drumkit__img" src="../assets/images/recording/violinArc.svg" alt="arc">
+            </div>
+            <div class="violin__note4">
+                <img class="drumkit__img" src="../assets/images/recording/violinArc.svg" alt="arc">
+            </div>
+            <div class="drumkit__recordCountdown"></div>
+            <div class="calibration__whiteCircle calibration__toDashboardRing newViewButton newViewButton--delay" data-name="dashboard">
+                <svg class="calibration__transitionRing">
+                    <use xlink:href="assets/images/homepage/organicButtonRing.svg#buttonRing"></use>
+                </svg>
+            </div>
+            <div class="calibration__successTxtContainer">
+                <p class="calibration__successTxt">You've recorded a track ! Validate it and return to dashboard by hovering the button below or try again !</p>
+            </div>  
+        </div>
+        <div class="toolBar">
+            <div class="dashboard__controls">
+                <div class="dashboard__reset">
+                    <div class="dashboard__record"></div>
+                </div>
+                <div class="dashboard__seperator"></div>
+                <div class="dashboard__play">
+                    <div class="dashboard__playTriangle"></div>
+                    <div class="dashboard__pause">
+                        <div class="dashboard__pauseBar"></div>
+                        <div class="dashboard__pauseBar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard__bpm">
+                <!-- <p>120bpm</p> --> 
+                <input class="inputBpm" type="text" value="120" onfocus="this.value=''">
+                <p>bpm</p> 
+            </div>
+            <div class="toolBar__timelineContainer">
+                <div class="toolBar__metricsContainer">
+                    <div class="dashboard__metrics">
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__metric toolBar__metric"></div>
+                        <div class="dashboard__cursor">
+                            <div class="dashboard__cursorTriangle"></div>
+                            <div class="dashboard__cursorLine"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="toolBar__timeline">
+                    <div class="toolBar__timeline--fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="videoContainer"></div>
+    <div class="stickCursor"></div>
+</container>

@@ -62,15 +62,17 @@ class DashboardController
 
         this.tracksControllers = []
 
-        this.cursorTimeline = new TimelineMax({ paused: true })
-
+        this.cursorTimeline = null
+        
         this.trackDOM = { element: null, offsetWidth: 0 }
 
         this.animation = null
     }
-
+    
     add()
     {
+        this.cursorTimeline = new TimelineMax({ paused: true })
+
         const addButton = document.querySelector('.dashboard__add')
         const instruments = document.querySelector('.instruments')
         const dashboard = document.querySelector('.dashboard')
@@ -353,6 +355,7 @@ class DashboardController
         for(const track of this.tracks)
         {
             if(track.instrument == 'drum') { this.getTrack('modules/track--drum.html', 'container', '.tracks') }
+            else if(track.instrument == 'guitar') { this.getTrack('modules/track--violin.html', 'container', '.tracks') }
             else if(track.instrument == 'guitar') { this.getTrack('modules/track--guitar.html', 'container', '.tracks') }
         }
         this.tryCatchTracks(dashboard)

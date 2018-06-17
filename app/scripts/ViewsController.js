@@ -24,6 +24,8 @@ class ViewsController
 		if(currentPageName == 'calibration') this.currentPage = this.calibration
 		if(currentPageName == 'dashboard') this.currentPage = this.dashboard
 		if(currentPageName == 'recordingDrum') this.currentPage = this.recordingDrum
+		if(currentPageName == 'recordingViolin') this.currentPage = this.recordingDrum
+		if(currentPageName == 'recordingGuitar') this.currentPage = this.recordingDrum
 
 		// Animate removing elements
 		this.currentPage.remove()
@@ -86,6 +88,16 @@ class ViewsController
 		this.newPageName == 'dashboard' ? this.dashboard.craftTracks() : false
 		
 		if(this.newPageName == 'recordingDrum')
+		{
+			this.recordingDrum.add()
+			this.recordingDrum.setPickedColor(this.getPickedColor())
+		}   
+		if(this.newPageName == 'recordingViolin')
+		{
+			this.recordingDrum.add()
+			this.recordingDrum.setPickedColor(this.getPickedColor())
+		}   
+		if(this.newPageName == 'recordingGuitar')
 		{
 			this.recordingDrum.add()
 			this.recordingDrum.setPickedColor(this.getPickedColor())

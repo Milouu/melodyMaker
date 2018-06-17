@@ -51,6 +51,52 @@ class PlaySound
                     new Audio(this.path + 'drumKit/hiHat/hiHat-4.mp3'),
                     new Audio(this.path + 'drumKit/hiHat/hiHat-5.mp3'),
                 ], 
+                sound4: 
+                [
+                    new Audio(this.path + 'drumKit/cymbal/cymbal-1.wav'),
+                    new Audio(this.path + 'drumKit/cymbal/cymbal-2.wav'),
+                    new Audio(this.path + 'drumKit/cymbal/cymbal-3.wav'),
+                    new Audio(this.path + 'drumKit/cymbal/cymbal-4.wav'),
+                    new Audio(this.path + 'drumKit/cymbal/cymbal-5.wav'),
+                ], 
+            }
+        }
+        else if(instrument == 'violon')
+        {
+            sounds = 
+            {
+                sound1: 
+                [
+                    new Audio(this.path + 'violin/violon-1.wav'),
+                    new Audio(this.path + 'violin/violon-1.wav'),
+                    new Audio(this.path + 'violin/violon-1.wav'),
+                    new Audio(this.path + 'violin/violon-1.wav'),
+                    new Audio(this.path + 'violin/violon-1.wav'),
+                ], 
+                sound2: 
+                [
+                    new Audio(this.path + 'violin/violon-2.wav'),
+                    new Audio(this.path + 'violin/violon-2.wav'),
+                    new Audio(this.path + 'violin/violon-2.wav'),
+                    new Audio(this.path + 'violin/violon-2.wav'),
+                    new Audio(this.path + 'violin/violon-2.wav'),
+                ], 
+                sound3: 
+                [
+                    new Audio(this.path + 'violin/violon-3.wav'),
+                    new Audio(this.path + 'violin/violon-3.wav'),
+                    new Audio(this.path + 'violin/violon-3.wav'),
+                    new Audio(this.path + 'violin/violon-3.wav'),
+                    new Audio(this.path + 'violin/violon-3.wav'),
+                ], 
+                sound4: 
+                [
+                    new Audio(this.path + 'violin/violon-4.wav'),
+                    new Audio(this.path + 'violin/violon-4.wav'),
+                    new Audio(this.path + 'violin/violon-4.wav'),
+                    new Audio(this.path + 'violin/violon-4.wav'),
+                    new Audio(this.path + 'violin/violon-4.wav'),
+                ], 
             }
         }
         else if(instrument == 'guitar')
@@ -59,19 +105,35 @@ class PlaySound
             {
                 sound1: 
                 [
-                    new Audio(this.path + 'do-majeur.m4a'),
-                    new Audio(this.path + 'do-majeur.m4a'),
-                    new Audio(this.path + 'do-majeur.m4a'),
-                    new Audio(this.path + 'do-majeur.m4a'),
-                    new Audio(this.path + 'do-majeur.m4a'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-1.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-1.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-1.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-1.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-1.wav'),
                 ], 
                 sound2: 
                 [
-                    new Audio(this.path + 're-majeur.m4a'),
-                    new Audio(this.path + 're-majeur.m4a'),
-                    new Audio(this.path + 're-majeur.m4a'),
-                    new Audio(this.path + 're-majeur.m4a'),
-                    new Audio(this.path + 're-majeur.m4a'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-2.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-2.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-2.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-2.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-2.wav'),
+                ], 
+                sound3: 
+                [
+                    new Audio(this.path + 'moonGuitar/moonGuitar-3.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-3.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-3.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-3.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-3.wav'),
+                ], 
+                sound4: 
+                [
+                    new Audio(this.path + 'moonGuitar/moonGuitar-4.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-4.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-4.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-4.wav'),
+                    new Audio(this.path + 'moonGuitar/moonGuitar-4.wav'),
                 ], 
             }
         }
@@ -98,6 +160,7 @@ class PlaySound
         const sound1Delay = (track.sounds.sound1[this.counts[0]] * track.bpm) / bpm 
         const sound2Delay = (track.sounds.sound2[this.counts[1]] * track.bpm) / bpm
         const sound3Delay = (track.sounds.sound3[this.counts[2]] * track.bpm) / bpm
+        const sound4Delay = (track.sounds.sound4[this.counts[3]] * track.bpm) / bpm
 
         if(this.beginDate - this.timeSpent + sound1Delay <= Date.now())
         {
@@ -121,6 +184,13 @@ class PlaySound
             this.sounds.sound3[random].currentTime = 0
             this.sounds.sound3[random].play()
             this.counts[2]++
+        }
+        else if(this.beginDate - this.timeSpent + sound4Delay <= Date.now())
+        {
+            const random = Math.floor(Math.random() * this.sounds.sound4.length)
+            this.sounds.sound4[random].currentTime = 0
+            this.sounds.sound4[random].play()
+            this.counts[3]++
         }
 
         this.animationFrame = window.requestAnimationFrame(this.playTrack.bind(this, track, bpm, this.counts))

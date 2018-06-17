@@ -55,6 +55,13 @@ class DrumKit extends MusicalCanvas
 			note4 : [new Audio(this.path + 'violin/violin-4.wav')],
 		}
 
+		this.guitarSounds = {
+			note1 : [new Audio(this.path + 'moonGuitar/moonGuitar-1.wav')],
+			note2 : [new Audio(this.path + 'moonGuitar/moonGuitar-2.wav')],
+			note3 : [new Audio(this.path + 'moonGuitar/moonGuitar-3.wav')],
+			note4 : [new Audio(this.path + 'moonGuitar/moonGuitar-4.wav')],
+		}
+
 		// Number of hitboxes being tracked
 		this.hitboxNumber = 1
 
@@ -244,7 +251,7 @@ class DrumKit extends MusicalCanvas
 				}
 				else if(this.instrument === 'guitar')
 				{
-					console.log('guitar')
+					this.hoverSoundActivation(this.mainHitboxPosition)
 				}
 			}
 			else if(this.hitboxNumber === 2)
@@ -330,7 +337,7 @@ class DrumKit extends MusicalCanvas
 
 	hoverSoundActivation(hitboxPos)
 	{
-		if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x >= this.soundsPos.x))
+		if((hitboxPos.y <= this.soundsPos.y) &&(hitboxPos.x <= this.soundsPos.x))
 		{	
 			if(this.note1Ready === true)
 			{
@@ -347,7 +354,7 @@ class DrumKit extends MusicalCanvas
 				}	
 			}		
 		}
-		else if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x <= this.soundsPos.x))
+		else if((hitboxPos.y <= this.soundsPos.y) &&(hitboxPos.x >= this.soundsPos.x))
 		{		
 			if(this.note2Ready === true)
 			{		
@@ -365,7 +372,7 @@ class DrumKit extends MusicalCanvas
 			}
 			
 		}
-		else if((hitboxPos.y <= this.soundsPos.y) && (hitboxPos.x >= this.soundsPos.x))
+		else if((hitboxPos.y >= this.soundsPos.y) && (hitboxPos.x <= this.soundsPos.x))
 		{	
 			if(this.note3Ready === true)
 			{		
@@ -383,7 +390,7 @@ class DrumKit extends MusicalCanvas
 			}
 			
 		}
-		else if ((hitboxPos.y <= this.soundsPos.y) && (hitboxPos.x <= this.soundsPos.x))
+		else if ((hitboxPos.y >= this.soundsPos.y) && (hitboxPos.x >= this.soundsPos.x))
 		{
 			if(this.note4Ready === true)
 			{
@@ -495,6 +502,11 @@ class DrumKit extends MusicalCanvas
 		{
 			sound= eval('this.violinSounds.' + soundName)
 			visual = '.violin__' + soundName + '>.drumkit__img'
+		}
+		else if(this.instrument == 'guitar')
+		{
+			sound= eval('this.guitarSounds.' + soundName)
+			visual = '.guitar__' + soundName + '>.drumkit__img'
 		}
 
 		const random = Math.floor(Math.random() * sound.length)

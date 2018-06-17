@@ -520,7 +520,6 @@ class DrumKit extends MusicalCanvas
 		}
 		
 		this.soundsRedundancy(sounds)
-		console.log(sounds)
 	}
 
 	soundsRedundancy(sounds)
@@ -530,11 +529,8 @@ class DrumKit extends MusicalCanvas
 			
 			for(const [index, note] of sounds[sound].entries())
 			{
-				console.log(index)
 				for(let i = index + 1; i < sounds[sound].length; i++)
 				{
-					console.log(note)
-					console.log(sounds[sound][i])
 					if(note == sounds[sound][i])
 					{
 						sounds[sound].splice(i, 1)
@@ -542,7 +538,6 @@ class DrumKit extends MusicalCanvas
 				}
 			}
 		}
-		console.log(sounds)
 		this.displayValidationScreen()
 	}
 

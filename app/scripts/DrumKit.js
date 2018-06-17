@@ -8,6 +8,42 @@ class DrumKit extends MusicalCanvas
 		 * Variables
 		 */
 
+		//Drumkit sounds
+		this.drumkitSounds = {
+			bass: 
+			[
+					new Audio(this.path + 'drumKit/bass/bass-2.mp3'),
+					new Audio(this.path + 'drumKit/bass/bass-1.mp3'),
+					new Audio(this.path + 'drumKit/bass/bass-3.mp3'),
+					new Audio(this.path + 'drumKit/bass/bass-4.mp3'),
+					new Audio(this.path + 'drumKit/bass/bass-5.mp3'),
+			], 
+			snare: 
+			[
+					new Audio(this.path + 'drumKit/snare/snare-2.mp3'),
+					new Audio(this.path + 'drumKit/snare/snare-1.mp3'),
+					new Audio(this.path + 'drumKit/snare/snare-3.mp3'),
+					new Audio(this.path + 'drumKit/snare/snare-4.mp3'),
+					new Audio(this.path + 'drumKit/snare/snare-5.mp3'),
+			], 
+			hiHat: 
+			[
+					new Audio(this.path + 'drumKit/hiHat/hiHat-1.mp3'),
+					new Audio(this.path + 'drumKit/hiHat/hiHat-2.mp3'),
+					new Audio(this.path + 'drumKit/hiHat/hiHat-3.mp3'),
+					new Audio(this.path + 'drumKit/hiHat/hiHat-4.mp3'),
+					new Audio(this.path + 'drumKit/hiHat/hiHat-5.mp3'),
+			], 
+			cymbal:
+			[
+				new Audio(this.path + 'drumKit/cymbal/cymbal-1.wav'),
+				new Audio(this.path + 'drumKit/cymbal/cymbal-2.wav'),
+				new Audio(this.path + 'drumKit/cymbal/cymbal-3.wav'),
+				new Audio(this.path + 'drumKit/cymbal/cymbal-4.wav'),
+				new Audio(this.path + 'drumKit/cymbal/cymbal-5.wav'),
+		], 
+		}
+
 		// Number of hitboxes being tracked
 		this.hitboxNumber = 1
 
@@ -60,7 +96,6 @@ class DrumKit extends MusicalCanvas
 		this.windowHeight = window.innerHeight
 		this.windowWidth = window.innerWidth
 		
-		
 		// Position of the snare zone 
 		this.snarePos = {
 			x: this.canvas.offsetWidth / 2,
@@ -86,9 +121,6 @@ class DrumKit extends MusicalCanvas
 		}
 
 		// DOM Variables
-		this._snare = document.querySelector('.snare')
-		this._hiHat = document.querySelector('.hi-hat')
-
 		this.recordButton = document.querySelector('.dashboard__reset')
 		this.metrics = document.querySelector('.dashboard__metrics')
 		this.cursor = document.querySelector('.dashboard__cursor')
@@ -218,8 +250,8 @@ class DrumKit extends MusicalCanvas
 			{
 				if(this.snareReady === true)
 				{
-					// this.playSound('drumBass')
-					this.drumBassReady = false
+					this.playSound('bass')
+					this.bassReady = false
 	
 					if(this.recordBegun === true)
 					{
@@ -257,7 +289,7 @@ class DrumKit extends MusicalCanvas
 			{
 				if(this.cymbalReady === true)
 				{
-					// this.playSound('cymbal')
+					this.playSound('cymbal')
 					this.cymbalReady = false
 	
 					if(this.recordBegun === true)
@@ -272,7 +304,7 @@ class DrumKit extends MusicalCanvas
 			this.snareReady = true
 			this.hiHatReady = true
 			this.cymbalReady = true
-			this.drumBassReady = true
+			this.bassReady = true
 		}
 		
 		this.oldMainPos.x = hitboxPos.x
@@ -361,12 +393,13 @@ class DrumKit extends MusicalCanvas
 	// Plays the sound passed in the parameters
 	playSound(soundName)
 	{	
-		const sound = eval('this._' + soundName)
+		const sound = eval('this.drumkitSounds.' + soundName)
 	
 		const drumkit = '.drumkit__' + soundName + '>.drumkit__img'
 
-		sound.currentTime = 0
-		sound.play()
+		const random = Math.floor(Math.random() * sound.length)
+		sound[random].currentTime = 0
+		sound[random].play()
 
 		// Animate the drumkit img
 		const drumkitTL = new TimelineMax()

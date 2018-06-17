@@ -94,12 +94,12 @@ class ViewsController
 		}   
 		if(this.newPageName == 'recordingViolin')
 		{
-			this.recordingDrum.add()
+			this.recordingDrum.add(this.dashboard.nextInstrument)
 			this.recordingDrum.setPickedColor(this.getPickedColor())
 		}   
 		if(this.newPageName == 'recordingGuitar')
 		{
-			this.recordingDrum.add()
+			this.recordingDrum.add(this.dashboard.nextInstrument)
 			this.recordingDrum.setPickedColor(this.getPickedColor())
 		}   
 

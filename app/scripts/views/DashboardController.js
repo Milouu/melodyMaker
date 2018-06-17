@@ -366,7 +366,7 @@ class DashboardController
         for(const track of this.tracks)
         {
             if(track.instrument == 'drum') { this.getTrack('modules/track--drum.html', 'container', '.tracks') }
-            else if(track.instrument == 'guitar') { this.getTrack('modules/track--violin.html', 'container', '.tracks') }
+            else if(track.instrument == 'violin') { this.getTrack('modules/track--violin.html', 'container', '.tracks') }
             else if(track.instrument == 'guitar') { this.getTrack('modules/track--guitar.html', 'container', '.tracks') }
         }
         this.tryCatchTracks(dashboard)

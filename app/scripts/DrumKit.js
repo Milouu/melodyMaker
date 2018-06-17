@@ -23,6 +23,8 @@ class DrumKit extends MusicalCanvas
 		// this.secondIsUp = [true]
 		this.snareReady = true 
 		this.hiHatReady = true
+		this.cymbalReady = true
+		this.bassDrumReady = true
 		// this.oldMainPos = this.mainHitboxPosition
 		this.oldMainPos = {x: 0, y: 0}
 
@@ -62,13 +64,15 @@ class DrumKit extends MusicalCanvas
 		// Position of the snare zone 
 		this.snarePos = {
 			x: this.canvas.offsetWidth / 2,
-			y: (this.canvas.offsetHeight / 3) * 2
+			// y: (this.canvas.offsetHeight / 3) * 2
+			y: this.canvas.offsetHeight / 2
 		}
 
 		// Position of the hi-hat zone
 		this.hiHatPos = {
 			x: this.canvas.offsetWidth / 2,
-			y: (this.canvas.offsetHeight / 3) * 2
+			// y: (this.canvas.offsetHeight / 3) * 2
+			y: this.canvas.offsetHeight / 2
 		}
 
 		// Metronome object
@@ -208,36 +212,67 @@ class DrumKit extends MusicalCanvas
 	displacementSoundActivation(hitboxPos)
 	{
 		const soundInterval = 5
-		if((hitboxPos.y >= this.oldMainPos.y + soundInterval) && (hitboxPos.x >= this.snarePos.x))
-		{
-			if(this.snareReady === true)
+		if((hitboxPos.y >= this.oldMainPos.y + soundInterval))
+		{	
+			if((hitbox.y >= this.snarePos.y) &&(hitboxPos.x >= this.hiHatPos.x))
 			{
-				this.playSound('snare')
-				this.snareReady = false
-
-				if(this.recordBegun === true)
+				if(this.snareReady === true)
 				{
-					this.record.sounds.sound1.push(Date.now() - this.recordBeginning)
+					// this.playSound('drumBass')
+					this.drumBassReady = false
+	
+					if(this.recordBegun === true)
+					{
+						this.record.sounds.sound1.push(Date.now() - this.recordBeginning)
+					}
+				}
+			}
+			else if((hitbox.y >= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
+			{
+				if(this.snareReady === true)
+				{
+					this.playSound('snare')
+					this.snareReady = false
+	
+					if(this.recordBegun === true)
+					{
+						this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
+					}
+				}
+			}
+			else if((hitbox.y <= this.snarePos.y) && (hitboxPos.x >= this.snarePos.x))
+			{
+				if(this.hiHatReady === true)
+				{
+					this.playSound('hiHat')
+					this.hiHatReady = false
+	
+					if(this.recordBegun === true)
+					{
+						this.record.sounds.sound3.push(Date.now() - this.recordBeginning)
+					} 
+				}
+			}
+			else if ((hitbox.y <= this.snarePos.y) &&(hitboxPos.x <= this.hiHatPos.x))
+			{
+				if(this.cymbalReady === true)
+				{
+					// this.playSound('cymbal')
+					this.cymbalReady = false
+	
+					if(this.recordBegun === true)
+					{
+						this.record.sounds.sound4.push(Date.now() - this.recordBeginning)
+					}
 				}
 			}
 		}
-		else if ((hitboxPos.y >= this.oldMainPos.y + soundInterval) && (hitboxPos.x <= this.hiHatPos.x))
-		{
-			if(this.hiHatReady === true)
-			{
-				this.playSound('hiHat')
-				this.hiHatReady = false
-
-				if(this.recordBegun === true)
-				{
-					this.record.sounds.sound2.push(Date.now() - this.recordBeginning)
-				} 
-			}
-		}
-		else if(hitboxPos.y < this.oldMainPos.y && hitboxPos.y < this.snarePos.y)
+		else if(hitboxPos.y < this.oldMainPos.y)
 		{
 			this.snareReady = true
 			this.hiHatReady = true
+			this.cymbalReady = true
+			this.drumBassReady = true
 		}
 		
 		this.oldMainPos.x = hitboxPos.x

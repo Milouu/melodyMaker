@@ -272,7 +272,7 @@ class DrumKit extends MusicalCanvas
 		{	
 			if((hitboxPos.y >= this.soundsPos.y) &&(hitboxPos.x >= this.soundsPos.x))
 			{
-				if(this.snareReady === true)
+				if(this.bassReady === true)
 				{
 					this.playSound('bass')
 					this.bassReady = false

@@ -89,13 +89,6 @@ class MusicalCanvas
 				})
 				.catch(error => 
 				{
-					// For dev without webcam
-					$video.src = "assets/videos/minions.mp4"
-					$video.play()
-					$video.muted = true
-					$video.loop = true
-					$video.style.opacity = '1'
-
 					window.alert('The following error occurred: ' + error.name)
 				})
 		}

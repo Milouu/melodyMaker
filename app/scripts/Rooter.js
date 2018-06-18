@@ -35,7 +35,7 @@ class Rooter
         {
             newViewButton.addEventListener('mousedown', () => 
             {
-                if(newViewButton.classList.containes('newViewButton--delay'))
+                if(newViewButton.classList.contains('newViewButton--delay'))
                 {
                     let mouseUp = false
 

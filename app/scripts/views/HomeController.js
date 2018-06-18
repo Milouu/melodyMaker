@@ -11,6 +11,9 @@ class HomeController
         // Instant instances
         this.canvas = new WavesCanvas('content__jelly', 'img')
         
+        const video = document.querySelector('.img')
+        video.volume = 0
+        
         const timeline = new TimelineMax({onComplete: this.instances, onCompleteScope: this})
 
         timeline 

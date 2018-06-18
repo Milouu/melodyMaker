@@ -14,8 +14,9 @@ class MusicalCanvas
 		this.context.scale(-1, 1)
 
 		// For dev
-		this.canvas.style.position = 'absolute'
-		this.canvas.style.top = 0
+		// this.canvas.style.position = 'absolute'
+		// this.canvas.style.top = 0
+		this.canvas.display = 'none'
 
 		// Position of a pixel, used to clear rect a tracked pixels, may be obsolete
 		this.position = { x: 0, y: 0 }

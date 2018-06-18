@@ -674,7 +674,7 @@ class DrumKit extends MusicalCanvas
 	magnet(sounds)
 	{
 		
-		const interval = (60000 / this.record.bpm) / 4
+		const interval = (60000 / this.record.bpm) / 2
 		
 		for(const sound in sounds)
 		{

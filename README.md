@@ -56,4 +56,5 @@ A musical experience project. Make your own melodies using color tracking on obj
 - HTML5 / CSS3
 - Stylus 
 - Javascript 
+- GSAP TweenMax
 - Jelly.js

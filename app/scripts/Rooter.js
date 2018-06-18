@@ -33,15 +33,41 @@ class Rooter
     {
         for(const newViewButton of newViewButtons)
         {
-            newViewButton.addEventListener('click', () => 
+            newViewButton.addEventListener('mousedown', () => 
             {
-                const newPageName = newViewButton.dataset.name
+                if(newViewButton.classList.containes('newViewButton--delay'))
+                {
+                    let mouseUp = false
+
+                    newViewButton.addEventListener('mouseup', () => 
+                    {
+                        mouseUp = true
+                    })
+
+                    setTimeout(() => 
+                    {
+                        if(!mouseUp) 
+                        { 
+                            const newPageName = newViewButton.dataset.name
     
-                this.viewsController.removeOldDOM(this.currentPageName, newPageName)
-    
-                this.currentPageName = newPageName
-    
-                this.isEnding()
+                            this.viewsController.removeOldDOM(this.currentPageName, newPageName)
+
+                            this.currentPageName = newPageName
+
+                            this.isEnding()
+                        } 
+                    }, 1000)
+                }
+                else
+                {
+                    const newPageName = newViewButton.dataset.name
+        
+                    this.viewsController.removeOldDOM(this.currentPageName, newPageName)
+        
+                    this.currentPageName = newPageName
+        
+                    this.isEnding()
+                }
             })
         }
 

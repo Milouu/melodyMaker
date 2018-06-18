@@ -148,7 +148,7 @@ class DrumKit extends MusicalCanvas
 		this.successTxt = document.querySelector('.calibration__successTxt')
 		this.whiteCircle = document.querySelector('.calibration__whiteCircle')
 		this.transitionRing = this.whiteCircle.querySelector('.calibration__transitionRing')
-		this.newViewButton = document.querySelector('.newViewButton')
+		this.newViewButtons = document.querySelectorAll('.newViewButton')
 
 		/**
 		 * GSAP Timelines
@@ -217,7 +217,7 @@ class DrumKit extends MusicalCanvas
 		window.addEventListener('resize', () => { this.updateWindowVariables() })
 
 		// Tests
-		this.newViewButton.addEventListener('click', ()=> { this.storeRecord() })
+		this.newViewButtons[1].addEventListener('click', ()=> { this.storeRecord() })
 		
 		/**
 		 * Launched methods
@@ -726,7 +726,7 @@ class DrumKit extends MusicalCanvas
    */
 	goToDashboard()
 	{
-		this.newViewButton.click()
+		this.newViewButtons[1].click()
 	}
 
 	/**
